@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Founder Deal Check</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#07111f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Deal Check">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<style>
+:root{
+  --bg:#07111f;--panel:#0f1c2e;--card:#14243a;--ink:#f4f7fb;--muted:#9fb0c5;--line:rgba(255,255,255,.11);
+  --brand:#27d3b4;--brand2:#60a5fa;--good:#34d399;--bad:#fb7185;--warn:#fbbf24;
+}
+*{box-sizing:border-box}html{font-size:18px}body{margin:0;background:linear-gradient(180deg,#07111f,#0b1424 45%,#08101d);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+.app{width:min(760px,100%);margin:0 auto;padding:18px 14px 34px}.hero{padding:8px 4px 14px}.eyebrow{color:var(--brand);font-size:.72rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase}.hero h1{font-size:1.7rem;line-height:1.05;margin:.35rem 0 .45rem}.hero p{margin:0;color:var(--muted);line-height:1.35;font-size:.95rem}.section{background:rgba(15,28,46,.92);border:1px solid var(--line);border-radius:24px;padding:16px;margin:14px 0;box-shadow:0 16px 42px rgba(0,0,0,.28)}.sectionTitle{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:12px}.sectionTitle h2{font-size:1rem;margin:0}.sectionTitle span{color:var(--muted);font-size:.75rem}.inputGrid{display:grid;gap:12px}.field{background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:18px;padding:12px}.field label{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:.78rem;font-weight:800;margin-bottom:8px}.field label b{color:var(--ink);font-weight:900}.field input[type=text],.field input[type=number]{width:100%;border:0;outline:0;background:transparent;color:var(--ink);font-size:1.65rem;font-weight:900;letter-spacing:-.03em;padding:2px 0}.field input::placeholder{color:#65758b}.field:focus-within{border-color:rgba(39,211,180,.75);box-shadow:0 0 0 4px rgba(39,211,180,.12)}.mini{font-size:.72rem;color:var(--muted);margin-top:6px}.sliderRow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}.field input[type=range]{width:100%;accent-color:var(--brand)}.pctBadge{min-width:72px;text-align:center;border-radius:14px;padding:9px 10px;background:rgba(39,211,180,.12);border:1px solid rgba(39,211,180,.35);font-weight:900;font-size:1.15rem}.results{display:grid;grid-template-columns:1fr;gap:10px}.result{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px}.result .label{color:var(--muted);font-size:.78rem;font-weight:850;margin-bottom:4px}.result .value{font-size:1.85rem;line-height:1.05;font-weight:950;letter-spacing:-.035em}.result .sub{color:var(--muted);font-size:.78rem;line-height:1.3;margin-top:6px}.result.primary{background:linear-gradient(135deg,rgba(39,211,180,.18),rgba(96,165,250,.12));border-color:rgba(39,211,180,.42)}.result.good{border-color:rgba(52,211,153,.55);background:rgba(52,211,153,.11)}.result.bad{border-color:rgba(251,113,133,.55);background:rgba(251,113,133,.10)}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chip{border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);border-radius:999px;padding:8px 11px;font-size:.76rem;font-weight:850;cursor:pointer}.chip:active{transform:translateY(1px)}.dealLine{display:grid;grid-template-columns:1fr;gap:10px}.tinyCalc{display:grid;gap:10px}.footer{color:var(--muted);font-size:.72rem;line-height:1.35;padding:4px 8px}.reset{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:8px 12px;font-weight:900}.hidden{display:none!important}@media(min-width:680px){.inputGrid{grid-template-columns:1fr 1fr}.dealLine{grid-template-columns:1fr 1fr}.results{grid-template-columns:1fr 1fr}.result.primary{grid-column:span 2}.two{grid-template-columns:1fr 1fr}.hero h1{font-size:2.1rem}}@media(max-width:380px){html{font-size:16px}.app{padding-left:10px;padding-right:10px}.field input[type=text],.field input[type=number]{font-size:1.45rem}.result .value{font-size:1.55rem}}
+</style>
+</head>
+<body>
+<main class="app">
+  <header class="hero">
+    <div class="eyebrow">Kremer Ventures</div>
+    <h1>Founder Deal Check</h1>
+    <p>A fast phone app for live investor conversations. Enter only the few numbers that matter, then see ownership, dilution, and exit impact immediately.</p>
+  </header>
+
+  <section class="section">
+    <div class="sectionTitle"><h2>1. Deal terms</h2><button class="reset" id="resetBtn">Reset</button></div>
+    <div class="inputGrid">
+      <div class="field">
+        <label><span>Raise amount</span><b>$</b></label>
+        <input id="raise" inputmode="numeric" type="text" placeholder="2,000,000" value="2,000,000">
+        <div class="quick"><button class="chip" data-target="raise" data-value="500000">$500k</button><button class="chip" data-target="raise" data-value="1000000">$1M</button><button class="chip" data-target="raise" data-value="2000000">$2M</button></div>
+      </div>
+      <div class="field">
+        <label><span>Pre-money valuation</span><b>$</b></label>
+        <input id="pre" inputmode="numeric" type="text" placeholder="8,000,000" value="8,000,000">
+        <div class="quick"><button class="chip" data-target="pre" data-value="4000000">$4M</button><button class="chip" data-target="pre" data-value="8000000">$8M</button><button class="chip" data-target="pre" data-value="12000000">$12M</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sectionTitle"><h2>2. Your outcome target</h2><span>Optional, but useful</span></div>
+    <div class="inputGrid">
+      <div class="field">
+        <label><span>Likely exit value</span><b>$</b></label>
+        <input id="exit" inputmode="numeric" type="text" placeholder="100,000,000" value="100,000,000">
+        <div class="quick"><button class="chip" data-target="exit" data-value="50000000">$50M</button><button class="chip" data-target="exit" data-value="100000000">$100M</button><button class="chip" data-target="exit" data-value="250000000">$250M</button></div>
+      </div>
+      <div class="field">
+        <label><span>Founder goal at exit</span><b>$</b></label>
+        <input id="goal" inputmode="numeric" type="text" placeholder="20,000,000" value="20,000,000">
+        <div class="quick"><button class="chip" data-target="goal" data-value="5000000">$5M</button><button class="chip" data-target="goal" data-value="10000000">$10M</button><button class="chip" data-target="goal" data-value="20000000">$20M</button></div>
+      </div>
+    </div>
+    <div class="field" style="margin-top:12px">
+      <label><span>Expected future dilution after this round</span><b>later rounds / option pool</b></label>
+      <div class="sliderRow"><input id="futureDilution" type="range" min="0" max="80" step="5" value="50"><div class="pctBadge" id="dilutionBadge">50%</div></div>
+      <div class="quick"><button class="chip" data-dilution="25">25%</button><button class="chip" data-dilution="40">40%</button><button class="chip" data-dilution="50">50%</button><button class="chip" data-dilution="60">60%</button></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sectionTitle"><h2>3. Answer in the room</h2><span>Updates instantly</span></div>
+    <div class="results">
+      <div class="result primary" id="headlineCard">
+        <div class="label">Founder projected payout</div>
+        <div class="value" id="founderPayout">$0</div>
+        <div class="sub" id="headlineSub">Based on ownership after this round and future dilution.</div>
+      </div>
+      <div class="result"><div class="label">Investor owns now</div><div class="value" id="investorOwns">0%</div><div class="sub" id="postMoney">Post-money: $0</div></div>
+      <div class="result"><div class="label">Founder after this round</div><div class="value" id="founderNow">0%</div><div class="sub">Before any later dilution.</div></div>
+      <div class="result"><div class="label">Founder after future dilution</div><div class="value" id="founderExitPct">0%</div><div class="sub" id="futureSub">Assumes 50% future dilution.</div></div>
+      <div class="result" id="needCard"><div class="label">Needed after this round to hit goal</div><div class="value" id="neededNow">0%</div><div class="sub" id="gapText">Your current terms clear or miss this hurdle.</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sectionTitle"><h2>Quick counter-check</h2><span>When investor says “we want X%”</span></div>
+    <div class="dealLine">
+      <div class="field">
+        <label><span>Investor requested ownership</span><b>%</b></label>
+        <input id="askPct" type="number" inputmode="decimal" min="1" max="99" step=".1" placeholder="25" value="20">
+        <div class="quick"><button class="chip" data-ask="15">15%</button><button class="chip" data-ask="20">20%</button><button class="chip" data-ask="25">25%</button><button class="chip" data-ask="30">30%</button></div>
+      </div>
+      <div class="result primary">
+        <div class="label">Implied pre-money for that ask</div>
+        <div class="value" id="impliedPre">$0</div>
+        <div class="sub" id="impliedSub">Uses the raise amount above.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">This is a simplified negotiation aid, not a legal, tax, or complete cap table model. It assumes the founder starts at 100% before the round and that future dilution applies proportionally after this round.</div>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const fields=['raise','pre','exit','goal'];
+function num(v){return Number(String(v||'').replace(/[^0-9.]/g,''))||0}
+function money(n){if(!isFinite(n)||n<=0)return '$0'; if(n>=1e9)return '$'+(n/1e9).toFixed(n>=1e10?1:2).replace(/\.0+$/,'')+'B'; if(n>=1e6)return '$'+(n/1e6).toFixed(n>=1e7?1:2).replace(/\.0+$/,'')+'M'; if(n>=1e3)return '$'+Math.round(n).toLocaleString(); return '$'+Math.round(n).toLocaleString()}
+function pct(n){if(!isFinite(n))return '0%'; return (Math.abs(n)>=10?n.toFixed(1):n.toFixed(2)).replace(/\.0+$/,'')+'%'}
+function fullMoney(n){return '$'+Math.round(n||0).toLocaleString()}
+function formatInput(el){const n=num(el.value); el.value=n?Math.round(n).toLocaleString():''}
+function calc(){
+  const raise=num($('raise').value), pre=num($('pre').value), exitV=num($('exit').value), goal=num($('goal').value);
+  const post=raise+pre, inv=post?raise/post:0, founderNow=post?pre/post:0;
+  const fd=Number($('futureDilution').value)/100, founderExit=founderNow*(1-fd), payout=founderExit*exitV;
+  const neededExit=exitV?goal/exitV:0, neededNow=(1-fd)>0?neededExit/(1-fd):0, gap=founderNow-neededNow;
+  $('dilutionBadge').textContent=Math.round(fd*100)+'%';
+  $('investorOwns').textContent=pct(inv*100); $('postMoney').textContent='Post-money: '+fullMoney(post);
+  $('founderNow').textContent=pct(founderNow*100); $('founderExitPct').textContent=pct(founderExit*100);
+  $('futureSub').textContent='Assumes '+Math.round(fd*100)+'% future dilution.'; $('founderPayout').textContent=money(payout);
+  const clears=payout>=goal && goal>0; $('headlineCard').classList.toggle('good',clears); $('headlineCard').classList.toggle('bad',!clears&&goal>0);
+  $('headlineSub').textContent=goal? (clears?'Clears your '+money(goal)+' goal at this exit.':'Below your '+money(goal)+' goal at this exit.'):'Add a founder goal to check the hurdle.';
+  $('neededNow').textContent=pct(neededNow*100); $('needCard').classList.toggle('good',gap>=0); $('needCard').classList.toggle('bad',gap<0);
+  $('gapText').textContent=goal&&exitV ? (gap>=0?'Cushion: '+pct(gap*100)+' above the needed level.':'Short by: '+pct(Math.abs(gap)*100)+' after this round.') : 'Add exit value and founder goal.';
+  const ask=Number($('askPct').value)/100; const impliedPost=ask?raise/ask:0; const impliedPre=impliedPost-raise;
+  $('impliedPre').textContent=impliedPre>0?money(impliedPre):'$0'; $('impliedSub').textContent=ask?'At '+pct(ask*100)+' ownership for a '+money(raise)+' raise.':'Enter investor ownership ask.';
+}
+fields.forEach(id=>{const el=$(id); el.addEventListener('input',calc); el.addEventListener('blur',()=>{formatInput(el);calc()}); el.addEventListener('focus',()=>{el.select()})});
+$('futureDilution').addEventListener('input',calc); $('askPct').addEventListener('input',calc);
+document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.target){$(b.dataset.target).value=Number(b.dataset.value).toLocaleString()} if(b.dataset.dilution){$('futureDilution').value=b.dataset.dilution} if(b.dataset.ask){$('askPct').value=b.dataset.ask} calc()}));
+$('resetBtn').addEventListener('click',()=>{ $('raise').value='2,000,000';$('pre').value='8,000,000';$('exit').value='100,000,000';$('goal').value='20,000,000';$('futureDilution').value=50;$('askPct').value=20;calc()});
+calc();
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));}
+</script>
+</body>
+</html>
