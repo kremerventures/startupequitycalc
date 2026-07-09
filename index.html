@@ -38,56 +38,30 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   </header>
 
   <section class="section">
-    <div class="sectionTitle"><h2>1. Your status</h2><button class="reset" id="resetStatus">Reset status</button></div>
+    <div class="sectionTitle"><h2>1. The deal</h2><button class="reset" id="resetDeal">Reset deal</button></div>
     <div class="inputGrid">
       <div class="field">
-        <label>Your equity today</label>
-        <div class="valRow suffix"><input id="founderEq" type="number" inputmode="decimal" min="0" max="100" step="1" placeholder="100" value="100"><span class="unit">%</span></div>
-        <div class="quick"><button class="chip" data-eq="100">100%</button><button class="chip" data-eq="80">80%</button><button class="chip" data-eq="60">60%</button><button class="chip" data-eq="50">50%</button></div>
-      </div>
-      <div class="field">
-        <label>Current valuation (pre-money)</label>
+        <label>Pre-money valuation</label>
         <div class="valRow"><span class="unit">$</span><input id="pre" type="text" placeholder="8M" value="8M"></div>
         <div class="quick"><button class="chip" data-target="pre" data-value="4000000">$4M</button><button class="chip" data-target="pre" data-value="8000000">$8M</button><button class="chip" data-target="pre" data-value="12000000">$12M</button></div>
         <div class="mini">Type shortcuts like 500k or 2.5M.</div>
       </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="sectionTitle"><h2>2. Your outcome target</h2><span>Optional, but useful</span></div>
-    <div class="inputGrid">
-      <div class="field">
-        <label>Likely exit value</label>
-        <div class="valRow"><span class="unit">$</span><input id="exit" type="text" placeholder="100M" value="100M"></div>
-        <div class="quick"><button class="chip" data-target="exit" data-value="50000000">$50M</button><button class="chip" data-target="exit" data-value="100000000">$100M</button><button class="chip" data-target="exit" data-value="250000000">$250M</button></div>
-      </div>
-      <div class="field">
-        <label>Founder goal at exit</label>
-        <div class="valRow"><span class="unit">$</span><input id="goal" type="text" placeholder="20M" value="20M"></div>
-        <div class="quick"><button class="chip" data-target="goal" data-value="5000000">$5M</button><button class="chip" data-target="goal" data-value="10000000">$10M</button><button class="chip" data-target="goal" data-value="20000000">$20M</button></div>
-      </div>
-    </div>
-    <div class="field" style="margin-top:12px">
-      <label>Expected future dilution after this round <span class="labelNote">— later rounds &amp; option pool</span></label>
-      <div class="sliderRow"><input id="futureDilution" type="range" min="0" max="80" step="5" value="50"><div class="pctBadge" id="dilutionBadge">50%</div></div>
-      <div class="quick"><button class="chip" data-dilution="25">25%</button><button class="chip" data-dilution="40">40%</button><button class="chip" data-dilution="50">50%</button><button class="chip" data-dilution="60">60%</button><button class="chip" data-dilution="75">75%</button></div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="sectionTitle"><h2>3. The deal</h2><button class="reset" id="resetDeal">Reset deal</button></div>
-    <div class="inputGrid">
       <div class="field">
         <label>Raise amount</label>
         <div class="valRow"><span class="unit">$</span><input id="raise" type="text" placeholder="2M" value="2M"></div>
         <div class="quick"><button class="chip" data-target="raise" data-value="500000">$500k</button><button class="chip" data-target="raise" data-value="1000000">$1M</button><button class="chip" data-target="raise" data-value="2000000">$2M</button></div>
       </div>
+      <div class="field">
+        <label>Investor requested ownership</label>
+        <div class="valRow suffix"><input id="askPct" type="number" inputmode="decimal" min="1" max="99" step=".1" placeholder="25" value="20"><span class="unit">%</span></div>
+        <div class="quick"><button class="chip" data-ask="15">15%</button><button class="chip" data-ask="20">20%</button><button class="chip" data-ask="25">25%</button><button class="chip" data-ask="30">30%</button></div>
+        <div class="mini">When the investor says &ldquo;we want X%&rdquo;.</div>
+      </div>
     </div>
   </section>
 
   <section class="section">
-    <div class="sectionTitle"><h2>4. Answer in the room</h2><span>Updates instantly</span></div>
+    <div class="sectionTitle"><h2>2. Answer in the room</h2><span>Updates instantly</span></div>
     <div class="results">
       <div class="result primary" id="headlineCard">
         <div class="label">Founder projected payout</div>
@@ -98,21 +72,32 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       <div class="result"><div class="label">Founder after this round</div><div class="value" id="founderNow">0%</div><div class="sub">Before any later dilution.</div></div>
       <div class="result"><div class="label">Founder after future dilution</div><div class="value" id="founderExitPct">0%</div><div class="sub" id="futureSub">Assumes 50% future dilution.</div></div>
       <div class="result" id="needCard"><div class="label">Needed after this round to hit goal</div><div class="value" id="neededNow">0%</div><div class="sub" id="gapText">Your current terms clear or miss this hurdle.</div></div>
+      <div class="result"><div class="label">Implied pre-money for the ask</div><div class="value" id="impliedPre">$0</div><div class="sub" id="impliedSub">Uses the raise amount above.</div></div>
     </div>
   </section>
 
   <section class="section">
-    <div class="sectionTitle"><h2>Quick counter-check</h2><span>When investor says “we want X%”</span></div>
-    <div class="dealLine">
+    <div class="sectionTitle"><h2>3. Your setup</h2><button class="reset" id="resetStatus">Reset setup</button></div>
+    <div class="inputGrid">
       <div class="field">
-        <label>Investor requested ownership</label>
-        <div class="valRow suffix"><input id="askPct" type="number" inputmode="decimal" min="1" max="99" step=".1" placeholder="25" value="20"><span class="unit">%</span></div>
-        <div class="quick"><button class="chip" data-ask="15">15%</button><button class="chip" data-ask="20">20%</button><button class="chip" data-ask="25">25%</button><button class="chip" data-ask="30">30%</button></div>
+        <label>Your equity today</label>
+        <div class="valRow suffix"><input id="founderEq" type="number" inputmode="decimal" min="0" max="100" step="1" placeholder="100" value="100"><span class="unit">%</span></div>
+        <div class="quick"><button class="chip" data-eq="100">100%</button><button class="chip" data-eq="80">80%</button><button class="chip" data-eq="60">60%</button><button class="chip" data-eq="50">50%</button></div>
       </div>
-      <div class="result primary">
-        <div class="label">Implied pre-money for that ask</div>
-        <div class="value" id="impliedPre">$0</div>
-        <div class="sub" id="impliedSub">Uses the raise amount above.</div>
+      <div class="field">
+        <label>Likely exit value</label>
+        <div class="valRow"><span class="unit">$</span><input id="exit" type="text" placeholder="100M" value="100M"></div>
+        <div class="quick"><button class="chip" data-target="exit" data-value="50000000">$50M</button><button class="chip" data-target="exit" data-value="100000000">$100M</button><button class="chip" data-target="exit" data-value="250000000">$250M</button></div>
+      </div>
+      <div class="field">
+        <label>Founder goal at exit</label>
+        <div class="valRow"><span class="unit">$</span><input id="goal" type="text" placeholder="20M" value="20M"></div>
+        <div class="quick"><button class="chip" data-target="goal" data-value="5000000">$5M</button><button class="chip" data-target="goal" data-value="10000000">$10M</button><button class="chip" data-target="goal" data-value="20000000">$20M</button></div>
+      </div>
+      <div class="field">
+        <label>Expected future dilution after this round <span class="labelNote">— later rounds &amp; option pool</span></label>
+        <div class="sliderRow"><input id="futureDilution" type="range" min="0" max="80" step="5" value="50"><div class="pctBadge" id="dilutionBadge">50%</div></div>
+        <div class="quick"><button class="chip" data-dilution="25">25%</button><button class="chip" data-dilution="40">40%</button><button class="chip" data-dilution="50">50%</button><button class="chip" data-dilution="60">60%</button><button class="chip" data-dilution="75">75%</button></div>
       </div>
     </div>
   </section>
@@ -161,8 +146,8 @@ moneyFields.forEach(id=>{const el=$(id); el.addEventListener('input',calc); el.a
 ['founderEq','askPct'].forEach(id=>{const el=$(id); el.addEventListener('input',calc); el.addEventListener('focus',()=>{el.select()})});
 $('futureDilution').addEventListener('input',calc);
 document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.target){$(b.dataset.target).value=Number(b.dataset.value).toLocaleString()} if(b.dataset.eq){$('founderEq').value=b.dataset.eq} if(b.dataset.dilution){$('futureDilution').value=b.dataset.dilution} if(b.dataset.ask){$('askPct').value=b.dataset.ask} calc()}));
-$('resetStatus').addEventListener('click',()=>{ $('founderEq').value=DEFAULTS.eq; setMoney('pre',DEFAULTS.pre); setMoney('exit',DEFAULTS.exit); setMoney('goal',DEFAULTS.goal); $('futureDilution').value=DEFAULTS.fd; calc()});
-$('resetDeal').addEventListener('click',()=>{ setMoney('raise',DEFAULTS.raise); $('askPct').value=DEFAULTS.ask; calc()});
+$('resetStatus').addEventListener('click',()=>{ $('founderEq').value=DEFAULTS.eq; setMoney('exit',DEFAULTS.exit); setMoney('goal',DEFAULTS.goal); $('futureDilution').value=DEFAULTS.fd; calc()});
+$('resetDeal').addEventListener('click',()=>{ setMoney('pre',DEFAULTS.pre); setMoney('raise',DEFAULTS.raise); $('askPct').value=DEFAULTS.ask; calc()});
 $('stickyBar').addEventListener('click',()=>{$('headlineCard').scrollIntoView({behavior:'smooth',block:'center'})});
 load(); calc();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));}
