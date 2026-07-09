@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Founder Deal Check</title>
+<title>Founder Calc</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#07111f">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Deal Check">
+<meta name="apple-mobile-web-app-title" content="Founder Calc">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <style>
@@ -24,20 +24,20 @@
 <main class="app">
   <header class="hero">
     <div class="eyebrow">Kremer Ventures</div>
-    <h1>Founder Deal Check</h1>
-    <p>A fast phone app for live investor conversations. Enter only the few numbers that matter, then see ownership, dilution, and exit impact immediately.</p>
+    <h1>Founder Calc</h1>
+    <p>Quick equity and dilution check for investor conversations. Your numbers save automatically on this device.</p>
   </header>
 
   <section class="section">
-    <div class="sectionTitle"><h2>1. Deal terms</h2><button class="reset" id="resetBtn">Reset</button></div>
+    <div class="sectionTitle"><h2>1. Your status</h2><button class="reset" id="resetStatus">Reset status</button></div>
     <div class="inputGrid">
       <div class="field">
-        <label><span>Raise amount</span><b>$</b></label>
-        <input id="raise" inputmode="numeric" type="text" placeholder="2,000,000" value="2,000,000">
-        <div class="quick"><button class="chip" data-target="raise" data-value="500000">$500k</button><button class="chip" data-target="raise" data-value="1000000">$1M</button><button class="chip" data-target="raise" data-value="2000000">$2M</button></div>
+        <label><span>Your equity today</span><b>%</b></label>
+        <input id="founderEq" type="number" inputmode="decimal" min="0" max="100" step="1" placeholder="100" value="100">
+        <div class="quick"><button class="chip" data-eq="100">100%</button><button class="chip" data-eq="80">80%</button><button class="chip" data-eq="60">60%</button><button class="chip" data-eq="50">50%</button></div>
       </div>
       <div class="field">
-        <label><span>Pre-money valuation</span><b>$</b></label>
+        <label><span>Current valuation (pre-money)</span><b>$</b></label>
         <input id="pre" inputmode="numeric" type="text" placeholder="8,000,000" value="8,000,000">
         <div class="quick"><button class="chip" data-target="pre" data-value="4000000">$4M</button><button class="chip" data-target="pre" data-value="8000000">$8M</button><button class="chip" data-target="pre" data-value="12000000">$12M</button></div>
       </div>
@@ -45,7 +45,18 @@
   </section>
 
   <section class="section">
-    <div class="sectionTitle"><h2>2. Your outcome target</h2><span>Optional, but useful</span></div>
+    <div class="sectionTitle"><h2>2. The deal</h2><button class="reset" id="resetDeal">Reset deal</button></div>
+    <div class="inputGrid">
+      <div class="field">
+        <label><span>Raise amount</span><b>$</b></label>
+        <input id="raise" inputmode="numeric" type="text" placeholder="2,000,000" value="2,000,000">
+        <div class="quick"><button class="chip" data-target="raise" data-value="500000">$500k</button><button class="chip" data-target="raise" data-value="1000000">$1M</button><button class="chip" data-target="raise" data-value="2000000">$2M</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sectionTitle"><h2>3. Your outcome target</h2><span>Optional, but useful</span></div>
     <div class="inputGrid">
       <div class="field">
         <label><span>Likely exit value</span><b>$</b></label>
@@ -66,7 +77,7 @@
   </section>
 
   <section class="section">
-    <div class="sectionTitle"><h2>3. Answer in the room</h2><span>Updates instantly</span></div>
+    <div class="sectionTitle"><h2>4. Answer in the room</h2><span>Updates instantly</span></div>
     <div class="results">
       <div class="result primary" id="headlineCard">
         <div class="label">Founder projected payout</div>
@@ -96,19 +107,25 @@
     </div>
   </section>
 
-  <div class="footer">This is a simplified negotiation aid, not a legal, tax, or complete cap table model. It assumes the founder starts at 100% before the round and that future dilution applies proportionally after this round.</div>
+  <div class="footer">This is a simplified negotiation aid, not a legal, tax, or complete cap table model. It assumes your equity dilutes proportionally in this round and that future dilution applies proportionally after it. Inputs are saved on this device only.</div>
 </main>
 <script>
 const $=id=>document.getElementById(id);
-const fields=['raise','pre','exit','goal'];
+const moneyFields=['raise','pre','exit','goal'];
+const DEFAULTS={raise:2000000,pre:8000000,exit:100000000,goal:20000000,eq:100,fd:50,ask:20};
+const STORE='founder-calc-v1';
 function num(v){return Number(String(v||'').replace(/[^0-9.]/g,''))||0}
 function money(n){if(!isFinite(n)||n<=0)return '$0'; if(n>=1e9)return '$'+(n/1e9).toFixed(n>=1e10?1:2).replace(/\.0+$/,'')+'B'; if(n>=1e6)return '$'+(n/1e6).toFixed(n>=1e7?1:2).replace(/\.0+$/,'')+'M'; if(n>=1e3)return '$'+Math.round(n).toLocaleString(); return '$'+Math.round(n).toLocaleString()}
 function pct(n){if(!isFinite(n))return '0%'; return (Math.abs(n)>=10?n.toFixed(1):n.toFixed(2)).replace(/\.0+$/,'')+'%'}
 function fullMoney(n){return '$'+Math.round(n||0).toLocaleString()}
 function formatInput(el){const n=num(el.value); el.value=n?Math.round(n).toLocaleString():''}
+function setMoney(id,n){$(id).value=n?Math.round(n).toLocaleString():''}
+function save(){try{localStorage.setItem(STORE,JSON.stringify({raise:num($('raise').value),pre:num($('pre').value),exit:num($('exit').value),goal:num($('goal').value),eq:$('founderEq').value,fd:$('futureDilution').value,ask:$('askPct').value}))}catch(e){}}
+function load(){try{const s=JSON.parse(localStorage.getItem(STORE)||'null'); if(!s)return; setMoney('raise',s.raise); setMoney('pre',s.pre); setMoney('exit',s.exit); setMoney('goal',s.goal); if(s.eq!=null&&s.eq!=='')$('founderEq').value=s.eq; if(s.fd!=null)$('futureDilution').value=s.fd; if(s.ask!=null&&s.ask!=='')$('askPct').value=s.ask}catch(e){}}
 function calc(){
   const raise=num($('raise').value), pre=num($('pre').value), exitV=num($('exit').value), goal=num($('goal').value);
-  const post=raise+pre, inv=post?raise/post:0, founderNow=post?pre/post:0;
+  const eqStr=$('founderEq').value, eq=(eqStr===''?100:Math.min(100,Math.max(0,Number(eqStr)||0)))/100;
+  const post=raise+pre, inv=post?raise/post:0, founderNow=post?eq*pre/post:eq;
   const fd=Number($('futureDilution').value)/100, founderExit=founderNow*(1-fd), payout=founderExit*exitV;
   const neededExit=exitV?goal/exitV:0, neededNow=(1-fd)>0?neededExit/(1-fd):0, gap=founderNow-neededNow;
   $('dilutionBadge').textContent=Math.round(fd*100)+'%';
@@ -121,12 +138,15 @@ function calc(){
   $('gapText').textContent=goal&&exitV ? (gap>=0?'Cushion: '+pct(gap*100)+' above the needed level.':'Short by: '+pct(Math.abs(gap)*100)+' after this round.') : 'Add exit value and founder goal.';
   const ask=Number($('askPct').value)/100; const impliedPost=ask?raise/ask:0; const impliedPre=impliedPost-raise;
   $('impliedPre').textContent=impliedPre>0?money(impliedPre):'$0'; $('impliedSub').textContent=ask?'At '+pct(ask*100)+' ownership for a '+money(raise)+' raise.':'Enter investor ownership ask.';
+  save();
 }
-fields.forEach(id=>{const el=$(id); el.addEventListener('input',calc); el.addEventListener('blur',()=>{formatInput(el);calc()}); el.addEventListener('focus',()=>{el.select()})});
-$('futureDilution').addEventListener('input',calc); $('askPct').addEventListener('input',calc);
-document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.target){$(b.dataset.target).value=Number(b.dataset.value).toLocaleString()} if(b.dataset.dilution){$('futureDilution').value=b.dataset.dilution} if(b.dataset.ask){$('askPct').value=b.dataset.ask} calc()}));
-$('resetBtn').addEventListener('click',()=>{ $('raise').value='2,000,000';$('pre').value='8,000,000';$('exit').value='100,000,000';$('goal').value='20,000,000';$('futureDilution').value=50;$('askPct').value=20;calc()});
-calc();
+moneyFields.forEach(id=>{const el=$(id); el.addEventListener('input',calc); el.addEventListener('blur',()=>{formatInput(el);calc()}); el.addEventListener('focus',()=>{el.select()})});
+['founderEq','askPct'].forEach(id=>{const el=$(id); el.addEventListener('input',calc); el.addEventListener('focus',()=>{el.select()})});
+$('futureDilution').addEventListener('input',calc);
+document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.target){$(b.dataset.target).value=Number(b.dataset.value).toLocaleString()} if(b.dataset.eq){$('founderEq').value=b.dataset.eq} if(b.dataset.dilution){$('futureDilution').value=b.dataset.dilution} if(b.dataset.ask){$('askPct').value=b.dataset.ask} calc()}));
+$('resetStatus').addEventListener('click',()=>{ $('founderEq').value=DEFAULTS.eq; setMoney('pre',DEFAULTS.pre); setMoney('exit',DEFAULTS.exit); setMoney('goal',DEFAULTS.goal); $('futureDilution').value=DEFAULTS.fd; calc()});
+$('resetDeal').addEventListener('click',()=>{ setMoney('raise',DEFAULTS.raise); $('askPct').value=DEFAULTS.ask; calc()});
+load(); calc();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));}
 </script>
 </body>

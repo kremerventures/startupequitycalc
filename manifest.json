@@ -1,7 +1,7 @@
 {
-  "name": "Startup Equity Calculator",
-  "short_name": "Equity Calc",
-  "description": "Calculate required founder ownership working backwards from an exit target.",
+  "name": "Founder Calc",
+  "short_name": "Founder Calc",
+  "description": "Founder equity and dilution check for live investor conversations.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
