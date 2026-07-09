@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Founder Calc</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#07111f">
+<meta name="theme-color" content="#0b0f1a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Founder Calc">
@@ -13,11 +13,17 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <style>
 :root{
-  --bg:#07111f;--panel:#0f1c2e;--card:#14243a;--ink:#f4f7fb;--muted:#9fb0c5;--line:rgba(255,255,255,.11);
-  --brand:#27d3b4;--brand2:#60a5fa;--good:#34d399;--bad:#fb7185;--warn:#fbbf24;
+  --bg:#0b0f1a;--panel:#111826;--card:#161f30;--ink:#f6f3ea;--muted:#a5aec2;--line:rgba(255,255,255,.10);
+  --brand:#e8b959;--brand2:#f0d18a;--good:#5ecf9d;--bad:#ef8fa0;--warn:#fbbf24;
 }
-*{box-sizing:border-box}html{font-size:18px}body{margin:0;background:linear-gradient(180deg,#07111f,#0b1424 45%,#08101d);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
-.app{width:min(760px,100%);margin:0 auto;padding:18px 14px 34px}.hero{padding:8px 4px 14px}.eyebrow{color:var(--brand);font-size:.72rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase}.hero h1{font-size:1.7rem;line-height:1.05;margin:.35rem 0 .45rem}.hero p{margin:0;color:var(--muted);line-height:1.35;font-size:.95rem}.section{background:rgba(15,28,46,.92);border:1px solid var(--line);border-radius:24px;padding:16px;margin:14px 0;box-shadow:0 16px 42px rgba(0,0,0,.28)}.sectionTitle{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:12px}.sectionTitle h2{font-size:1rem;margin:0}.sectionTitle span{color:var(--muted);font-size:.75rem}.inputGrid{display:grid;gap:12px}.field{background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:18px;padding:12px}.field label{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:.78rem;font-weight:800;margin-bottom:8px}.field label b{color:var(--ink);font-weight:900}.field input[type=text],.field input[type=number]{width:100%;border:0;outline:0;background:transparent;color:var(--ink);font-size:1.65rem;font-weight:900;letter-spacing:-.03em;padding:2px 0}.field input::placeholder{color:#65758b}.field:focus-within{border-color:rgba(39,211,180,.75);box-shadow:0 0 0 4px rgba(39,211,180,.12)}.mini{font-size:.72rem;color:var(--muted);margin-top:6px}.sliderRow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}.field input[type=range]{width:100%;accent-color:var(--brand)}.pctBadge{min-width:72px;text-align:center;border-radius:14px;padding:9px 10px;background:rgba(39,211,180,.12);border:1px solid rgba(39,211,180,.35);font-weight:900;font-size:1.15rem}.results{display:grid;grid-template-columns:1fr;gap:10px}.result{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px}.result .label{color:var(--muted);font-size:.78rem;font-weight:850;margin-bottom:4px}.result .value{font-size:1.85rem;line-height:1.05;font-weight:950;letter-spacing:-.035em}.result .sub{color:var(--muted);font-size:.78rem;line-height:1.3;margin-top:6px}.result.primary{background:linear-gradient(135deg,rgba(39,211,180,.18),rgba(96,165,250,.12));border-color:rgba(39,211,180,.42)}.result.good{border-color:rgba(52,211,153,.55);background:rgba(52,211,153,.11)}.result.bad{border-color:rgba(251,113,133,.55);background:rgba(251,113,133,.10)}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chip{border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);border-radius:999px;padding:8px 11px;font-size:.76rem;font-weight:850;cursor:pointer}.chip:active{transform:translateY(1px)}.dealLine{display:grid;grid-template-columns:1fr;gap:10px}.tinyCalc{display:grid;gap:10px}.footer{color:var(--muted);font-size:.72rem;line-height:1.35;padding:4px 8px}.reset{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:8px 12px;font-weight:900}.hidden{display:none!important}@media(min-width:680px){.inputGrid{grid-template-columns:1fr 1fr}.dealLine{grid-template-columns:1fr 1fr}.results{grid-template-columns:1fr 1fr}.result.primary{grid-column:span 2}.two{grid-template-columns:1fr 1fr}.hero h1{font-size:2.1rem}}@media(max-width:380px){html{font-size:16px}.app{padding-left:10px;padding-right:10px}.field input[type=text],.field input[type=number]{font-size:1.45rem}.result .value{font-size:1.55rem}}
+*{box-sizing:border-box}html{font-size:18px}body{margin:0;background:linear-gradient(180deg,#0b0f1a,#0d1424 45%,#0a0e18);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+.app{width:min(760px,100%);margin:0 auto;padding:18px 14px 104px}.hero{padding:8px 4px 14px}.eyebrow{color:var(--brand);font-size:.72rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase}.hero h1{font-size:1.7rem;line-height:1.05;margin:.35rem 0 .45rem}.hero p{margin:0;color:var(--muted);line-height:1.35;font-size:.95rem}.section{background:rgba(15,28,46,.92);border:1px solid var(--line);border-radius:24px;padding:16px;margin:14px 0;box-shadow:0 16px 42px rgba(0,0,0,.28)}.sectionTitle{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:12px}.sectionTitle h2{font-size:1rem;margin:0}.sectionTitle span{color:var(--muted);font-size:.75rem}.inputGrid{display:grid;gap:12px}.field{background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:18px;padding:12px}.field label{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:.78rem;font-weight:800;margin-bottom:8px}.field label b{color:var(--ink);font-weight:900}.field input[type=text],.field input[type=number]{width:100%;border:0;outline:0;background:transparent;color:var(--ink);font-size:1.65rem;font-weight:900;letter-spacing:-.03em;padding:2px 0}.field input::placeholder{color:#65758b}.field:focus-within{border-color:rgba(232,185,89,.7);box-shadow:0 0 0 4px rgba(232,185,89,.13)}.mini{font-size:.72rem;color:var(--muted);margin-top:6px}.sliderRow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}.field input[type=range]{width:100%;accent-color:var(--brand)}.pctBadge{min-width:72px;text-align:center;border-radius:14px;padding:9px 10px;background:rgba(232,185,89,.13);border:1px solid rgba(232,185,89,.4);font-weight:900;font-size:1.15rem}.results{display:grid;grid-template-columns:1fr;gap:10px}.result{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px}.result .label{color:var(--muted);font-size:.78rem;font-weight:850;margin-bottom:4px}.result .value{font-size:1.85rem;line-height:1.05;font-weight:950;letter-spacing:-.035em}.result .sub{color:var(--muted);font-size:.78rem;line-height:1.3;margin-top:6px}.result.primary{background:linear-gradient(135deg,rgba(232,185,89,.16),rgba(240,209,138,.06));border-color:rgba(232,185,89,.45)}.result.good{border-color:rgba(94,207,157,.42);background:rgba(94,207,157,.08)}.result.bad{border-color:rgba(239,143,160,.42);background:rgba(239,143,160,.07)}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chip{border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);border-radius:999px;padding:8px 11px;font-size:.76rem;font-weight:850;cursor:pointer}.chip:active{transform:translateY(1px)}.dealLine{display:grid;grid-template-columns:1fr;gap:10px}.tinyCalc{display:grid;gap:10px}.footer{color:var(--muted);font-size:.72rem;line-height:1.35;padding:4px 8px}.reset{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:8px 12px;font-weight:900}.hidden{display:none!important}@media(min-width:680px){.inputGrid{grid-template-columns:1fr 1fr}.dealLine{grid-template-columns:1fr 1fr}.results{grid-template-columns:1fr 1fr}.result.primary{grid-column:span 2}.two{grid-template-columns:1fr 1fr}.hero h1{font-size:2.1rem}}@media(max-width:380px){html{font-size:16px}.app{padding-left:10px;padding-right:10px}.field input[type=text],.field input[type=number]{font-size:1.45rem}.result .value{font-size:1.55rem}}
+.field input,.result .value,.pctBadge,.stickyBar b{font-variant-numeric:tabular-nums}
+.stickyBar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom));width:min(720px,calc(100% - 24px));display:flex;justify-content:space-between;align-items:center;gap:10px;background:rgba(14,19,33,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(232,185,89,.35);border-radius:18px;padding:10px 18px;box-shadow:0 14px 34px rgba(0,0,0,.5);cursor:pointer;z-index:9;font:inherit;color:inherit;text-align:left}
+.stickyBar .cell{display:flex;flex-direction:column;gap:1px}
+.stickyBar .sbl{color:var(--muted);font-size:.62rem;font-weight:850;text-transform:uppercase;letter-spacing:.09em}
+.stickyBar b{font-size:1.2rem;font-weight:950;letter-spacing:-.02em}
+.stickyBar .cell:last-child b{color:var(--brand)}
 </style>
 </head>
 <body>
@@ -38,8 +44,9 @@
       </div>
       <div class="field">
         <label><span>Current valuation (pre-money)</span><b>$</b></label>
-        <input id="pre" inputmode="numeric" type="text" placeholder="8,000,000" value="8,000,000">
+        <input id="pre" type="text" placeholder="8M" value="8M">
         <div class="quick"><button class="chip" data-target="pre" data-value="4000000">$4M</button><button class="chip" data-target="pre" data-value="8000000">$8M</button><button class="chip" data-target="pre" data-value="12000000">$12M</button></div>
+        <div class="mini">Type shortcuts like 500k or 2.5M.</div>
       </div>
     </div>
   </section>
@@ -49,7 +56,7 @@
     <div class="inputGrid">
       <div class="field">
         <label><span>Raise amount</span><b>$</b></label>
-        <input id="raise" inputmode="numeric" type="text" placeholder="2,000,000" value="2,000,000">
+        <input id="raise" type="text" placeholder="2M" value="2M">
         <div class="quick"><button class="chip" data-target="raise" data-value="500000">$500k</button><button class="chip" data-target="raise" data-value="1000000">$1M</button><button class="chip" data-target="raise" data-value="2000000">$2M</button></div>
       </div>
     </div>
@@ -60,12 +67,12 @@
     <div class="inputGrid">
       <div class="field">
         <label><span>Likely exit value</span><b>$</b></label>
-        <input id="exit" inputmode="numeric" type="text" placeholder="100,000,000" value="100,000,000">
+        <input id="exit" type="text" placeholder="100M" value="100M">
         <div class="quick"><button class="chip" data-target="exit" data-value="50000000">$50M</button><button class="chip" data-target="exit" data-value="100000000">$100M</button><button class="chip" data-target="exit" data-value="250000000">$250M</button></div>
       </div>
       <div class="field">
         <label><span>Founder goal at exit</span><b>$</b></label>
-        <input id="goal" inputmode="numeric" type="text" placeholder="20,000,000" value="20,000,000">
+        <input id="goal" type="text" placeholder="20M" value="20M">
         <div class="quick"><button class="chip" data-target="goal" data-value="5000000">$5M</button><button class="chip" data-target="goal" data-value="10000000">$10M</button><button class="chip" data-target="goal" data-value="20000000">$20M</button></div>
       </div>
     </div>
@@ -109,17 +116,23 @@
 
   <div class="footer">This is a simplified negotiation aid, not a legal, tax, or complete cap table model. It assumes your equity dilutes proportionally in this round and that future dilution applies proportionally after it. Inputs are saved on this device only.</div>
 </main>
+<button class="stickyBar" id="stickyBar" type="button" aria-label="Jump to results">
+  <span class="cell"><span class="sbl">You keep</span><b id="sbKeep">0%</b></span>
+  <span class="cell"><span class="sbl">Investor</span><b id="sbInv">0%</b></span>
+  <span class="cell"><span class="sbl">Payout</span><b id="sbPay">$0</b></span>
+</button>
 <script>
 const $=id=>document.getElementById(id);
 const moneyFields=['raise','pre','exit','goal'];
 const DEFAULTS={raise:2000000,pre:8000000,exit:100000000,goal:20000000,eq:100,fd:50,ask:20};
 const STORE='founder-calc-v1';
-function num(v){return Number(String(v||'').replace(/[^0-9.]/g,''))||0}
+function num(v){const s=String(v||'').replace(/[$,\s]/g,'');const m=s.match(/^([0-9]*\.?[0-9]+)\s*([kmb])?/i);if(!m)return 0;let n=parseFloat(m[1]);const suf=(m[2]||'').toLowerCase();if(suf==='k')n*=1e3;else if(suf==='m')n*=1e6;else if(suf==='b')n*=1e9;return isFinite(n)?n:0}
 function money(n){if(!isFinite(n)||n<=0)return '$0'; if(n>=1e9)return '$'+(n/1e9).toFixed(n>=1e10?1:2).replace(/\.0+$/,'')+'B'; if(n>=1e6)return '$'+(n/1e6).toFixed(n>=1e7?1:2).replace(/\.0+$/,'')+'M'; if(n>=1e3)return '$'+Math.round(n).toLocaleString(); return '$'+Math.round(n).toLocaleString()}
 function pct(n){if(!isFinite(n))return '0%'; return (Math.abs(n)>=10?n.toFixed(1):n.toFixed(2)).replace(/\.0+$/,'')+'%'}
 function fullMoney(n){return '$'+Math.round(n||0).toLocaleString()}
-function formatInput(el){const n=num(el.value); el.value=n?Math.round(n).toLocaleString():''}
-function setMoney(id,n){$(id).value=n?Math.round(n).toLocaleString():''}
+function inputStr(n){if(!n)return''; for(const[s,m]of[['B',1e9],['M',1e6],['k',1e3]]){if(n>=m){const r=Math.round(n/m*100)/100; return Math.round(r*m)===Math.round(n)?String(r)+s:Math.round(n).toLocaleString()}} return Math.round(n).toLocaleString()}
+function formatInput(el){el.value=inputStr(num(el.value))}
+function setMoney(id,n){$(id).value=inputStr(n)}
 function save(){try{localStorage.setItem(STORE,JSON.stringify({raise:num($('raise').value),pre:num($('pre').value),exit:num($('exit').value),goal:num($('goal').value),eq:$('founderEq').value,fd:$('futureDilution').value,ask:$('askPct').value}))}catch(e){}}
 function load(){try{const s=JSON.parse(localStorage.getItem(STORE)||'null'); if(!s)return; setMoney('raise',s.raise); setMoney('pre',s.pre); setMoney('exit',s.exit); setMoney('goal',s.goal); if(s.eq!=null&&s.eq!=='')$('founderEq').value=s.eq; if(s.fd!=null)$('futureDilution').value=s.fd; if(s.ask!=null&&s.ask!=='')$('askPct').value=s.ask}catch(e){}}
 function calc(){
@@ -129,7 +142,7 @@ function calc(){
   const fd=Number($('futureDilution').value)/100, founderExit=founderNow*(1-fd), payout=founderExit*exitV;
   const neededExit=exitV?goal/exitV:0, neededNow=(1-fd)>0?neededExit/(1-fd):0, gap=founderNow-neededNow;
   $('dilutionBadge').textContent=Math.round(fd*100)+'%';
-  $('investorOwns').textContent=pct(inv*100); $('postMoney').textContent='Post-money: '+fullMoney(post);
+  $('investorOwns').textContent=pct(inv*100); $('postMoney').textContent='Post-money: '+money(post);
   $('founderNow').textContent=pct(founderNow*100); $('founderExitPct').textContent=pct(founderExit*100);
   $('futureSub').textContent='Assumes '+Math.round(fd*100)+'% future dilution.'; $('founderPayout').textContent=money(payout);
   const clears=payout>=goal && goal>0; $('headlineCard').classList.toggle('good',clears); $('headlineCard').classList.toggle('bad',!clears&&goal>0);
@@ -138,6 +151,7 @@ function calc(){
   $('gapText').textContent=goal&&exitV ? (gap>=0?'Cushion: '+pct(gap*100)+' above the needed level.':'Short by: '+pct(Math.abs(gap)*100)+' after this round.') : 'Add exit value and founder goal.';
   const ask=Number($('askPct').value)/100; const impliedPost=ask?raise/ask:0; const impliedPre=impliedPost-raise;
   $('impliedPre').textContent=impliedPre>0?money(impliedPre):'$0'; $('impliedSub').textContent=ask?'At '+pct(ask*100)+' ownership for a '+money(raise)+' raise.':'Enter investor ownership ask.';
+  $('sbKeep').textContent=pct(founderNow*100); $('sbInv').textContent=pct(inv*100); $('sbPay').textContent=money(payout);
   save();
 }
 moneyFields.forEach(id=>{const el=$(id); el.addEventListener('input',calc); el.addEventListener('blur',()=>{formatInput(el);calc()}); el.addEventListener('focus',()=>{el.select()})});
@@ -146,6 +160,7 @@ $('futureDilution').addEventListener('input',calc);
 document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.target){$(b.dataset.target).value=Number(b.dataset.value).toLocaleString()} if(b.dataset.eq){$('founderEq').value=b.dataset.eq} if(b.dataset.dilution){$('futureDilution').value=b.dataset.dilution} if(b.dataset.ask){$('askPct').value=b.dataset.ask} calc()}));
 $('resetStatus').addEventListener('click',()=>{ $('founderEq').value=DEFAULTS.eq; setMoney('pre',DEFAULTS.pre); setMoney('exit',DEFAULTS.exit); setMoney('goal',DEFAULTS.goal); $('futureDilution').value=DEFAULTS.fd; calc()});
 $('resetDeal').addEventListener('click',()=>{ setMoney('raise',DEFAULTS.raise); $('askPct').value=DEFAULTS.ask; calc()});
+$('stickyBar').addEventListener('click',()=>{$('headlineCard').scrollIntoView({behavior:'smooth',block:'center'})});
 load(); calc();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));}
 </script>
