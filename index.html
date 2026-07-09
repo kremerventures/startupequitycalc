@@ -17,13 +17,16 @@
   --brand:#27d3b4;--brand2:#60a5fa;--good:#5ecf9d;--bad:#ef8fa0;--warn:#fbbf24;
 }
 *{box-sizing:border-box}html{font-size:18px}body{margin:0;background:linear-gradient(180deg,#0b0f1a,#0d1424 45%,#0a0e18);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
-.app{width:min(760px,100%);margin:0 auto;padding:18px 14px 104px}.hero{padding:8px 4px 14px}.eyebrow{color:var(--brand);font-size:.72rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase}.hero h1{font-size:1.7rem;line-height:1.05;margin:.35rem 0 .45rem}.hero p{margin:0;color:var(--muted);line-height:1.35;font-size:.95rem}.section{background:rgba(15,28,46,.92);border:1px solid var(--line);border-radius:24px;padding:16px;margin:14px 0;box-shadow:0 16px 42px rgba(0,0,0,.28)}.sectionTitle{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:12px}.sectionTitle h2{font-size:1rem;margin:0}.sectionTitle span{color:var(--muted);font-size:.75rem}.inputGrid{display:grid;gap:12px}.field{background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:18px;padding:12px}.field label{display:block;color:#e2e8f2;font-size:.8rem;font-weight:800;margin-bottom:8px}.labelNote{color:var(--muted);font-weight:700}.valRow{display:flex;align-items:baseline;gap:9px}.valRow .unit{flex:0 0 auto;color:var(--brand);font-weight:900;font-size:1.3rem}.valRow input{flex:1 1 auto;width:auto;min-width:0}.valRow.suffix input{flex:0 1 auto;width:4ch;min-width:2.5ch;field-sizing:content}::selection{background:rgba(39,211,180,.4)}.field input[type=text],.field input[type=number]{width:100%;border:0;outline:0;background:transparent;color:var(--ink);font-size:1.65rem;font-weight:900;letter-spacing:-.03em;padding:2px 0}.field input::placeholder{color:#8895ac}.field:focus-within{border-color:rgba(39,211,180,.75);box-shadow:0 0 0 4px rgba(39,211,180,.12)}.mini{font-size:.72rem;color:var(--muted);margin-top:6px}.sliderRow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}.field input[type=range]{width:100%;accent-color:var(--brand)}.pctBadge{min-width:72px;text-align:center;border-radius:14px;padding:9px 10px;background:rgba(39,211,180,.12);border:1px solid rgba(39,211,180,.35);font-weight:900;font-size:1.15rem}.results{display:grid;grid-template-columns:1fr;gap:10px}.result{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px}.result .label{color:var(--muted);font-size:.78rem;font-weight:850;margin-bottom:4px}.result .value{font-size:1.85rem;line-height:1.05;font-weight:950;letter-spacing:-.035em}.result .sub{color:var(--muted);font-size:.78rem;line-height:1.3;margin-top:6px}.result.primary{background:linear-gradient(135deg,rgba(39,211,180,.18),rgba(96,165,250,.12));border-color:rgba(39,211,180,.42)}.result.good{border-color:rgba(94,207,157,.42);background:rgba(94,207,157,.08)}.result.bad{border-color:rgba(239,143,160,.42);background:rgba(239,143,160,.07)}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chip{border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);border-radius:999px;padding:8px 11px;font-size:.76rem;font-weight:850;cursor:pointer}.chip:active{transform:translateY(1px)}.dealLine{display:grid;grid-template-columns:1fr;gap:10px}.tinyCalc{display:grid;gap:10px}.footer{color:var(--muted);font-size:.72rem;line-height:1.35;padding:4px 8px}.reset{background:transparent;border:1px solid var(--line);color:#e2e8f2;border-radius:999px;padding:8px 12px;font-weight:900}.hidden{display:none!important}@media(min-width:680px){.inputGrid{grid-template-columns:1fr 1fr}.dealLine{grid-template-columns:1fr 1fr}.results{grid-template-columns:1fr 1fr}.result.primary{grid-column:span 2}.two{grid-template-columns:1fr 1fr}.hero h1{font-size:2.1rem}}@media(max-width:380px){html{font-size:16px}.app{padding-left:10px;padding-right:10px}.field input[type=text],.field input[type=number]{font-size:1.45rem}.result .value{font-size:1.55rem}}
+.app{width:min(760px,100%);margin:0 auto;padding:18px 14px 104px}.hero{padding:8px 4px 14px}.eyebrow{color:var(--brand);font-size:.72rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase}.hero h1{font-size:1.7rem;line-height:1.05;margin:.35rem 0 .45rem}.hero p{margin:0;color:var(--muted);line-height:1.35;font-size:.95rem}.section{background:rgba(15,28,46,.92);border:1px solid var(--line);border-radius:24px;padding:16px;margin:14px 0;box-shadow:0 16px 42px rgba(0,0,0,.28)}.sectionTitle{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:12px}.sectionTitle h2{font-size:1rem;margin:0}.sectionTitle span{color:var(--muted);font-size:.75rem}.inputGrid{display:grid;gap:12px}.field{background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:18px;padding:12px}.field label{display:block;color:#e2e8f2;font-size:.8rem;font-weight:800;margin-bottom:8px}.labelNote{color:var(--muted);font-weight:700}.valRow{display:flex;align-items:baseline;gap:6px}.valRow .unit{flex:0 0 auto;color:var(--ink);font-weight:900;font-size:1.3rem}.valRow input{flex:1 1 auto;width:auto;min-width:0}::selection{background:rgba(39,211,180,.4)}.field input[type=text],.field input[type=number]{width:100%;border:0;outline:0;background:transparent;color:var(--ink);font-size:1.65rem;font-weight:900;letter-spacing:-.03em;padding:2px 0}.field input::placeholder{color:#8895ac}.field:focus-within{border-color:rgba(39,211,180,.75);box-shadow:0 0 0 4px rgba(39,211,180,.12)}.mini{font-size:.72rem;color:var(--muted);margin-top:6px}.sliderRow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}.field input[type=range]{width:100%;accent-color:var(--brand)}.pctBadge{min-width:72px;text-align:center;border-radius:14px;padding:9px 10px;background:rgba(39,211,180,.12);border:1px solid rgba(39,211,180,.35);font-weight:900;font-size:1.15rem}.results{display:grid;grid-template-columns:1fr;gap:10px}.result{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px}.result .label{color:var(--muted);font-size:.78rem;font-weight:850;margin-bottom:4px}.result .value{font-size:1.85rem;line-height:1.05;font-weight:950;letter-spacing:-.035em}.result .sub{color:var(--muted);font-size:.78rem;line-height:1.3;margin-top:6px}.result.primary{background:linear-gradient(135deg,rgba(39,211,180,.18),rgba(96,165,250,.12));border-color:rgba(39,211,180,.42)}.result.good{border-color:rgba(94,207,157,.42);background:rgba(94,207,157,.08)}.result.bad{border-color:rgba(239,143,160,.42);background:rgba(239,143,160,.07)}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chip{border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);border-radius:999px;padding:8px 11px;font-size:.76rem;font-weight:850;cursor:pointer}.chip:active{transform:translateY(1px)}.dealLine{display:grid;grid-template-columns:1fr;gap:10px}.tinyCalc{display:grid;gap:10px}.footer{color:var(--muted);font-size:.72rem;line-height:1.35;padding:4px 8px}.reset{background:transparent;border:1px solid var(--line);color:#e2e8f2;border-radius:999px;padding:8px 12px;font-weight:900}.hidden{display:none!important}@media(min-width:680px){.inputGrid{grid-template-columns:1fr 1fr}.dealLine{grid-template-columns:1fr 1fr}.results{grid-template-columns:1fr 1fr}.result.primary{grid-column:span 2}.two{grid-template-columns:1fr 1fr}.hero h1{font-size:2.1rem}}@media(max-width:380px){html{font-size:16px}.app{padding-left:10px;padding-right:10px}.field input[type=text],.field input[type=number]{font-size:1.45rem}.result .value{font-size:1.55rem}}
 .field input,.result .value,.pctBadge,.stickyBar b{font-variant-numeric:tabular-nums}
 .stickyBar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom));width:min(720px,calc(100% - 24px));display:flex;justify-content:space-between;align-items:center;gap:10px;background:rgba(14,19,33,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(39,211,180,.35);border-radius:18px;padding:10px 18px;box-shadow:0 14px 34px rgba(0,0,0,.5);cursor:pointer;z-index:9;font:inherit;color:inherit;text-align:left}
 .stickyBar .cell{display:flex;flex-direction:column;gap:1px}
 .stickyBar .sbl{color:var(--muted);font-size:.62rem;font-weight:850;text-transform:uppercase;letter-spacing:.09em}
 .stickyBar b{font-size:1.2rem;font-weight:950;letter-spacing:-.02em}
 .stickyBar .cell:last-child b{color:var(--brand)}
+.field .valRow.suffix input{flex:0 1 auto;width:4ch;min-width:2.5ch;field-sizing:content}
+input[type=number]{-moz-appearance:textfield;appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 </style>
 </head>
 <body>
@@ -52,18 +55,7 @@
   </section>
 
   <section class="section">
-    <div class="sectionTitle"><h2>2. The deal</h2><button class="reset" id="resetDeal">Reset deal</button></div>
-    <div class="inputGrid">
-      <div class="field">
-        <label>Raise amount</label>
-        <div class="valRow"><span class="unit">$</span><input id="raise" type="text" placeholder="2M" value="2M"></div>
-        <div class="quick"><button class="chip" data-target="raise" data-value="500000">$500k</button><button class="chip" data-target="raise" data-value="1000000">$1M</button><button class="chip" data-target="raise" data-value="2000000">$2M</button></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="sectionTitle"><h2>3. Your outcome target</h2><span>Optional, but useful</span></div>
+    <div class="sectionTitle"><h2>2. Your outcome target</h2><span>Optional, but useful</span></div>
     <div class="inputGrid">
       <div class="field">
         <label>Likely exit value</label>
@@ -79,7 +71,18 @@
     <div class="field" style="margin-top:12px">
       <label>Expected future dilution after this round <span class="labelNote">— later rounds &amp; option pool</span></label>
       <div class="sliderRow"><input id="futureDilution" type="range" min="0" max="80" step="5" value="50"><div class="pctBadge" id="dilutionBadge">50%</div></div>
-      <div class="quick"><button class="chip" data-dilution="25">25%</button><button class="chip" data-dilution="40">40%</button><button class="chip" data-dilution="50">50%</button><button class="chip" data-dilution="60">60%</button></div>
+      <div class="quick"><button class="chip" data-dilution="25">25%</button><button class="chip" data-dilution="40">40%</button><button class="chip" data-dilution="50">50%</button><button class="chip" data-dilution="60">60%</button><button class="chip" data-dilution="75">75%</button></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sectionTitle"><h2>3. The deal</h2><button class="reset" id="resetDeal">Reset deal</button></div>
+    <div class="inputGrid">
+      <div class="field">
+        <label>Raise amount</label>
+        <div class="valRow"><span class="unit">$</span><input id="raise" type="text" placeholder="2M" value="2M"></div>
+        <div class="quick"><button class="chip" data-target="raise" data-value="500000">$500k</button><button class="chip" data-target="raise" data-value="1000000">$1M</button><button class="chip" data-target="raise" data-value="2000000">$2M</button></div>
+      </div>
     </div>
   </section>
 
@@ -117,9 +120,9 @@
   <div class="footer">This is a simplified negotiation aid, not a legal, tax, or complete cap table model. It assumes your equity dilutes proportionally in this round and that future dilution applies proportionally after it. Inputs are saved on this device only.</div>
 </main>
 <button class="stickyBar" id="stickyBar" type="button" aria-label="Jump to results">
-  <span class="cell"><span class="sbl">You keep</span><b id="sbKeep">0%</b></span>
+  <span class="cell"><span class="sbl">Your equity</span><b id="sbKeep">0%</b></span>
   <span class="cell"><span class="sbl">Investor</span><b id="sbInv">0%</b></span>
-  <span class="cell"><span class="sbl">Payout</span><b id="sbPay">$0</b></span>
+  <span class="cell"><span class="sbl">Equity value</span><b id="sbPay">$0</b></span>
 </button>
 <script>
 const $=id=>document.getElementById(id);
