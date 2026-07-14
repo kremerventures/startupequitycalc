@@ -1,0 +1,59 @@
+
+Founder Calc automated audit
+
+PASS  Uses “Targeted exit valuation” label
+PASS  Includes $25M targeted-exit shortcut
+PASS  Uses “Founder payout target at exit” label
+PASS  Includes $50M founder-payout-target shortcut
+PASS  Uses “Expected future dilution through exit” label
+PASS  Results are split into ownership and exit sections
+PASS  Founder ownership is listed first after the round
+PASS  Other equity holders are displayed
+PASS  Needed ownership is placed in the exit outcome section
+PASS  Percent suffix spacing is tightened
+PASS  Default: founder after round
+PASS  Default: round investor ownership
+PASS  Default: other holders
+PASS  Default: ownership total
+PASS  Default: founder after future dilution
+PASS  Default: estimated founder payout
+PASS  Default: needed after round
+PASS  Existing holders: founder after round
+PASS  Existing holders: round investor
+PASS  Existing holders: other equity holders
+PASS  Existing holders: ownership total
+PASS  Existing holders: estimated payout
+PASS  Zero raise: round investor
+PASS  Zero raise: founder after round unchanged
+PASS  Zero raise: other holders unchanged
+PASS  Zero raise: founder after future dilution
+PASS  Zero raise: payout
+PASS  50/50 round: investor
+PASS  50/50 round: founder
+PASS  50/50 round: payout
+PASS  50/50 round: exact target clears
+PASS  Blank founder equity intentionally defaults to 100%
+PASS  Near miss displays precise payout
+PASS  Near miss is clearly labeled below target
+PASS  Near pass displays precise payout
+PASS  Near pass is clearly labeled as clearing target
+PASS  Impossible target uses plain-language value
+PASS  Impossible target explains assumptions cannot work
+PASS  Impossible target shows required percentage
+PASS  Impossible target card is marked bad
+PASS  Scientific notation parses correctly
+PASS  Scientific notation with decimal parses correctly
+PASS  Money shorthand parses correctly
+PASS  Comma-formatted money parses correctly
+PASS  Negative money is rejected
+PASS  Letters are rejected
+PASS  Invalid money prevents believable founder result
+PASS  Invalid money highlights the affected field
+PASS  Pure function: founder after round
+PASS  Pure function: investor ownership
+PASS  Pure function: other holders
+PASS  Pure function: ownership conservation
+PASS  10,000 randomized formula and ownership checks
+PASS  Service-worker cache version was bumped to v10
+
+Summary: 0 failure(s).
