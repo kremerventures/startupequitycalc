@@ -24,7 +24,16 @@
 .stickyBar .sbl{color:var(--muted);font-size:.62rem;font-weight:850;text-transform:uppercase;letter-spacing:.09em}
 .stickyBar b{font-size:1.2rem;font-weight:950;letter-spacing:-.02em}
 .stickyBar .cell:last-child b{color:var(--brand)}
-.field .valRow.suffix input{flex:0 1 auto;width:4ch;min-width:2.5ch;field-sizing:content}
+.field .valRow.suffix input{flex:0 1 auto;width:2ch;min-width:1.5ch;field-sizing:content}
+.setupHeader{margin-bottom:0}
+.setupToggle{display:flex;align-items:center;gap:10px;flex:1 1 auto;min-width:0;background:transparent;border:0;color:inherit;font:inherit;cursor:pointer;padding:0;text-align:left}
+.setupToggle h2{margin:0;flex:0 0 auto;white-space:nowrap}
+.setupToggle .ssVals{color:var(--muted);font-size:.78rem;font-weight:750;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1 1 auto;min-width:0}
+.setupToggle .chev{color:var(--brand);flex:0 0 auto;font-size:1.1rem;line-height:1;transition:transform .2s ease}
+#setupSection.expanded .setupToggle .chev{transform:rotate(90deg)}
+#setupSection .setupBody{display:none;margin-top:12px}
+#setupSection.expanded .setupBody{display:grid}
+#setupSection:not(.expanded) #resetStatus{display:none}
 input[type=number]{-moz-appearance:textfield;appearance:textfield}
 input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 </style>
@@ -37,48 +46,16 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
     <p>Quick equity and dilution check for investor conversations. Your numbers save automatically on this device.</p>
   </header>
 
-  <section class="section">
-    <div class="sectionTitle"><h2>1. The deal</h2><button class="reset" id="resetDeal">Reset deal</button></div>
-    <div class="inputGrid">
-      <div class="field">
-        <label for="pre">Pre-money valuation</label>
-        <div class="valRow"><span class="unit">$</span><input id="pre" type="text" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="8M" value="8M"></div>
-        <div class="quick"><button class="chip" data-target="pre" data-value="4000000">$4M</button><button class="chip" data-target="pre" data-value="8000000">$8M</button><button class="chip" data-target="pre" data-value="12000000">$12M</button></div>
-        <div class="mini">Type shortcuts like 500k or 2.5M.</div>
-      </div>
-      <div class="field">
-        <label for="raise">Raise amount</label>
-        <div class="valRow"><span class="unit">$</span><input id="raise" type="text" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="2M" value="2M"></div>
-        <div class="quick"><button class="chip" data-target="raise" data-value="500000">$500k</button><button class="chip" data-target="raise" data-value="1000000">$1M</button><button class="chip" data-target="raise" data-value="2000000">$2M</button></div>
-      </div>
-      <div class="field">
-        <label for="askPct">Investor requested ownership</label>
-        <div class="valRow suffix"><input id="askPct" type="number" inputmode="decimal" min="1" max="99" step=".1" placeholder="25" value="20"><span class="unit">%</span></div>
-        <div class="quick"><button class="chip" data-ask="15">15%</button><button class="chip" data-ask="20">20%</button><button class="chip" data-ask="25">25%</button><button class="chip" data-ask="30">30%</button></div>
-        <div class="mini">When the investor says &ldquo;we want X%&rdquo;. Linked live with pre-money above.</div>
-      </div>
+  <section class="section" id="setupSection">
+    <div class="sectionTitle setupHeader">
+      <button type="button" class="setupToggle" id="setupToggle" aria-expanded="false" aria-controls="setupBody">
+        <h2>1. Your setup</h2>
+        <span class="ssVals" id="setupSummaryVals"></span>
+        <span class="chev" aria-hidden="true">&#8250;</span>
+      </button>
+      <button class="reset" id="resetStatus">Reset setup</button>
     </div>
-  </section>
-
-  <section class="section">
-    <div class="sectionTitle"><h2>2. Answer in the room</h2><span>Updates instantly</span></div>
-    <div class="results">
-      <div class="result primary" id="headlineCard">
-        <div class="label">Founder projected payout</div>
-        <div class="value" id="founderPayout">$0</div>
-        <div class="sub" id="headlineSub">Based on ownership after this round and future dilution.</div>
-        <div class="sub" id="exitSensitivity"></div>
-      </div>
-      <div class="result"><div class="label">Investor owns now</div><div class="value" id="investorOwns">0%</div><div class="sub" id="postMoney">Post-money: $0</div></div>
-      <div class="result"><div class="label">Founder after this round</div><div class="value" id="founderNow">0%</div><div class="sub">Before any later dilution.</div></div>
-      <div class="result"><div class="label">Founder after future dilution</div><div class="value" id="founderExitPct">0%</div><div class="sub" id="futureSub">Assumes 50% future dilution.</div></div>
-      <div class="result" id="needCard"><div class="label">Needed after this round to hit goal</div><div class="value" id="neededNow">0%</div><div class="sub" id="gapText">Your current terms clear or miss this hurdle.</div></div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="sectionTitle"><h2>3. Your setup</h2><button class="reset" id="resetStatus">Reset setup</button></div>
-    <div class="inputGrid">
+    <div class="inputGrid setupBody" id="setupBody">
       <div class="field">
         <label for="founderEq">Your equity today</label>
         <div class="valRow suffix"><input id="founderEq" type="number" inputmode="decimal" min="0" max="100" step="1" placeholder="100" value="100"><span class="unit">%</span></div>
@@ -102,6 +79,45 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
     </div>
   </section>
 
+  <section class="section">
+    <div class="sectionTitle"><h2>2. The deal</h2><button class="reset" id="resetDeal">Reset deal</button></div>
+    <div class="inputGrid">
+      <div class="field">
+        <label for="pre">Pre-money valuation</label>
+        <div class="valRow"><span class="unit">$</span><input id="pre" type="text" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="8M" value="8M"></div>
+        <div class="quick"><button class="chip" data-target="pre" data-value="1000000">$1M</button><button class="chip" data-target="pre" data-value="2000000">$2M</button><button class="chip" data-target="pre" data-value="4000000">$4M</button><button class="chip" data-target="pre" data-value="5000000">$5M</button></div>
+        <div class="mini">Type shortcuts like 500k or 2.5M.</div>
+      </div>
+      <div class="field">
+        <label for="raise">Raise amount</label>
+        <div class="valRow"><span class="unit">$</span><input id="raise" type="text" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="2M" value="2M"></div>
+        <div class="quick"><button class="chip" data-target="raise" data-value="500000">$500k</button><button class="chip" data-target="raise" data-value="1000000">$1M</button><button class="chip" data-target="raise" data-value="2000000">$2M</button><button class="chip" data-target="raise" data-value="3000000">$3M</button></div>
+      </div>
+      <div class="field">
+        <label for="askPct">Investor requested ownership</label>
+        <div class="valRow suffix"><input id="askPct" type="number" inputmode="decimal" min="1" max="99" step=".1" placeholder="25" value="20"><span class="unit">%</span></div>
+        <div class="quick"><button class="chip" data-ask="15">15%</button><button class="chip" data-ask="20">20%</button><button class="chip" data-ask="25">25%</button><button class="chip" data-ask="30">30%</button></div>
+        <div class="mini">When the investor says &ldquo;we want X%&rdquo;. Linked live with pre-money above.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sectionTitle"><h2>3. Answer in the room</h2><span>Updates instantly</span></div>
+    <div class="results">
+      <div class="result primary" id="headlineCard">
+        <div class="label">Founder projected payout</div>
+        <div class="value" id="founderPayout">$0</div>
+        <div class="sub" id="headlineSub">Based on ownership after this round and future dilution.</div>
+        <div class="sub" id="exitSensitivity"></div>
+      </div>
+      <div class="result"><div class="label">Investor owns now</div><div class="value" id="investorOwns">0%</div><div class="sub" id="postMoney">Post-money: $0</div></div>
+      <div class="result"><div class="label">Founder after this round</div><div class="value" id="founderNow">0%</div><div class="sub">Before any later dilution.</div></div>
+      <div class="result"><div class="label">Founder after future dilution</div><div class="value" id="founderExitPct">0%</div><div class="sub" id="futureSub">Assumes 50% future dilution.</div></div>
+      <div class="result" id="needCard"><div class="label">Needed after this round to hit goal</div><div class="value" id="neededNow">0%</div><div class="sub" id="gapText">Your current terms clear or miss this hurdle.</div></div>
+    </div>
+  </section>
+
   <div class="footer">This is a simplified negotiation aid, not a legal, tax, or complete cap table model. It assumes your equity dilutes proportionally in this round and that future dilution applies proportionally after it. Inputs are saved on this device only.</div>
 </main>
 <button class="stickyBar" id="stickyBar" type="button" aria-label="Jump to results">
@@ -122,7 +138,10 @@ function inputStr(n){if(!n)return''; for(const[s,m]of[['B',1e9],['M',1e6],['k',1
 function formatInput(el){el.value=inputStr(num(el.value))}
 function setMoney(id,n){$(id).value=inputStr(n)}
 function roundAsk(a){return Math.round(a*10)/10}
+function sizeSuffix(el){el.style.width=Math.max(String(el.value||'').length,1)+'ch'}
 let dealAuthority='pre';
+let setupExpanded=false;
+function setSetupExpanded(v){setupExpanded=v; $('setupSection').classList.toggle('expanded',v); $('setupToggle').setAttribute('aria-expanded',v?'true':'false'); save()}
 function recalcDealLink(source){
   const raise=num($('raise').value);
   if(source==='pre'){
@@ -143,14 +162,16 @@ function recalcDealLink(source){
     }
   }
 }
-function save(){try{localStorage.setItem(STORE,JSON.stringify({raise:num($('raise').value),pre:num($('pre').value),exit:num($('exit').value),goal:num($('goal').value),eq:$('founderEq').value,fd:$('futureDilution').value,ask:$('askPct').value,dealAuthority}))}catch(e){}}
-function load(){try{const s=JSON.parse(localStorage.getItem(STORE)||'null'); if(!s)return; setMoney('raise',s.raise); setMoney('pre',s.pre); setMoney('exit',s.exit); setMoney('goal',s.goal); if(s.eq!=null&&s.eq!=='')$('founderEq').value=s.eq; if(s.fd!=null)$('futureDilution').value=s.fd; if(s.ask!=null&&s.ask!=='')$('askPct').value=s.ask; if(s.dealAuthority)dealAuthority=s.dealAuthority}catch(e){}}
+function save(){try{localStorage.setItem(STORE,JSON.stringify({raise:num($('raise').value),pre:num($('pre').value),exit:num($('exit').value),goal:num($('goal').value),eq:$('founderEq').value,fd:$('futureDilution').value,ask:$('askPct').value,dealAuthority,setupExpanded}))}catch(e){}}
+function load(){try{const s=JSON.parse(localStorage.getItem(STORE)||'null'); if(!s)return; setMoney('raise',s.raise); setMoney('pre',s.pre); setMoney('exit',s.exit); setMoney('goal',s.goal); if(s.eq!=null&&s.eq!=='')$('founderEq').value=s.eq; if(s.fd!=null)$('futureDilution').value=s.fd; if(s.ask!=null&&s.ask!=='')$('askPct').value=s.ask; if(s.dealAuthority)dealAuthority=s.dealAuthority; if(s.setupExpanded!=null)setupExpanded=!!s.setupExpanded}catch(e){}}
 function calc(){
   const raise=num($('raise').value), pre=num($('pre').value), exitV=num($('exit').value), goal=num($('goal').value);
   const eqStr=$('founderEq').value, eq=(eqStr===''?100:Math.min(100,Math.max(0,Number(eqStr)||0)))/100;
   const post=raise+pre, inv=post?raise/post:0, founderNow=post?eq*pre/post:eq;
   const fd=Number($('futureDilution').value)/100, founderExit=founderNow*(1-fd), payout=founderExit*exitV;
   const neededExit=exitV?goal/exitV:0, neededNow=(1-fd)>0?neededExit/(1-fd):0, gap=founderNow-neededNow;
+  sizeSuffix($('askPct')); sizeSuffix($('founderEq'));
+  $('setupSummaryVals').textContent='Equity '+pct(eq*100)+' · Exit '+money(exitV)+' · Goal '+money(goal)+' · Dilution '+Math.round(fd*100)+'%';
   $('dilutionBadge').textContent=Math.round(fd*100)+'%';
   $('investorOwns').textContent=pct(inv*100); $('postMoney').textContent='Post-money: '+money(post);
   $('founderNow').textContent=pct(founderNow*100); $('founderExitPct').textContent=pct(founderExit*100);
@@ -177,7 +198,11 @@ document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{
 $('resetStatus').addEventListener('click',()=>{ $('founderEq').value=DEFAULTS.eq; setMoney('exit',DEFAULTS.exit); setMoney('goal',DEFAULTS.goal); $('futureDilution').value=DEFAULTS.fd; calc()});
 $('resetDeal').addEventListener('click',()=>{ setMoney('pre',DEFAULTS.pre); setMoney('raise',DEFAULTS.raise); $('askPct').value=DEFAULTS.ask; dealAuthority='pre'; calc()});
 $('stickyBar').addEventListener('click',()=>{$('headlineCard').scrollIntoView({behavior:'smooth',block:'center'})});
-load(); calc();
+$('setupToggle').addEventListener('click',()=>setSetupExpanded(!setupExpanded));
+load();
+$('setupSection').classList.toggle('expanded',setupExpanded);
+$('setupToggle').setAttribute('aria-expanded',setupExpanded?'true':'false');
+calc();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));}
 </script>
 </body>
