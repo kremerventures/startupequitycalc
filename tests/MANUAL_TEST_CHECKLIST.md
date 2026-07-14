@@ -52,7 +52,9 @@ The founder, round investor, and other equity holders should always total 100% a
 8. Refresh the browser and confirm saved values return.
 9. Reset setup and deal separately and confirm each reset affects only its own section.
 10. Test Chrome, Edge, Safari, and a phone-sized screen.
-11. Install the PWA, test it offline, reconnect, and confirm the v10 cache update appears.
+11. Install the PWA, test it offline, reconnect, and confirm the v11 cache update appears.
+12. Use a $49.99M targeted exit with the default deal and a $20M payout target. The payout rounds to **$20M**; the verdict must agree with the displayed number (it clears at display resolution) rather than showing "$20M" while claiming it is below target.
+13. Clear the targeted exit valuation. The payout card should prompt to add an exit, not assert that the target was missed.
 
 ## Automated test
 

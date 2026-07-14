@@ -199,6 +199,23 @@ result = runCase({ raise: '2M', pre: '8M', exit: '50.1M', goal: '20M', eq: '100'
 equal('Near pass displays precise payout', result.payout, '$20.04M');
 truthy('Near pass is clearly labeled as clearing target', result.headlineGood && /Clears/.test(result.headline));
 
+// Rounding must never make the displayed payout contradict the pass/fail verdict.
+// $19.996M rounds to "$20M": the verdict must agree with what the number shows.
+result = runCase({ raise: '2M', pre: '8M', exit: '49.99M', goal: '20M', eq: '100', fd: 50 });
+equal('Payout rounding onto the target displays $20M', result.payout, '$20M');
+truthy('Displayed payout never says $20M while claiming it is below', !(result.headlineBad && result.payout === '$20M'));
+truthy('At display resolution the target is treated as cleared', result.headlineGood && /Clears/.test(result.headline));
+truthy('Need card agrees with the headline verdict', result.needGood && !result.needBad);
+
+result = runCase({ raise: '2M', pre: '8M', exit: '50.01M', goal: '20M', eq: '100', fd: 50 });
+equal('Just-above-target payout also displays $20M', result.payout, '$20M');
+truthy('Just-above target clears without contradiction', result.headlineGood && /Clears/.test(result.headline));
+
+// A missing exit should prompt, not assert a believable-looking miss.
+result = runCase({ raise: '2M', pre: '8M', exit: '', goal: '20M', eq: '100', fd: 50 });
+truthy('Blank exit prompts instead of asserting a miss', /Add a targeted exit/.test(result.headline));
+truthy('Blank exit does not mark the payout card as failed', !result.headlineBad);
+
 // Impossible goal messaging.
 result = runCase({ raise: '2M', pre: '8M', exit: '100M', goal: '120M', eq: '100', fd: 50 });
 equal('Impossible target uses plain-language value', result.neededNow, 'Not possible');
@@ -264,7 +281,7 @@ for (let i = 0; i < 10000; i += 1) {
 if (randomMismatch) fail('10,000 randomized formula and ownership checks', JSON.stringify(randomMismatch));
 else pass('10,000 randomized formula and ownership checks');
 
-truthy('Service-worker cache version was bumped to v10', serviceWorker.includes("founder-calc-v10"));
+truthy('Service-worker cache version was bumped to v11', serviceWorker.includes("founder-calc-v11"));
 
 console.log(`\nSummary: ${failures} failure(s).`);
 if (failures > 0) process.exit(1);

@@ -155,6 +155,9 @@ function money(n){
   if(n>=1e6)return '$'+(n/1e6).toFixed(2).replace(/\.0+$/,'').replace(/(\.\d*[1-9])0+$/,'$1')+'M';
   return '$'+Math.round(n).toLocaleString();
 }
+// The numeric value money() actually shows, so pass/fail decisions match the
+// displayed figure and rounding can never contradict the verdict.
+function displayValue(n){if(!Number.isFinite(n)||n<=0)return 0;if(n>=1e9)return parseFloat((n/1e9).toFixed(2))*1e9;if(n>=1e6)return parseFloat((n/1e6).toFixed(2))*1e6;return Math.round(n)}
 function pct(n){if(!Number.isFinite(n))return '0%';let s=(Math.abs(n)>=10?n.toFixed(1):n.toFixed(2));if(s.includes('.'))s=s.replace(/0+$/,'').replace(/\.$/,'');return s+'%'}
 function inputStr(n){if(!n)return'';for(const[s,m]of[['B',1e9],['M',1e6],['k',1e3]]){if(n>=m){const r=Math.round(n/m*100)/100;return Math.round(r*m)===Math.round(n)?String(r)+s:Math.round(n).toLocaleString()}}return Math.round(n).toLocaleString()}
 function formatInput(el){const parsed=parseMoney(el.value);if(parsed.valid)el.value=inputStr(parsed.value)}
@@ -208,17 +211,20 @@ function calc(){
   $('founderExitPct').textContent=pct(r.founderAfterFutureDilution*100);
   $('futureSub').textContent='Assumes '+Math.round(fd*100)+'% future dilution through exit.';
   $('founderPayout').textContent=money(r.founderPayout);
-  const clears=r.founderPayout>=parsed.goal.value&&parsed.goal.value>0;
-  $('headlineCard').classList.toggle('good',clears);$('headlineCard').classList.toggle('bad',!clears&&parsed.goal.value>0);
-  $('headlineSub').textContent=!parsed.goal.value?'Add a founder payout target to check the hurdle.':r.impossible?'Your payout target cannot be reached under these exit and dilution assumptions.':clears?'Clears your '+money(parsed.goal.value)+' payout target.':'Below your '+money(parsed.goal.value)+' payout target.';
+  const goalV=parsed.goal.value,exitV=parsed.exit.value;
+  const hasTargets=goalV>0&&exitV>0;
+  // Judge against the displayed payout, so the verdict can never contradict the number shown.
+  const clears=hasTargets&&!r.impossible&&displayValue(r.founderPayout)>=displayValue(goalV);
+  $('headlineCard').classList.toggle('good',clears);$('headlineCard').classList.toggle('bad',hasTargets&&!clears);
+  $('headlineSub').textContent=!goalV?'Add a founder payout target to check the hurdle.':!exitV?'Add a targeted exit valuation to estimate your payout.':r.impossible?'Your payout target cannot be reached under these exit and dilution assumptions.':clears?'Clears your '+money(goalV)+' payout target.':'Below your '+money(goalV)+' payout target.';
   if(r.impossible){
     $('neededNow').textContent='Not possible';
     $('needCard').classList.toggle('good',false);$('needCard').classList.toggle('bad',true);
     $('gapText').textContent='Would require '+pct(r.neededAfterRound*100)+' founder ownership after this round.';
   }else{
     $('neededNow').textContent=pct(r.neededAfterRound*100);
-    $('needCard').classList.toggle('good',r.gap>=0);$('needCard').classList.toggle('bad',r.gap<0);
-    $('gapText').textContent=parsed.goal.value&&parsed.exit.value?(r.gap>=0?'Cushion: '+pct(r.gap*100)+' above the needed level.':'Short by: '+pct(Math.abs(r.gap)*100)+' after this round.'):'Add targeted exit valuation and founder payout target.';
+    $('needCard').classList.toggle('good',clears);$('needCard').classList.toggle('bad',hasTargets&&!clears);
+    $('gapText').textContent=!hasTargets?'Add targeted exit valuation and founder payout target.':clears?'Cushion: '+pct(Math.max(0,r.gap)*100)+' above the needed level.':'Short by: '+pct(Math.max(0,-r.gap)*100)+' after this round.';
   }
   $('sbKeep').textContent=pct(r.founderAfterRound*100);$('sbInv').textContent=pct(r.investorOwnership*100);$('sbPay').textContent=money(r.founderPayout);
   save();

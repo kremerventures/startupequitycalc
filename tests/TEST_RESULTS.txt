@@ -37,6 +37,14 @@ PASS  Near miss displays precise payout
 PASS  Near miss is clearly labeled below target
 PASS  Near pass displays precise payout
 PASS  Near pass is clearly labeled as clearing target
+PASS  Payout rounding onto the target displays $20M
+PASS  Displayed payout never says $20M while claiming it is below
+PASS  At display resolution the target is treated as cleared
+PASS  Need card agrees with the headline verdict
+PASS  Just-above-target payout also displays $20M
+PASS  Just-above target clears without contradiction
+PASS  Blank exit prompts instead of asserting a miss
+PASS  Blank exit does not mark the payout card as failed
 PASS  Impossible target uses plain-language value
 PASS  Impossible target explains assumptions cannot work
 PASS  Impossible target shows required percentage
@@ -54,6 +62,6 @@ PASS  Pure function: investor ownership
 PASS  Pure function: other holders
 PASS  Pure function: ownership conservation
 PASS  10,000 randomized formula and ownership checks
-PASS  Service-worker cache version was bumped to v10
+PASS  Service-worker cache version was bumped to v11
 
 Summary: 0 failure(s).
