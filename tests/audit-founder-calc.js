@@ -112,6 +112,7 @@ function runCase(values) {
     gap: elements.gapText.textContent,
     postMoney: elements.postMoney.textContent,
     ownershipTotal: elements.ownershipTotal.textContent,
+    exitAssumptions: elements.exitAssumptions.textContent,
     headlineGood: elements.headlineCard.classList.contains('good'),
     headlineBad: elements.headlineCard.classList.contains('bad'),
     needGood: elements.needCard.classList.contains('good'),
@@ -152,8 +153,10 @@ truthy('Uses “Founder payout target at exit” label', html.includes('Founder 
 truthy('Includes $50M founder-payout-target shortcut', html.includes('data-target="goal" data-value="50000000">$50M'));
 truthy('Uses “Expected future dilution through exit” label', html.includes('Expected future dilution through exit'));
 truthy('Results are split into ownership and exit sections', html.includes('3. Ownership after this round') && html.includes('4. Projected outcome at exit'));
-truthy('Founder ownership is listed first after the round', html.indexOf('Founder ownership after this round') < html.indexOf('Round investor ownership'));
-truthy('Other equity holders are displayed', html.includes('Other equity holders after this round'));
+truthy('Founder ownership is listed first after the round', html.indexOf('>Founder ownership<') < html.indexOf('Round investor ownership'));
+truthy('Section 3 card names drop the redundant "after this round"', !html.includes('Founder ownership after this round') && !html.includes('Other equity holders after this round'));
+truthy('Other-holders note excludes founder and round investors', html.includes('other than the founder and round investors'));
+truthy('Other equity holders are displayed', html.includes('>Other equity holders<'));
 truthy('Needed ownership is placed in the exit outcome section', html.indexOf('Needed after this round to hit payout target') > html.indexOf('Founder equity after future dilution'));
 truthy('Percent suffix spacing is tightened', html.includes('.field .valRow.suffix{gap:0}'));
 
@@ -166,6 +169,16 @@ truthy('Ownership block shows a read-only "Everyone else" mirror', html.includes
 truthy('Setup toggle has an expand/collapse hint element', html.includes('id="tapHint"'));
 truthy('Collapsed hint reads "Tap to expand"', html.includes('Tap to expand'));
 truthy('Expanded hint reads "Tap to roll up"', html.includes('Tap to roll up'));
+
+// Dilution slider spans the full 0-100 range.
+truthy('Dilution slider max is 100', /id="futureDilution"[^>]*max="100"/.test(html));
+truthy('Dilution slider min is 0 and defaults to 50', /id="futureDilution"[^>]*min="0"/.test(html) && /id="futureDilution"[^>]*value="50"/.test(html));
+
+// Deal controls and typing affordances.
+truthy('Raise has a $5M quick chip', html.includes('data-target="raise" data-value="5000000">$5M'));
+truthy('Money shorthand hint uses "etc." and drops the 1e6 example', html.includes('Type shortcuts like 500k, 2.5M, etc.') && !html.includes('500k, 2.5M, or 1e6'));
+truthy('Setup money fields hint that you can type your own amount', html.includes('Tap to type your own amount.'));
+truthy('Ownership field hints that you can type any %', html.includes('Tap to type any %'));
 
 // Marketing: brand renamed and a contact CTA on the brand line.
 truthy('Brand eyebrow reads "KV Consulting"', html.includes('>KV Consulting<'));
@@ -182,6 +195,7 @@ equal('Default: ownership total', result.ownershipTotal, 'Totals 100%');
 equal('Default: founder after future dilution', result.founderExit, '40%');
 equal('Default: estimated founder payout', result.payout, '$40M');
 equal('Default: needed after round', result.neededNow, '40%');
+equal('Default: exit section title states live assumptions', result.exitAssumptions, ': $100M exit and 50% future dilution');
 
 result = runCase({ raise: '1M', pre: '4M', exit: '100M', goal: '20M', eq: '60', fd: 0 });
 equal('Existing holders: founder after round', result.founderNow, '48%');
@@ -241,6 +255,21 @@ truthy('Just-above target clears without contradiction', result.headlineGood && 
 result = runCase({ raise: '2M', pre: '8M', exit: '', goal: '20M', eq: '100', fd: 50 });
 truthy('Blank exit prompts instead of asserting a miss', /Add a targeted exit/.test(result.headline));
 truthy('Blank exit does not mark the payout card as failed', !result.headlineBad);
+equal('Blank exit omits the assumptions from the exit title', result.exitAssumptions, '');
+equal('Exit title reflects a different exit and dilution',
+  runCase({ raise: '2M', pre: '8M', exit: '250M', goal: '20M', eq: '100', fd: 75 }).exitAssumptions,
+  ': $250M exit and 75% future dilution');
+
+// Full future dilution (now reachable since the slider goes to 100) wipes out
+// the payout; the verdict and "needed" card must stay coherent, not divide by zero.
+result = runCase({ raise: '2M', pre: '8M', exit: '100M', goal: '20M', eq: '100', fd: 100 });
+equal('Full dilution: payout is $0', result.payout, '$0');
+truthy('Full dilution: target flagged as unreachable', /cannot be reached/i.test(result.headline));
+equal('Full dilution: needed shows "Not possible"', result.neededNow, 'Not possible');
+truthy('Full dilution: no divide-by-zero garbage in the needed note', /nothing is left|nothing at exit/i.test(result.gap) && !/Infinity/.test(result.gap));
+const wipeout = vm.runInContext("calculateFounderCalc({raise:2000000,pre:8000000,exitV:100000000,goal:20000000,eq:1,fd:1})", context);
+truthy('Full dilution pure fn: impossible flag set', wipeout.impossible === true);
+truthy('Full dilution pure fn: needed is non-finite (cannot reach a positive goal)', !Number.isFinite(wipeout.neededAfterRound));
 
 // Impossible goal messaging.
 result = runCase({ raise: '2M', pre: '8M', exit: '100M', goal: '120M', eq: '100', fd: 50 });
@@ -307,7 +336,7 @@ for (let i = 0; i < 10000; i += 1) {
 if (randomMismatch) fail('10,000 randomized formula and ownership checks', JSON.stringify(randomMismatch));
 else pass('10,000 randomized formula and ownership checks');
 
-truthy('Service-worker cache version was bumped to v12', serviceWorker.includes("founder-calc-v12"));
+truthy('Service-worker cache version was bumped to v13', serviceWorker.includes("founder-calc-v13"));
 
 console.log(`\nSummary: ${failures} failure(s).`);
 if (failures > 0) process.exit(1);

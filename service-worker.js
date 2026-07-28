@@ -1,6 +1,6 @@
 // Bump CACHE_VERSION whenever you push an updated index.html or manifest
 // so users get the new version instead of a stale cached copy.
-const CACHE_VERSION = 'founder-calc-v12';
+const CACHE_VERSION = 'founder-calc-v13';
 const ASSETS = [
   './',
   './index.html',

@@ -42,6 +42,7 @@
 .ownRow .ownName{color:#e2e8f2;font-size:.95rem;font-weight:800;margin:0;display:inline}
 .ownRow.ro .ownName{color:var(--muted)}
 .ownVal{display:flex;align-items:baseline;gap:0;color:var(--muted);font-weight:900;font-size:1.3rem}
+.sectionTitle h2 .titleNote{color:var(--muted);font-weight:750;font-size:.82em}
 input[type=number]{-moz-appearance:textfield;appearance:textfield}
 input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 </style>
@@ -74,28 +75,30 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
           <label for="founderEq" class="ownName">You</label>
           <div class="valRow suffix"><input id="founderEq" type="number" inputmode="decimal" min="0" max="100" step="1" placeholder="100" value="100"><span class="unit">%</span></div>
         </div>
+        <div class="mini">Tap to type any %.</div>
         <div class="quick"><button class="chip" data-eq="100">100%</button><button class="chip" data-eq="80">80%</button><button class="chip" data-eq="60">60%</button><button class="chip" data-eq="50">50%</button></div>
         <div class="ownRow ro">
           <span class="ownName">Everyone else</span>
           <div class="ownVal"><span id="othersToday">0</span><span class="unit">%</span></div>
         </div>
-        <div class="mini">You and everyone else always total 100%.</div>
       </div>
       <div class="field" id="exitField">
         <label for="exit">Targeted exit valuation</label>
         <div class="valRow"><span class="unit">$</span><input id="exit" type="text" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="100M" value="100M"></div>
+        <div class="mini">Tap to type your own amount.</div>
         <div class="quick"><button class="chip" data-target="exit" data-value="25000000">$25M</button><button class="chip" data-target="exit" data-value="50000000">$50M</button><button class="chip" data-target="exit" data-value="100000000">$100M</button><button class="chip" data-target="exit" data-value="250000000">$250M</button></div>
         <div class="validation" id="exitError">Enter a valid amount, such as 25M, 25,000,000, or 2.5e7.</div>
       </div>
       <div class="field" id="goalField">
         <label for="goal">Founder payout target at exit</label>
         <div class="valRow"><span class="unit">$</span><input id="goal" type="text" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="20M" value="20M"></div>
+        <div class="mini">Tap to type your own amount.</div>
         <div class="quick"><button class="chip" data-target="goal" data-value="5000000">$5M</button><button class="chip" data-target="goal" data-value="10000000">$10M</button><button class="chip" data-target="goal" data-value="20000000">$20M</button><button class="chip" data-target="goal" data-value="50000000">$50M</button></div>
         <div class="validation" id="goalError">Enter a valid amount, such as 20M, 20,000,000, or 2e7.</div>
       </div>
       <div class="field">
         <label for="futureDilution">Expected future dilution through exit <span class="labelNote">— later rounds &amp; option pool</span></label>
-        <div class="sliderRow"><input id="futureDilution" type="range" min="0" max="80" step="5" value="50"><div class="pctBadge" id="dilutionBadge">50%</div></div>
+        <div class="sliderRow"><input id="futureDilution" type="range" min="0" max="100" step="5" value="50"><div class="pctBadge" id="dilutionBadge">50%</div></div>
         <div class="quick"><button class="chip" data-dilution="25">25%</button><button class="chip" data-dilution="40">40%</button><button class="chip" data-dilution="50">50%</button><button class="chip" data-dilution="60">60%</button><button class="chip" data-dilution="75">75%</button></div>
         <div class="mini">Total additional dilution expected after this round through exit.</div>
       </div>
@@ -108,14 +111,15 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       <div class="field" id="preField">
         <label for="pre">Pre-money valuation</label>
         <div class="valRow"><span class="unit">$</span><input id="pre" type="text" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="8M" value="8M"></div>
+        <div class="mini">Type shortcuts like 500k, 2.5M, etc.</div>
         <div class="quick"><button class="chip" data-target="pre" data-value="1000000">$1M</button><button class="chip" data-target="pre" data-value="2000000">$2M</button><button class="chip" data-target="pre" data-value="4000000">$4M</button><button class="chip" data-target="pre" data-value="5000000">$5M</button></div>
-        <div class="mini">Type shortcuts like 500k, 2.5M, or 1e6.</div>
         <div class="validation" id="preError">Enter a valid nonnegative amount, such as 8M, 8,000,000, or 8e6.</div>
       </div>
       <div class="field" id="raiseField">
         <label for="raise">Raise amount</label>
         <div class="valRow"><span class="unit">$</span><input id="raise" type="text" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="2M" value="2M"></div>
-        <div class="quick"><button class="chip" data-target="raise" data-value="500000">$500k</button><button class="chip" data-target="raise" data-value="1000000">$1M</button><button class="chip" data-target="raise" data-value="2000000">$2M</button><button class="chip" data-target="raise" data-value="3000000">$3M</button></div>
+        <div class="mini">Type shortcuts like 500k, 2.5M, etc.</div>
+        <div class="quick"><button class="chip" data-target="raise" data-value="500000">$500k</button><button class="chip" data-target="raise" data-value="1000000">$1M</button><button class="chip" data-target="raise" data-value="2000000">$2M</button><button class="chip" data-target="raise" data-value="3000000">$3M</button><button class="chip" data-target="raise" data-value="5000000">$5M</button></div>
         <div class="validation" id="raiseError">Enter a valid nonnegative amount, such as 2M, 2,000,000, or 2e6.</div>
       </div>
     </div>
@@ -124,14 +128,14 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   <section class="section" id="ownershipSection">
     <div class="sectionTitle"><h2>3. Ownership after this round</h2><span id="ownershipTotal">Totals 100%</span></div>
     <div class="results">
-      <div class="result"><div class="label">Founder ownership after this round</div><div class="value" id="founderNow">0%</div><div class="sub">Your ownership before future dilution.</div></div>
+      <div class="result"><div class="label">Founder ownership</div><div class="value" id="founderNow">0%</div><div class="sub">Your ownership before future dilution.</div></div>
       <div class="result"><div class="label">Round investor ownership</div><div class="value" id="investorOwns">0%</div><div class="sub" id="postMoney">Post-money: $0</div></div>
-      <div class="result wide"><div class="label">Other equity holders after this round</div><div class="value" id="otherHolders">0%</div><div class="sub">Existing equity holders other than the founder, diluted proportionally in this round.</div></div>
+      <div class="result wide"><div class="label">Other equity holders</div><div class="value" id="otherHolders">0%</div><div class="sub">Existing equity holders other than the founder and round investors, diluted proportionally in this round.</div></div>
     </div>
   </section>
 
   <section class="section" id="exitOutcomeSection">
-    <div class="sectionTitle"><h2>4. Projected outcome at exit</h2><span>After future dilution</span></div>
+    <div class="sectionTitle"><h2>4. Projected outcome at exit<span class="titleNote" id="exitAssumptions">: $100M exit and 50% future dilution</span></h2></div>
     <div class="results">
       <div class="result"><div class="label">Founder equity after future dilution</div><div class="value" id="founderExitPct">0%</div><div class="sub" id="futureSub">Assumes 50% future dilution through exit.</div></div>
       <div class="result primary" id="headlineCard">
@@ -193,7 +197,7 @@ function calculateFounderCalc({raise,pre,exitV,goal,eq,fd}){
   const founderAfterFutureDilution=founderAfterRound*(1-fd);
   const founderPayout=founderAfterFutureDilution*exitV;
   const neededAtExit=exitV?goal/exitV:0;
-  const neededAfterRound=(1-fd)>0?neededAtExit/(1-fd):0;
+  const neededAfterRound=(1-fd)>0?neededAtExit/(1-fd):Infinity;
   const gap=founderAfterRound-neededAfterRound;
   const impossible=goal>0&&exitV>0&&neededAfterRound>1+1e-12;
   return {post,investorOwnership,founderAfterRound,otherHoldersAfterRound,founderAfterFutureDilution,founderPayout,neededAtExit,neededAfterRound,gap,impossible};
@@ -222,6 +226,8 @@ function calc(){
   $('othersToday').textContent=pct((1-eq)*100).replace('%','');
   $('setupSummaryVals').textContent='You '+pct(eq*100)+' · Others '+pct((1-eq)*100)+' · Target exit '+money(parsed.exit.value)+' · Payout target '+money(parsed.goal.value)+' · Future dilution '+Math.round(fd*100)+'%';
   $('dilutionBadge').textContent=Math.round(fd*100)+'%';
+  const exitVal=parsed.exit.valid?parsed.exit.value:0;
+  $('exitAssumptions').textContent=exitVal>0?': '+money(exitVal)+' exit and '+Math.round(fd*100)+'% future dilution':'';
   if(Object.values(parsed).some(v=>!v.valid)){renderInvalid();return}
   const r=calculateFounderCalc({raise:parsed.raise.value,pre:parsed.pre.value,exitV:parsed.exit.value,goal:parsed.goal.value,eq,fd});
   $('investorOwns').textContent=pct(r.investorOwnership*100);
@@ -241,9 +247,9 @@ function calc(){
   if(r.impossible){
     $('neededNow').textContent='Not possible';
     $('needCard').classList.toggle('good',false);$('needCard').classList.toggle('bad',true);
-    $('gapText').textContent='Would require '+pct(r.neededAfterRound*100)+' founder ownership after this round.';
+    $('gapText').textContent=Number.isFinite(r.neededAfterRound)?'Would require '+pct(r.neededAfterRound*100)+' founder ownership after this round.':'Full future dilution leaves nothing at exit.';
   }else{
-    $('neededNow').textContent=pct(r.neededAfterRound*100);
+    $('neededNow').textContent=Number.isFinite(r.neededAfterRound)?pct(r.neededAfterRound*100):'—';
     $('needCard').classList.toggle('good',clears);$('needCard').classList.toggle('bad',hasTargets&&!clears);
     $('gapText').textContent=!hasTargets?'Add targeted exit valuation and founder payout target.':clears?'Cushion: '+pct(Math.max(0,r.gap)*100)+' above the needed level.':'Short by: '+pct(Math.max(0,-r.gap)*100)+' after this round.';
   }
