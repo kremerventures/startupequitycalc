@@ -1,6 +1,6 @@
 # Founder Calc — progress & status
 
-_Last updated: 2026-07-28 · Deployed commit: `0b7509c` on `main`_
+_Last updated: 2026-07-28 · Deployed commit: `6e5a424` on `main`_
 
 A single-page equity/dilution calculator (PWA) for investor conversations.
 Static site, no build step, deployed to Netlify from `main` (push = deploy).
@@ -20,23 +20,37 @@ Always work in the `_updated\startupequitycalc\` folder (note the nesting).
 
 ---
 
-## Where we left off (2026-07-28 session)
+## Where we left off (2026-07-28)
 
-Three changes shipped, all browser-verified and deployed:
+Two rounds of changes shipped today, all browser-verified and deployed.
 
-1. **"Ownership today" block (setup screen)** — starting equity is now shown as
-   two parts that always total 100%: **You** (editable %) and **Everyone else**
-   (read-only mirror = `100% − You`). The math already carried this slice; it was
-   just made visible. Quick chips (100/80/60/50) sit directly under "You" so it's
-   clear they set the founder share.
-2. **KV Consulting rebrand + contact CTA** — header eyebrow changed
-   "Kremer Ventures" → **KV Consulting**, with a **"Need help? Get in touch →"**
-   `mailto:kremer@kremerventures.com` link on the same line.
-3. **Expand/collapse affordance** — the collapsible "Your setup" section (collapsed
-   by default) now shows an explicit **"Tap to expand"** hint that flips to
-   **"Tap to roll up"** when open; the value-summary hides while expanded.
+**Setup screen**
+- **"Ownership today" block** — starting equity shown as **You** (editable %) and
+  **Everyone else** (read-only mirror = `100% − You`). The math already carried this
+  slice; it was just made visible. Chips sit under "You", with a "Tap to type any %"
+  hint directly under the number.
+- **Collapsible setup** starts collapsed with an explicit **"Tap to expand" /
+  "Tap to roll up"** hint; the value-summary hides while expanded.
+- Every editable field (setup + deal) shows a typing hint **directly under its
+  number**, above the chips, so people know they can type, not only tap chips.
 
-Service-worker cache bumped **v11 → v12** so the update isn't served stale.
+**Deal**
+- Raise has a **$5M** chip; money hint reads "Type shortcuts like 500k, 2.5M, etc."
+
+**Dilution**
+- Slider spans the full **0–100** (default 50). A math guard keeps **100% dilution**
+  coherent: $0 payout, "Not possible", no divide-by-zero in the "needed" card.
+
+**Results**
+- Section 3 card names drop the redundant "after this round" (the section title
+  keeps it); "Other equity holders" note excludes **founder AND round investors**.
+- Section 4 title states the live assumptions: **"$X exit and X% future dilution"**.
+
+**Branding**
+- Header rebranded **Kremer Ventures → KV Consulting** with a
+  **"Need help? Get in touch →"** `mailto:kremer@kremerventures.com` CTA.
+
+Service-worker cache is at **v13**.
 
 ---
 
@@ -65,9 +79,10 @@ tests enforce: founder + round investor + other holders always = 100% after a ro
 ```bash
 node tests/audit-founder-calc.js
 ```
-Release candidate must end with `Summary: 0 failure(s).` Currently **76 checks, 0
-failures** (was 60 before this session; added guards for the ownership mirror,
-contact CTA, and expand hint).
+Release candidate must end with `Summary: 0 failure(s).` Currently **93 checks, 0
+failures** (was 60 at the start of the day; added guards for the ownership mirror,
+contact CTA, expand hint, dilution range, $5M chip, typing-hint placement,
+section-3 wording, the 100% dilution wipeout, and the live Section-4 title).
 
 **Manual (browser) — serve over localhost so the PWA works:**
 ```bash
@@ -77,10 +92,11 @@ python -m http.server 8000 --bind 127.0.0.1   # then open http://127.0.0.1:8000/
 test (#11) needs an `http://localhost` origin. Full checklist in
 `tests/MANUAL_TEST_CHECKLIST.md`.
 
-**Live browser pass this session — verified:** header render, Ownership-today
-mirror (chips/typed/blank), persistence across reload (#8), reset scoping (#9),
-and **PWA offline load from the v12 cache (#11)**. Parsing + payout-verdict edge
-cases (#5,6,12,13) are covered by the automated audit.
+**Live browser pass — verified in Chrome:** header render, Ownership-today mirror
+(chips/typed/blank), typing-hint placement, dilution 0–100 + the **100% wipeout**
+messaging, the **live Section-4 title**, Section-3 wording, persistence across
+reload (#8), reset scoping (#9), and **PWA offline load from cache (#11)**. Parsing
++ payout-verdict edge cases (#5,6,12,13) are covered by the automated audit.
 
 ---
 
@@ -97,11 +113,11 @@ cases (#5,6,12,13) are covered by the automated audit.
 ## Recent history
 
 ```
-0b7509c  Add ownership-today split, KV Consulting contact CTA, and setup expand hint  ← current
+6e5a424  Dilution 0-100, typing hints under numbers, section 3/4 wording, 100% guard  ← current
+d4b2b60  Add PROGRESS.md capturing status, tests, and where we left off
+0b7509c  Add ownership-today split, KV Consulting contact CTA, and setup expand hint
 175f942  Fix payout rounding so verdict never contradicts displayed figure
 855e06a  Reorganize ownership and exit results
-9c554ee  Remove ask-% field and exit-sensitivity line, tighten payout copy
-6bccc56  Move collapsible setup to top, expand quick-chip options, fix % spacing
 ```
 
 **Deploy = push to `main`.** Always bump `CACHE_VERSION` in `service-worker.js`

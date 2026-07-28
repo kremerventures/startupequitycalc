@@ -54,7 +54,10 @@ The founder, round investor, and other equity holders should always total 100% a
 8. Refresh the browser and confirm saved values return.
 9. Reset setup and deal separately and confirm each reset affects only its own section.
 10. Test Chrome, Edge, Safari, and a phone-sized screen.
-11. Install the PWA, test it offline, reconnect, and confirm the v12 cache update appears.
+11. Install the PWA, test it offline, reconnect, and confirm the v13 cache update appears.
+14. Drag future dilution to **100%**. The payout shows **$0**, the "needed" card reads **"Not possible"** with "Full future dilution leaves nothing at exit." — no `Infinity%` or divide-by-zero. Slider covers the full 0–100 with 50% at the midpoint.
+15. Change the targeted exit or the dilution %. The **Section 4 heading** updates live to "Projected outcome at exit: $X exit and X% future dilution". Clear the exit and the assumptions drop from the heading.
+16. Each editable field shows a typing hint **directly under its number** (above the chips): setup/exit/target say "Tap to type…", deal fields say "Type shortcuts like 500k, 2.5M, etc.". Raise has a **$5M** chip.
 12. Use a $49.99M targeted exit with the default deal and a $20M payout target. The payout rounds to **$20M**; the verdict must agree with the displayed number (it clears at display resolution) rather than showing "$20M" while claiming it is below target.
 13. Clear the targeted exit valuation. The payout card should prompt to add an exit, not assert that the target was missed.
 
