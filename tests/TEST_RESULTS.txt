@@ -93,6 +93,6 @@ PASS  Pure function: investor ownership
 PASS  Pure function: other holders
 PASS  Pure function: ownership conservation
 PASS  10,000 randomized formula and ownership checks
-PASS  Service-worker cache version was bumped to v14
+PASS  Service-worker cache version was bumped to v15
 
 Summary: 0 failure(s).
