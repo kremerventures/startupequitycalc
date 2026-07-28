@@ -2,7 +2,7 @@
 'use strict';
 
 /**
- * Dependency-free automated audit for Founder Calc.
+ * Dependency-free automated audit for Founder Exit Calculator.
  * Run from the project root with:
  *   node tests/audit-founder-calc.js
  *
@@ -18,8 +18,10 @@ const vm = require('node:vm');
 const projectRoot = path.resolve(__dirname, '..');
 const indexPath = path.join(projectRoot, 'index.html');
 const serviceWorkerPath = path.join(projectRoot, 'service-worker.js');
+const manifestPath = path.join(projectRoot, 'manifest.json');
 const html = fs.readFileSync(indexPath, 'utf8');
 const serviceWorker = fs.readFileSync(serviceWorkerPath, 'utf8');
+const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/i);
 
 if (!scriptMatch) {
@@ -144,7 +146,23 @@ function close(name, actual, expected, tolerance = 1e-10) {
   else fail(name, `Expected ${expected}, received ${actual}`);
 }
 
-console.log('\nFounder Calc automated audit\n');
+console.log('\nFounder Exit Calculator automated audit\n');
+
+// Naming is deliberately split: "Founder Exit Calculator" is the marketing name
+// (tab title, headline, install prompt); "Exit Calc" is the short label under the
+// phone icon, where anything longer gets truncated.
+truthy('Page title is the marketing name', html.includes('<title>Founder Exit Calculator</title>'));
+truthy('Headline is the marketing name', html.includes('<h1>Founder Exit Calculator</h1>'));
+truthy('Contact mailto subject uses the marketing name', html.includes('subject=Founder%20Exit%20Calculator%20'));
+equal('Manifest name is the marketing name', manifest.name, 'Founder Exit Calculator');
+truthy('iOS home-screen label is the short icon name', html.includes('name="apple-mobile-web-app-title" content="Exit Calc"'));
+equal('Manifest short_name is the short icon name', manifest.short_name, 'Exit Calc');
+truthy('Old "Founder Calc" name is gone', !html.includes('Founder Calc'));
+truthy('No stray "Founder Exit Calc" left unfinished', !/Founder Exit Calc(?!ulator)/.test(html) && !/Founder%20Exit%20Calc(?!ulator)/.test(html));
+truthy('Tagline reads "Quick equity, dilution and exit check."', html.includes('Quick equity, dilution and exit check.'));
+truthy('Tagline keeps the "saves on this device" reassurance', html.includes('Your numbers save automatically on this device.'));
+truthy('Old tagline wording is gone', !html.includes('Quick equity and dilution check for investor conversations'));
+truthy('Manifest description matches the new tagline', manifest.description.startsWith('Quick equity, dilution and exit check'));
 
 // Requested wording and controls.
 truthy('Uses “Targeted exit valuation” label', html.includes('Targeted exit valuation'));
@@ -337,7 +355,7 @@ for (let i = 0; i < 10000; i += 1) {
 if (randomMismatch) fail('10,000 randomized formula and ownership checks', JSON.stringify(randomMismatch));
 else pass('10,000 randomized formula and ownership checks');
 
-truthy('Service-worker cache version was bumped to v16', serviceWorker.includes("founder-calc-v16"));
+truthy('Service-worker cache version was bumped to v17', serviceWorker.includes("founder-calc-v17"));
 
 console.log(`\nSummary: ${failures} failure(s).`);
 if (failures > 0) process.exit(1);

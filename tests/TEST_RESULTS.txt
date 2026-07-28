@@ -1,6 +1,18 @@
 
-Founder Calc automated audit
+Founder Exit Calculator automated audit
 
+PASS  Page title is the marketing name
+PASS  Headline is the marketing name
+PASS  Contact mailto subject uses the marketing name
+PASS  Manifest name is the marketing name
+PASS  iOS home-screen label is the short icon name
+PASS  Manifest short_name is the short icon name
+PASS  Old "Founder Calc" name is gone
+PASS  No stray "Founder Exit Calc" left unfinished
+PASS  Tagline reads "Quick equity, dilution and exit check."
+PASS  Tagline keeps the "saves on this device" reassurance
+PASS  Old tagline wording is gone
+PASS  Manifest description matches the new tagline
 PASS  Uses “Targeted exit valuation” label
 PASS  Includes $25M targeted-exit shortcut
 PASS  Uses “Founder payout target at exit” label
@@ -94,6 +106,6 @@ PASS  Pure function: investor ownership
 PASS  Pure function: other holders
 PASS  Pure function: ownership conservation
 PASS  10,000 randomized formula and ownership checks
-PASS  Service-worker cache version was bumped to v16
+PASS  Service-worker cache version was bumped to v17
 
 Summary: 0 failure(s).

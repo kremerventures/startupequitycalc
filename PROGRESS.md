@@ -1,6 +1,6 @@
-# Founder Calc — progress & status
+# Founder Exit Calculator — progress & status
 
-_Last updated: 2026-07-28 · Deployed commit: `a209591` on `main`_
+_Last updated: 2026-07-28 · Deployed commit: `a209591` on `main` (rename not yet pushed)_
 
 A single-page equity/dilution calculator (PWA) for investor conversations.
 Static site, no build step, deployed to Netlify from `main` (push = deploy).
@@ -22,7 +22,25 @@ Always work in the `_updated\startupequitycalc\` folder (note the nesting).
 
 ## Where we left off (2026-07-28)
 
-Two rounds of changes shipped today, all browser-verified and deployed.
+Two rounds of changes shipped today, all browser-verified and deployed. A third
+round (the rename) is **done locally but not yet pushed**.
+
+**Rename — not yet deployed**
+
+The naming is deliberately split into two names. Keep them in sync with this table:
+
+| Where | Name |
+|---|---|
+| Tab title, `<h1>`, mailto subject, manifest `name` (install prompt / splash) | **Founder Exit Calculator** |
+| Phone home-screen icon — manifest `short_name` + `apple-mobile-web-app-title` | **Exit Calc** |
+
+- Long name everywhere it has room; **"Exit Calc"** under the icon, because
+  home-screen labels truncate at roughly 12 characters.
+- Subhead now reads **"Quick equity, dilution and exit check. Your numbers save
+  automatically on this device."** Manifest `description` matches it.
+- `localStorage` key stays **`founder-calc-v1`** on purpose, so the rename does
+  not wipe anyone's saved inputs. The service-worker cache keeps the
+  `founder-calc-` prefix for the same reason (neither is user-facing).
 
 **Setup screen**
 - **"Your ownership today" field** — laid out like the other setup fields (label on
@@ -52,7 +70,7 @@ Two rounds of changes shipped today, all browser-verified and deployed.
 - Header rebranded **Kremer Ventures → KV Consulting** with a
   **"Need help? Get in touch →"** `mailto:kremer@kremerventures.com` CTA.
 
-Service-worker cache is at **v16**.
+Service-worker cache is at **v17**.
 
 ---
 
@@ -81,10 +99,12 @@ tests enforce: founder + round investor + other holders always = 100% after a ro
 ```bash
 node tests/audit-founder-calc.js
 ```
-Release candidate must end with `Summary: 0 failure(s).` Currently **93 checks, 0
+Release candidate must end with `Summary: 0 failure(s).` Currently **106 checks, 0
 failures** (was 60 at the start of the day; added guards for the ownership mirror,
 contact CTA, expand hint, dilution range, $5M chip, typing-hint placement,
-section-3 wording, the 100% dilution wipeout, and the live Section-4 title).
+section-3 wording, the 100% dilution wipeout, the live Section-4 title, and the
+marketing-name / icon-name split plus the subhead across `index.html` **and**
+`manifest.json` — the audit now parses the manifest too).
 
 **Manual (browser) — serve over localhost so the PWA works:**
 ```bash

@@ -1,7 +1,7 @@
 {
-  "name": "Founder Calc",
-  "short_name": "Founder Calc",
-  "description": "Founder equity and dilution check for live investor conversations.",
+  "name": "Founder Exit Calculator",
+  "short_name": "Exit Calc",
+  "description": "Quick equity, dilution and exit check for founders in live investor conversations.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

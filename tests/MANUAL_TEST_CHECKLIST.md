@@ -1,4 +1,4 @@
-# Founder Calc manual test checklist
+# Founder Exit Calculator manual test checklist
 
 ## Current calculation model
 
@@ -27,6 +27,8 @@ The founder, round investor, and other equity holders should always total 100% a
 ## Requested-change checks
 
 0aa. Section 1 (**Your setup**) starts collapsed by default and shows a **"Tap to expand"** hint next to the chevron; tapping opens it, the hint changes to **"Tap to roll up"**, the chevron rotates, and the value-summary line hides. Tapping again re-collapses it. On a fresh device (cleared storage) it still starts collapsed.
+0c. The headline reads **Founder Exit Calculator**, with the subhead **"Quick equity, dilution and exit check. Your numbers save automatically on this device."** The browser tab title is also **Founder Exit Calculator**.
+0d. Install the PWA on a phone. The home-screen icon is labelled **Exit Calc** (short, not truncated); the install prompt / splash screen shows the full **Founder Exit Calculator**. Check both iOS (Safari → Add to Home Screen) and Android (Chrome → Install).
 0a. The header top line reads **KV Consulting** with a **"Need help? Get in touch →"** link on the same row; clicking it opens a new email to **kremer@kremerventures.com**. On a narrow phone the link wraps cleanly rather than overflowing.
 0b. The setup opens with an **Ownership today** block showing **You** (editable %) and **Everyone else** (read-only). Change You to 80 → Everyone else shows 20; set 60 → 40; clear it → You is treated as 100 and Everyone else shows 0. The two always total 100%.
 2. The setup label reads **Founder payout target at exit** and includes a **$50M** shortcut.
@@ -54,7 +56,7 @@ The founder, round investor, and other equity holders should always total 100% a
 8. Refresh the browser and confirm saved values return.
 9. Reset setup and deal separately and confirm each reset affects only its own section.
 10. Test Chrome, Edge, Safari, and a phone-sized screen.
-11. Install the PWA, test it offline, reconnect, and confirm the v16 cache update appears.
+11. Install the PWA, test it offline, reconnect, and confirm the v17 cache update appears.
 17. "Your ownership today" is laid out like the other fields: label on one line, big **%** below, "Tap to type any %" under it, then chips, then an "Everyone else" complement line. Not an inline "You 80%" row.
 18. Dilution quick chips read **40 / 50 / 60 / 75 / 90** (no 25%). Dragging to 90 works; the slider still spans 0–100.
 14. Drag future dilution to **100%**. The payout shows **$0**, the "needed" card reads **"Not possible"** with "Full future dilution leaves nothing at exit." — no `Infinity%` or divide-by-zero. Slider covers the full 0–100 with 50% at the midpoint.
