@@ -17,7 +17,7 @@
   --brand:#27d3b4;--brand2:#60a5fa;--good:#5ecf9d;--bad:#ef8fa0;--warn:#fbbf24;
 }
 *{box-sizing:border-box}html{font-size:18px}body{margin:0;background:linear-gradient(180deg,#0b0f1a,#0d1424 45%,#0a0e18);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
-.app{width:min(760px,100%);margin:0 auto;padding:18px 14px 104px}.hero{padding:8px 4px 14px}.eyebrow{color:var(--brand);font-size:.72rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase}.hero h1{font-size:1.7rem;line-height:1.05;margin:.35rem 0 .45rem}.hero p{margin:0;color:var(--muted);line-height:1.35;font-size:.95rem}.section{background:rgba(15,28,46,.92);border:1px solid var(--line);border-radius:24px;padding:16px;margin:14px 0;box-shadow:0 16px 42px rgba(0,0,0,.28)}.sectionTitle{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:12px}.sectionTitle h2{font-size:1rem;margin:0}.sectionTitle span{color:var(--muted);font-size:.75rem}.inputGrid{display:grid;gap:12px}.field{background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:18px;padding:12px}.field label{display:block;color:#e2e8f2;font-size:.8rem;font-weight:800;margin-bottom:8px}.labelNote{color:var(--muted);font-weight:700}.valRow{display:flex;align-items:baseline;gap:6px}.valRow .unit{flex:0 0 auto;color:var(--ink);font-weight:900;font-size:1.3rem}.valRow input{flex:1 1 auto;width:auto;min-width:0}::selection{background:rgba(39,211,180,.4)}.field input[type=text],.field input[type=number]{width:100%;border:0;outline:0;background:transparent;color:var(--ink);font-size:1.65rem;font-weight:900;letter-spacing:-.03em;padding:2px 0}.field input::placeholder{color:#8895ac}.field.invalid{border-color:rgba(239,143,160,.78);box-shadow:0 0 0 4px rgba(239,143,160,.1)}.validation{display:none;color:var(--bad);font-size:.72rem;font-weight:750;line-height:1.3;margin-top:7px}.field.invalid .validation{display:block}.field:focus-within{border-color:rgba(39,211,180,.75);box-shadow:0 0 0 4px rgba(39,211,180,.12)}.field.invalid:focus-within{border-color:rgba(239,143,160,.78);box-shadow:0 0 0 4px rgba(239,143,160,.1)}.mini{font-size:.72rem;color:var(--muted);margin-top:6px}.sliderRow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}.field input[type=range]{width:100%;accent-color:var(--brand)}.pctBadge{min-width:72px;text-align:center;border-radius:14px;padding:9px 10px;background:rgba(39,211,180,.12);border:1px solid rgba(39,211,180,.35);font-weight:900;font-size:1.15rem}.results{display:grid;grid-template-columns:1fr;gap:10px}.result{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px}.result .label{color:var(--muted);font-size:.78rem;font-weight:850;margin-bottom:4px}.result .value{font-size:1.85rem;line-height:1.05;font-weight:950;letter-spacing:-.035em}.result .sub{color:var(--muted);font-size:.78rem;line-height:1.3;margin-top:6px}.result.primary{background:linear-gradient(135deg,rgba(39,211,180,.18),rgba(96,165,250,.12));border-color:rgba(39,211,180,.42)}.result.wide{grid-column:1/-1}.result.good{border-color:rgba(94,207,157,.42);background:rgba(94,207,157,.08)}.result.bad{border-color:rgba(239,143,160,.42);background:rgba(239,143,160,.07)}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chip{border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);border-radius:999px;padding:8px 11px;font-size:.76rem;font-weight:850;cursor:pointer}.chip:active{transform:translateY(1px)}.dealLine{display:grid;grid-template-columns:1fr;gap:10px}.tinyCalc{display:grid;gap:10px}.footer{color:var(--muted);font-size:.72rem;line-height:1.35;padding:4px 8px}.reset{background:transparent;border:1px solid var(--line);color:#e2e8f2;border-radius:999px;padding:8px 12px;font-weight:900}.hidden{display:none!important}@media(min-width:680px){.inputGrid{grid-template-columns:1fr 1fr}.dealLine{grid-template-columns:1fr 1fr}.results{grid-template-columns:1fr 1fr}.result.primary{grid-column:auto}.two{grid-template-columns:1fr 1fr}.hero h1{font-size:2.1rem}}@media(max-width:380px){html{font-size:16px}.app{padding-left:10px;padding-right:10px}.field input[type=text],.field input[type=number]{font-size:1.45rem}.result .value{font-size:1.55rem}}
+.app{width:min(760px,100%);margin:0 auto;padding:18px 14px 104px}.hero{padding:8px 4px 14px}.eyebrow{color:var(--brand);font-size:.72rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase}.brandRow{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap}.contactLink{color:var(--brand);font-size:.72rem;font-weight:850;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;white-space:nowrap;border-bottom:1px solid transparent}.contactLink:hover,.contactLink:focus-visible{border-bottom-color:currentColor;outline:none}.hero h1{font-size:1.7rem;line-height:1.05;margin:.35rem 0 .45rem}.hero p{margin:0;color:var(--muted);line-height:1.35;font-size:.95rem}.section{background:rgba(15,28,46,.92);border:1px solid var(--line);border-radius:24px;padding:16px;margin:14px 0;box-shadow:0 16px 42px rgba(0,0,0,.28)}.sectionTitle{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:12px}.sectionTitle h2{font-size:1rem;margin:0}.sectionTitle span{color:var(--muted);font-size:.75rem}.inputGrid{display:grid;gap:12px}.field{background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:18px;padding:12px}.field label{display:block;color:#e2e8f2;font-size:.8rem;font-weight:800;margin-bottom:8px}.labelNote{color:var(--muted);font-weight:700}.valRow{display:flex;align-items:baseline;gap:6px}.valRow .unit{flex:0 0 auto;color:var(--ink);font-weight:900;font-size:1.3rem}.valRow input{flex:1 1 auto;width:auto;min-width:0}::selection{background:rgba(39,211,180,.4)}.field input[type=text],.field input[type=number]{width:100%;border:0;outline:0;background:transparent;color:var(--ink);font-size:1.65rem;font-weight:900;letter-spacing:-.03em;padding:2px 0}.field input::placeholder{color:#8895ac}.field.invalid{border-color:rgba(239,143,160,.78);box-shadow:0 0 0 4px rgba(239,143,160,.1)}.validation{display:none;color:var(--bad);font-size:.72rem;font-weight:750;line-height:1.3;margin-top:7px}.field.invalid .validation{display:block}.field:focus-within{border-color:rgba(39,211,180,.75);box-shadow:0 0 0 4px rgba(39,211,180,.12)}.field.invalid:focus-within{border-color:rgba(239,143,160,.78);box-shadow:0 0 0 4px rgba(239,143,160,.1)}.mini{font-size:.72rem;color:var(--muted);margin-top:6px}.sliderRow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}.field input[type=range]{width:100%;accent-color:var(--brand)}.pctBadge{min-width:72px;text-align:center;border-radius:14px;padding:9px 10px;background:rgba(39,211,180,.12);border:1px solid rgba(39,211,180,.35);font-weight:900;font-size:1.15rem}.results{display:grid;grid-template-columns:1fr;gap:10px}.result{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px}.result .label{color:var(--muted);font-size:.78rem;font-weight:850;margin-bottom:4px}.result .value{font-size:1.85rem;line-height:1.05;font-weight:950;letter-spacing:-.035em}.result .sub{color:var(--muted);font-size:.78rem;line-height:1.3;margin-top:6px}.result.primary{background:linear-gradient(135deg,rgba(39,211,180,.18),rgba(96,165,250,.12));border-color:rgba(39,211,180,.42)}.result.wide{grid-column:1/-1}.result.good{border-color:rgba(94,207,157,.42);background:rgba(94,207,157,.08)}.result.bad{border-color:rgba(239,143,160,.42);background:rgba(239,143,160,.07)}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chip{border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);border-radius:999px;padding:8px 11px;font-size:.76rem;font-weight:850;cursor:pointer}.chip:active{transform:translateY(1px)}.dealLine{display:grid;grid-template-columns:1fr;gap:10px}.tinyCalc{display:grid;gap:10px}.footer{color:var(--muted);font-size:.72rem;line-height:1.35;padding:4px 8px}.reset{background:transparent;border:1px solid var(--line);color:#e2e8f2;border-radius:999px;padding:8px 12px;font-weight:900}.hidden{display:none!important}@media(min-width:680px){.inputGrid{grid-template-columns:1fr 1fr}.dealLine{grid-template-columns:1fr 1fr}.results{grid-template-columns:1fr 1fr}.result.primary{grid-column:auto}.two{grid-template-columns:1fr 1fr}.hero h1{font-size:2.1rem}}@media(max-width:380px){html{font-size:16px}.app{padding-left:10px;padding-right:10px}.field input[type=text],.field input[type=number]{font-size:1.45rem}.result .value{font-size:1.55rem}}
 .field input,.result .value,.pctBadge,.stickyBar b{font-variant-numeric:tabular-nums}
 .stickyBar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom));width:min(720px,calc(100% - 24px));display:flex;justify-content:space-between;align-items:center;gap:10px;background:rgba(14,19,33,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(39,211,180,.35);border-radius:18px;padding:10px 18px;box-shadow:0 14px 34px rgba(0,0,0,.5);cursor:pointer;z-index:9;font:inherit;color:inherit;text-align:left}
 .stickyBar .cell{display:flex;flex-direction:column;gap:1px}
@@ -30,10 +30,18 @@
 .setupToggle h2{margin:0;flex:0 0 auto;white-space:nowrap}
 .setupToggle .ssVals{color:var(--muted);font-size:.78rem;font-weight:750;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1 1 auto;min-width:0}
 .setupToggle .chev{color:var(--brand);flex:0 0 auto;font-size:1.1rem;line-height:1;transition:transform .2s ease}
+.setupToggle .tapHint{color:var(--brand);font-size:.72rem;font-weight:800;letter-spacing:.02em;white-space:nowrap;flex:0 0 auto}
 #setupSection.expanded .setupToggle .chev{transform:rotate(90deg)}
+#setupSection.expanded .setupToggle .ssVals{display:none}
 #setupSection .setupBody{display:none;margin-top:12px}
 #setupSection.expanded .setupBody{display:grid}
 #setupSection:not(.expanded) #resetStatus{display:none}
+.ownTitle{display:block;color:#e2e8f2;font-size:.8rem;font-weight:800;margin-bottom:8px}
+.ownRow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0}
+.ownRow.ro{border-top:1px solid var(--line);margin-top:12px}
+.ownRow .ownName{color:#e2e8f2;font-size:.95rem;font-weight:800;margin:0;display:inline}
+.ownRow.ro .ownName{color:var(--muted)}
+.ownVal{display:flex;align-items:baseline;gap:0;color:var(--muted);font-weight:900;font-size:1.3rem}
 input[type=number]{-moz-appearance:textfield;appearance:textfield}
 input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 </style>
@@ -41,7 +49,10 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
 <body>
 <main class="app">
   <header class="hero">
-    <div class="eyebrow">Kremer Ventures</div>
+    <div class="brandRow">
+      <div class="eyebrow">KV Consulting</div>
+      <a class="contactLink" href="mailto:kremer@kremerventures.com?subject=Founder%20Calc%20%E2%80%94%20get%20in%20touch">Need help? Get in touch &rarr;</a>
+    </div>
     <h1>Founder Calc</h1>
     <p>Quick equity and dilution check for investor conversations. Your numbers save automatically on this device.</p>
   </header>
@@ -51,15 +62,24 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       <button type="button" class="setupToggle" id="setupToggle" aria-expanded="false" aria-controls="setupBody">
         <h2>1. Your setup</h2>
         <span class="ssVals" id="setupSummaryVals"></span>
+        <span class="tapHint" id="tapHint">Tap to expand</span>
         <span class="chev" aria-hidden="true">&#8250;</span>
       </button>
       <button class="reset" id="resetStatus">Reset setup</button>
     </div>
     <div class="inputGrid setupBody" id="setupBody">
       <div class="field">
-        <label for="founderEq">Your equity today</label>
-        <div class="valRow suffix"><input id="founderEq" type="number" inputmode="decimal" min="0" max="100" step="1" placeholder="100" value="100"><span class="unit">%</span></div>
+        <div class="ownTitle">Ownership today</div>
+        <div class="ownRow">
+          <label for="founderEq" class="ownName">You</label>
+          <div class="valRow suffix"><input id="founderEq" type="number" inputmode="decimal" min="0" max="100" step="1" placeholder="100" value="100"><span class="unit">%</span></div>
+        </div>
         <div class="quick"><button class="chip" data-eq="100">100%</button><button class="chip" data-eq="80">80%</button><button class="chip" data-eq="60">60%</button><button class="chip" data-eq="50">50%</button></div>
+        <div class="ownRow ro">
+          <span class="ownName">Everyone else</span>
+          <div class="ownVal"><span id="othersToday">0</span><span class="unit">%</span></div>
+        </div>
+        <div class="mini">You and everyone else always total 100%.</div>
       </div>
       <div class="field" id="exitField">
         <label for="exit">Targeted exit valuation</label>
@@ -179,7 +199,7 @@ function calculateFounderCalc({raise,pre,exitV,goal,eq,fd}){
   return {post,investorOwnership,founderAfterRound,otherHoldersAfterRound,founderAfterFutureDilution,founderPayout,neededAtExit,neededAfterRound,gap,impossible};
 }
 let setupExpanded=false;
-function setSetupExpanded(v){setupExpanded=v;$('setupSection').classList.toggle('expanded',v);$('setupToggle').setAttribute('aria-expanded',v?'true':'false');save()}
+function setSetupExpanded(v){setupExpanded=v;$('setupSection').classList.toggle('expanded',v);$('setupToggle').setAttribute('aria-expanded',v?'true':'false');$('tapHint').textContent=v?'Tap to roll up':'Tap to expand';save()}
 function save(){try{localStorage.setItem(STORE,JSON.stringify({raise:num($('raise').value),pre:num($('pre').value),exit:num($('exit').value),goal:num($('goal').value),eq:$('founderEq').value,fd:$('futureDilution').value,setupExpanded}))}catch(e){}}
 function load(){try{const s=JSON.parse(localStorage.getItem(STORE)||'null');if(!s)return;setMoney('raise',s.raise);setMoney('pre',s.pre);setMoney('exit',s.exit);setMoney('goal',s.goal);if(s.eq!=null&&s.eq!=='')$('founderEq').value=s.eq;if(s.fd!=null)$('futureDilution').value=s.fd;if(s.setupExpanded!=null)setupExpanded=!!s.setupExpanded}catch(e){}}
 function renderInvalid(){
@@ -199,7 +219,8 @@ function calc(){
   const eqStr=$('founderEq').value,eq=(eqStr===''?100:Math.min(100,Math.max(0,Number(eqStr)||0)))/100;
   const fd=Number($('futureDilution').value)/100;
   sizeSuffix($('founderEq'));
-  $('setupSummaryVals').textContent='Equity '+pct(eq*100)+' · Target exit '+money(parsed.exit.value)+' · Payout target '+money(parsed.goal.value)+' · Future dilution '+Math.round(fd*100)+'%';
+  $('othersToday').textContent=pct((1-eq)*100).replace('%','');
+  $('setupSummaryVals').textContent='You '+pct(eq*100)+' · Others '+pct((1-eq)*100)+' · Target exit '+money(parsed.exit.value)+' · Payout target '+money(parsed.goal.value)+' · Future dilution '+Math.round(fd*100)+'%';
   $('dilutionBadge').textContent=Math.round(fd*100)+'%';
   if(Object.values(parsed).some(v=>!v.valid)){renderInvalid();return}
   const r=calculateFounderCalc({raise:parsed.raise.value,pre:parsed.pre.value,exitV:parsed.exit.value,goal:parsed.goal.value,eq,fd});
@@ -240,6 +261,7 @@ $('setupToggle').addEventListener('click',()=>setSetupExpanded(!setupExpanded));
 load();
 $('setupSection').classList.toggle('expanded',setupExpanded);
 $('setupToggle').setAttribute('aria-expanded',setupExpanded?'true':'false');
+$('tapHint').textContent=setupExpanded?'Tap to roll up':'Tap to expand';
 calc();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}))}
 </script>

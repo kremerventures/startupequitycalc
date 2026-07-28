@@ -106,6 +106,7 @@ function runCase(values) {
     investor: elements.investorOwns.textContent,
     founderNow: elements.founderNow.textContent,
     otherHolders: elements.otherHolders.textContent,
+    othersToday: elements.othersToday.textContent,
     founderExit: elements.founderExitPct.textContent,
     neededNow: elements.neededNow.textContent,
     gap: elements.gapText.textContent,
@@ -156,6 +157,22 @@ truthy('Other equity holders are displayed', html.includes('Other equity holders
 truthy('Needed ownership is placed in the exit outcome section', html.indexOf('Needed after this round to hit payout target') > html.indexOf('Founder equity after future dilution'));
 truthy('Percent suffix spacing is tightened', html.includes('.field .valRow.suffix{gap:0}'));
 
+// Ownership-today block: You + Everyone else always total 100%.
+truthy('Setup shows an "Ownership today" block', html.includes('Ownership today'));
+truthy('Ownership block labels the founder share "You"', html.includes('class="ownName">You'));
+truthy('Ownership block shows a read-only "Everyone else" mirror', html.includes('Everyone else') && html.includes('id="othersToday"'));
+
+// Collapsible setup shows an explicit expand/collapse affordance.
+truthy('Setup toggle has an expand/collapse hint element', html.includes('id="tapHint"'));
+truthy('Collapsed hint reads "Tap to expand"', html.includes('Tap to expand'));
+truthy('Expanded hint reads "Tap to roll up"', html.includes('Tap to roll up'));
+
+// Marketing: brand renamed and a contact CTA on the brand line.
+truthy('Brand eyebrow reads "KV Consulting"', html.includes('>KV Consulting<'));
+truthy('Old "Kremer Ventures" brand name is gone', !html.includes('Kremer Ventures'));
+truthy('Header includes a mailto contact link', html.includes('href="mailto:kremer@kremerventures.com'));
+truthy('Contact link sits on the brand row', html.includes('class="brandRow"') && html.indexOf('brandRow') < html.indexOf('<h1>'));
+
 // Known-answer cases.
 let result = runCase({ raise: '2M', pre: '8M', exit: '100M', goal: '20M', eq: '100', fd: 50 });
 equal('Default: founder after round', result.founderNow, '80%');
@@ -189,6 +206,15 @@ truthy('50/50 round: exact target clears', result.headlineGood && /Clears/.test(
 // Blank founder equity intentionally continues to mean 100%.
 result = runCase({ raise: '2M', pre: '8M', exit: '100M', goal: '20M', eq: '', fd: 50 });
 equal('Blank founder equity intentionally defaults to 100%', result.founderNow, '80%');
+equal('Ownership today: blank equity mirrors 0% to everyone else', result.othersToday, '0');
+
+// Ownership-today read-only mirror is the pre-round complement of "You".
+equal('Ownership today: full founder ownership shows 0% others',
+  runCase({ raise: '2M', pre: '8M', exit: '100M', goal: '20M', eq: '100', fd: 50 }).othersToday, '0');
+equal('Ownership today: 60% founder mirrors 40% others (pre-round, not post)',
+  runCase({ raise: '1M', pre: '4M', exit: '100M', goal: '20M', eq: '60', fd: 0 }).othersToday, '40');
+equal('Ownership today: 50% founder mirrors 50% others',
+  runCase({ raise: '2M', pre: '8M', exit: '100M', goal: '20M', eq: '50', fd: 50 }).othersToday, '50');
 
 // Near-hurdle precision.
 result = runCase({ raise: '2M', pre: '8M', exit: '49.9M', goal: '20M', eq: '100', fd: 50 });
@@ -281,7 +307,7 @@ for (let i = 0; i < 10000; i += 1) {
 if (randomMismatch) fail('10,000 randomized formula and ownership checks', JSON.stringify(randomMismatch));
 else pass('10,000 randomized formula and ownership checks');
 
-truthy('Service-worker cache version was bumped to v11', serviceWorker.includes("founder-calc-v11"));
+truthy('Service-worker cache version was bumped to v12', serviceWorker.includes("founder-calc-v12"));
 
 console.log(`\nSummary: ${failures} failure(s).`);
 if (failures > 0) process.exit(1);

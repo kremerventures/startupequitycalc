@@ -11,6 +11,16 @@ PASS  Founder ownership is listed first after the round
 PASS  Other equity holders are displayed
 PASS  Needed ownership is placed in the exit outcome section
 PASS  Percent suffix spacing is tightened
+PASS  Setup shows an "Ownership today" block
+PASS  Ownership block labels the founder share "You"
+PASS  Ownership block shows a read-only "Everyone else" mirror
+PASS  Setup toggle has an expand/collapse hint element
+PASS  Collapsed hint reads "Tap to expand"
+PASS  Expanded hint reads "Tap to roll up"
+PASS  Brand eyebrow reads "KV Consulting"
+PASS  Old "Kremer Ventures" brand name is gone
+PASS  Header includes a mailto contact link
+PASS  Contact link sits on the brand row
 PASS  Default: founder after round
 PASS  Default: round investor ownership
 PASS  Default: other holders
@@ -33,6 +43,10 @@ PASS  50/50 round: founder
 PASS  50/50 round: payout
 PASS  50/50 round: exact target clears
 PASS  Blank founder equity intentionally defaults to 100%
+PASS  Ownership today: blank equity mirrors 0% to everyone else
+PASS  Ownership today: full founder ownership shows 0% others
+PASS  Ownership today: 60% founder mirrors 40% others (pre-round, not post)
+PASS  Ownership today: 50% founder mirrors 50% others
 PASS  Near miss displays precise payout
 PASS  Near miss is clearly labeled below target
 PASS  Near pass displays precise payout
@@ -62,6 +76,6 @@ PASS  Pure function: investor ownership
 PASS  Pure function: other holders
 PASS  Pure function: ownership conservation
 PASS  10,000 randomized formula and ownership checks
-PASS  Service-worker cache version was bumped to v11
+PASS  Service-worker cache version was bumped to v12
 
 Summary: 0 failure(s).

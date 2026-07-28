@@ -26,7 +26,9 @@ The founder, round investor, and other equity holders should always total 100% a
 
 ## Requested-change checks
 
-1. The setup label reads **Targeted exit valuation** and includes a **$25M** shortcut.
+0aa. Section 1 (**Your setup**) starts collapsed by default and shows a **"Tap to expand"** hint next to the chevron; tapping opens it, the hint changes to **"Tap to roll up"**, the chevron rotates, and the value-summary line hides. Tapping again re-collapses it. On a fresh device (cleared storage) it still starts collapsed.
+0a. The header top line reads **KV Consulting** with a **"Need help? Get in touch →"** link on the same row; clicking it opens a new email to **kremer@kremerventures.com**. On a narrow phone the link wraps cleanly rather than overflowing.
+0b. The setup opens with an **Ownership today** block showing **You** (editable %) and **Everyone else** (read-only). Change You to 80 → Everyone else shows 20; set 60 → 40; clear it → You is treated as 100 and Everyone else shows 0. The two always total 100%.
 2. The setup label reads **Founder payout target at exit** and includes a **$50M** shortcut.
 3. The dilution label reads **Expected future dilution through exit**.
 4. The percent sign is visually attached to the “Your equity today” number.
@@ -52,7 +54,7 @@ The founder, round investor, and other equity holders should always total 100% a
 8. Refresh the browser and confirm saved values return.
 9. Reset setup and deal separately and confirm each reset affects only its own section.
 10. Test Chrome, Edge, Safari, and a phone-sized screen.
-11. Install the PWA, test it offline, reconnect, and confirm the v11 cache update appears.
+11. Install the PWA, test it offline, reconnect, and confirm the v12 cache update appears.
 12. Use a $49.99M targeted exit with the default deal and a $20M payout target. The payout rounds to **$20M**; the verdict must agree with the displayed number (it clears at display resolution) rather than showing "$20M" while claiming it is below target.
 13. Clear the targeted exit valuation. The payout card should prompt to add an exit, not assert that the target was missed.
 
