@@ -336,7 +336,7 @@ for (let i = 0; i < 10000; i += 1) {
 if (randomMismatch) fail('10,000 randomized formula and ownership checks', JSON.stringify(randomMismatch));
 else pass('10,000 randomized formula and ownership checks');
 
-truthy('Service-worker cache version was bumped to v13', serviceWorker.includes("founder-calc-v13"));
+truthy('Service-worker cache version was bumped to v14', serviceWorker.includes("founder-calc-v14"));
 
 console.log(`\nSummary: ${failures} failure(s).`);
 if (failures > 0) process.exit(1);
