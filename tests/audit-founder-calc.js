@@ -30,7 +30,9 @@ if (!scriptMatch) {
 }
 
 class ClassList {
-  constructor() { this.values = new Set(); }
+  constructor(initial = []) { this.values = new Set(initial); }
+  add(...names) { names.forEach((n) => this.values.add(n)); }
+  remove(...names) { names.forEach((n) => this.values.delete(n)); }
   toggle(name, force) {
     if (force === undefined) {
       this.values.has(name) ? this.values.delete(name) : this.values.add(name);
@@ -39,60 +41,101 @@ class ClassList {
     } else {
       this.values.delete(name);
     }
+    return this.values.has(name); // real DOM toggle() returns the resulting state
   }
   contains(name) { return this.values.has(name); }
 }
 
 class ElementMock {
-  constructor(id) {
+  constructor(id, initialClasses = []) {
     this.id = id;
     this.value = '';
     this.textContent = '';
+    this.innerHTML = '';
     this.style = {};
     this.dataset = {};
     this.attributes = {};
-    this.classList = new ClassList();
+    this.listeners = {};
+    this.classList = new ClassList(initialClasses);
   }
-  addEventListener() {}
+  addEventListener(type, fn) { (this.listeners[type] = this.listeners[type] || []).push(fn); }
+  click() { (this.listeners.click || []).forEach((fn) => fn()); }
   setAttribute(name, value) { this.attributes[name] = String(value); }
   select() {}
   scrollIntoView() {}
 }
 
 const ids = [...html.matchAll(/id="([^"]+)"/g)].map((match) => match[1]);
-const elements = Object.fromEntries(ids.map((id) => [id, new ElementMock(id)]));
 
-elements.founderEq.value = '100';
-elements.exit.value = '100M';
-elements.goal.value = '20M';
-elements.futureDilution.value = '50';
-elements.pre.value = '8M';
-elements.raise.value = '2M';
+// Seed each mock element with the classes it actually carries in the markup, so
+// things like `class="installBtn hidden"` start hidden here exactly as they do
+// in a browser.
+const initialClasses = Object.fromEntries(ids.map((id) => {
+  const tag = html.match(new RegExp(`<[^>]*\\bid="${id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"[^>]*>`));
+  const cls = tag && tag[0].match(/\bclass="([^"]*)"/);
+  return [id, cls ? cls[1].split(/\s+/).filter(Boolean) : []];
+}));
 
-const document = {
-  getElementById(id) { return elements[id]; },
-  querySelectorAll() { return []; },
+const UA = {
+  androidChrome: 'Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
+  iosSafari: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Mobile/15E148 Safari/604.1',
+  iosChrome: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.0.0 Mobile/15E148 Safari/604.1',
 };
 
-const localStorage = {
-  values: {},
-  setItem(key, value) { this.values[key] = value; },
-  getItem(key) { return this.values[key] ?? null; },
-};
+// Builds an isolated DOM/browser mock and runs the production inline script in
+// it. Platform fields are parameterized so the install helper can be exercised
+// as Android Chrome, as iOS Safari, as a non-Safari iOS browser, and as an
+// already-installed (standalone) launch.
+function buildEnv(opts = {}) {
+  const {
+    userAgent = UA.androidChrome,
+    platform = 'Linux armv8l',
+    maxTouchPoints = 5,
+    standalone = false,
+    navigatorStandalone,
+  } = opts;
 
-const context = vm.createContext({
-  console,
-  document,
-  localStorage,
-  navigator: {},
-  window: { addEventListener() {} },
-  Number,
-  String,
-  Math,
-  JSON,
-});
+  const elements = Object.fromEntries(ids.map((id) => [id, new ElementMock(id, initialClasses[id])]));
+  elements.founderEq.value = '100';
+  elements.exit.value = '100M';
+  elements.goal.value = '20M';
+  elements.futureDilution.value = '50';
+  elements.pre.value = '8M';
+  elements.raise.value = '2M';
 
-vm.runInContext(scriptMatch[1], context, { filename: 'index.html:inline-script' });
+  const document = {
+    getElementById(id) { return elements[id]; },
+    querySelectorAll() { return []; },
+  };
+
+  const localStorage = {
+    values: {},
+    setItem(key, value) { this.values[key] = value; },
+    getItem(key) { return this.values[key] ?? null; },
+  };
+
+  const windowListeners = {};
+  const navigator = { userAgent, platform, maxTouchPoints };
+  if (navigatorStandalone !== undefined) navigator.standalone = navigatorStandalone;
+
+  const window = {
+    addEventListener(type, fn) { (windowListeners[type] = windowListeners[type] || []).push(fn); },
+    matchMedia(query) { return { matches: query.includes('display-mode: standalone') ? standalone : false }; },
+  };
+
+  const context = vm.createContext({
+    console, document, localStorage, navigator, window,
+    Number, String, Math, JSON, Promise, setTimeout,
+  });
+
+  vm.runInContext(scriptMatch[1], context, { filename: 'index.html:inline-script' });
+  const fire = (type, event) => (windowListeners[type] || []).forEach((fn) => fn(event));
+  return { elements, context, windowListeners, fire };
+}
+
+const mainEnv = buildEnv();
+const elements = mainEnv.elements;
+const context = mainEnv.context;
 
 function runCase(values) {
   elements.raise.value = values.raise;
@@ -355,7 +398,84 @@ for (let i = 0; i < 10000; i += 1) {
 if (randomMismatch) fail('10,000 randomized formula and ownership checks', JSON.stringify(randomMismatch));
 else pass('10,000 randomized formula and ownership checks');
 
-truthy('Service-worker cache version was bumped to v17', serviceWorker.includes("founder-calc-v17"));
+// ---------------------------------------------------------------------------
+// Install helper. Chrome fires beforeinstallprompt and we can offer a real
+// button; iOS fires nothing and needs instructions instead.
+// ---------------------------------------------------------------------------
+truthy('Header has an install button', html.includes('id="installBtn"'));
+truthy('Install button starts hidden until we know it is offerable', /id="installBtn"[^>]*class=|class="installBtn hidden"/.test(html));
+truthy('Install help panel exists', html.includes('id="installHelp"'));
+
+// Android / desktop Chrome: button appears only once beforeinstallprompt fires.
+{
+  const env = buildEnv({ userAgent: UA.androidChrome });
+  const btn = env.elements.installBtn;
+  truthy('Chrome: install button is hidden before the browser offers install', btn.classList.contains('hidden'));
+  let prevented = false, prompted = false;
+  env.fire('beforeinstallprompt', {
+    preventDefault() { prevented = true; },
+    prompt() { prompted = true; },
+    userChoice: Promise.resolve({ outcome: 'accepted' }),
+  });
+  truthy('Chrome: the default mini-infobar is suppressed so our button owns the flow', prevented);
+  truthy('Chrome: install button becomes visible once installable', !btn.classList.contains('hidden'));
+  btn.click();
+  truthy('Chrome: clicking the button triggers the native install prompt', prompted);
+}
+
+// iOS Safari: no event ever fires, so show Add to Home Screen instructions.
+{
+  const env = buildEnv({ userAgent: UA.iosSafari, platform: 'iPhone' });
+  const btn = env.elements.installBtn, help = env.elements.installHelp;
+  truthy('iOS Safari: install button is shown without waiting for an event', !btn.classList.contains('hidden'));
+  truthy('iOS Safari: help panel starts collapsed', help.classList.contains('hidden'));
+  truthy('iOS Safari: instructions name the Add to Home Screen flow', help.innerHTML.includes('Add to Home Screen') && help.innerHTML.includes('Share'));
+  btn.click();
+  truthy('iOS Safari: tapping the button reveals the instructions', !help.classList.contains('hidden'));
+  equal('iOS Safari: button reports its expanded state', btn.attributes['aria-expanded'], 'true');
+  btn.click();
+  truthy('iOS Safari: tapping again collapses the instructions', help.classList.contains('hidden'));
+  equal('iOS Safari: collapsed state is reported too', btn.attributes['aria-expanded'], 'false');
+}
+
+// Non-Safari iOS browsers cannot install at all — say so rather than fail silently.
+{
+  const env = buildEnv({ userAgent: UA.iosChrome, platform: 'iPhone' });
+  const help = env.elements.installHelp;
+  truthy('iOS Chrome: told to open in Safari first', help.innerHTML.includes('Open in Safari'));
+  truthy('iOS Chrome: explains other browsers only bookmark', help.innerHTML.includes('bookmark'));
+  truthy('iOS Chrome: does not claim Add to Home Screen works here', !help.innerHTML.includes('Scroll down and tap'));
+}
+
+// iPadOS 13+ reports itself as a Mac, so fall back to touch-point detection.
+{
+  const env = buildEnv({ userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 Version/17.4 Safari/605.1.15', platform: 'MacIntel', maxTouchPoints: 5 });
+  truthy('iPadOS masquerading as macOS is still treated as iOS', env.elements.installHelp.innerHTML.includes('Add to Home Screen'));
+}
+
+// Already installed: never nag.
+{
+  const env = buildEnv({ userAgent: UA.androidChrome, standalone: true });
+  env.fire('beforeinstallprompt', { preventDefault() {}, prompt() {}, userChoice: Promise.resolve({ outcome: 'accepted' }) });
+  truthy('Standalone launch: install button stays hidden', env.elements.installBtn.classList.contains('hidden'));
+}
+{
+  const env = buildEnv({ userAgent: UA.iosSafari, platform: 'iPhone', navigatorStandalone: true });
+  truthy('iOS standalone launch: install button stays hidden', env.elements.installBtn.classList.contains('hidden'));
+  equal('iOS standalone launch: no instructions rendered', env.elements.installHelp.innerHTML, '');
+}
+
+// Installing mid-session should retract the button.
+{
+  const env = buildEnv({ userAgent: UA.androidChrome });
+  env.fire('beforeinstallprompt', { preventDefault() {}, prompt() {}, userChoice: Promise.resolve({ outcome: 'accepted' }) });
+  truthy('Install button was showing before the install completed', !env.elements.installBtn.classList.contains('hidden'));
+  env.fire('appinstalled', {});
+  truthy('appinstalled hides the install button', env.elements.installBtn.classList.contains('hidden'));
+  truthy('appinstalled hides the help panel', env.elements.installHelp.classList.contains('hidden'));
+}
+
+truthy('Service-worker cache version was bumped to v18', serviceWorker.includes("founder-calc-v18"));
 
 console.log(`\nSummary: ${failures} failure(s).`);
 if (failures > 0) process.exit(1);

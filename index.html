@@ -43,6 +43,15 @@
 .ownRow.ro .ownName{color:var(--muted)}
 .ownVal{display:flex;align-items:baseline;gap:0;color:var(--muted);font-weight:900;font-size:1.3rem}
 .sectionTitle h2 .titleNote{color:var(--muted);font-weight:750;font-size:.82em}
+.brandActions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+.installBtn{background:rgba(39,211,180,.14);border:1px solid rgba(39,211,180,.45);color:var(--brand);border-radius:999px;padding:7px 13px;font:inherit;font-size:.72rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;cursor:pointer}
+.installBtn:active{transform:translateY(1px)}
+.installBtn:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.installHelp{margin-top:12px;background:rgba(39,211,180,.08);border:1px solid rgba(39,211,180,.32);border-radius:16px;padding:12px 14px;color:var(--muted);font-size:.82rem;line-height:1.45}
+.installHelp b{color:var(--ink)}
+.installHelp ol{margin:8px 0 0;padding-left:20px}
+.installHelp li{margin:5px 0}
+.installHelp p{margin:8px 0 0;font-size:.76rem}
 input[type=number]{-moz-appearance:textfield;appearance:textfield}
 input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 </style>
@@ -52,10 +61,14 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   <header class="hero">
     <div class="brandRow">
       <div class="eyebrow">KV Consulting</div>
-      <a class="contactLink" href="mailto:kremer@kremerventures.com?subject=Founder%20Exit%20Calculator%20%E2%80%94%20get%20in%20touch">Need help? Get in touch &rarr;</a>
+      <div class="brandActions">
+        <button class="installBtn hidden" id="installBtn" type="button">Install app</button>
+        <a class="contactLink" href="mailto:kremer@kremerventures.com?subject=Founder%20Exit%20Calculator%20%E2%80%94%20get%20in%20touch">Need help? Get in touch &rarr;</a>
+      </div>
     </div>
     <h1>Founder Exit Calculator</h1>
     <p>Quick equity, dilution and exit check. Your numbers save automatically on this device.</p>
+    <div class="installHelp hidden" id="installHelp"></div>
   </header>
 
   <section class="section" id="setupSection">
@@ -266,6 +279,41 @@ $('setupSection').classList.toggle('expanded',setupExpanded);
 $('setupToggle').setAttribute('aria-expanded',setupExpanded?'true':'false');
 $('tapHint').textContent=setupExpanded?'Tap to roll up':'Tap to expand';
 calc();
+// Install helper. Chrome (Android/desktop) fires beforeinstallprompt, so we can
+// show a real Install button and hand the event back on click. iOS fires no such
+// event: Safari installs only via Share > Add to Home Screen, and Chrome/Firefox/
+// Edge on iOS cannot install at all — they only bookmark. So on iOS we show
+// instructions instead, and say plainly when the user needs to switch to Safari.
+(function(){
+  const btn=$('installBtn'),help=$('installHelp');
+  const standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+  if(standalone)return; // already installed — nothing to offer
+  const ua=navigator.userAgent;
+  const isIOS=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  function hideAll(){btn.classList.add('hidden');help.classList.add('hidden')}
+  if(isIOS){
+    const isSafari=!/CriOS|FxiOS|EdgiOS/.test(ua);
+    help.innerHTML=isSafari
+      ?'<b>Add to your home screen</b><ol><li>Tap the <b>Share</b> icon at the bottom of Safari.</li><li>Scroll down and tap <b>Add to Home Screen</b>.</li><li>Tap <b>Add</b>. It opens fullscreen, like an app.</li></ol>'
+      :'<b>Open this page in Safari first</b><ol><li>Tap this browser’s menu and choose <b>Open in Safari</b>.</li><li>In Safari, tap <b>Share</b> → <b>Add to Home Screen</b>.</li></ol><p>On iPhone and iPad, only Safari can install a web app. Other browsers just save a bookmark.</p>';
+    btn.setAttribute('aria-controls','installHelp');
+    btn.setAttribute('aria-expanded','false');
+    btn.addEventListener('click',()=>{const willOpen=help.classList.contains('hidden');help.classList.toggle('hidden',!willOpen);btn.setAttribute('aria-expanded',willOpen?'true':'false')});
+    btn.classList.remove('hidden');
+  }else{
+    let deferred=null;
+    window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;btn.classList.remove('hidden')});
+    btn.addEventListener('click',async()=>{
+      if(!deferred)return;
+      deferred.prompt();
+      let outcome='dismissed';
+      try{outcome=(await deferred.userChoice).outcome}catch(e){}
+      deferred=null; // a prompt can only be used once
+      if(outcome==='accepted')hideAll();else btn.classList.add('hidden');
+    });
+  }
+  window.addEventListener('appinstalled',hideAll);
+})();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}))}
 </script>
 </body>

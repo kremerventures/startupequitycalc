@@ -106,6 +106,30 @@ PASS  Pure function: investor ownership
 PASS  Pure function: other holders
 PASS  Pure function: ownership conservation
 PASS  10,000 randomized formula and ownership checks
-PASS  Service-worker cache version was bumped to v17
+PASS  Header has an install button
+PASS  Install button starts hidden until we know it is offerable
+PASS  Install help panel exists
+PASS  Chrome: install button is hidden before the browser offers install
+PASS  Chrome: the default mini-infobar is suppressed so our button owns the flow
+PASS  Chrome: install button becomes visible once installable
+PASS  Chrome: clicking the button triggers the native install prompt
+PASS  iOS Safari: install button is shown without waiting for an event
+PASS  iOS Safari: help panel starts collapsed
+PASS  iOS Safari: instructions name the Add to Home Screen flow
+PASS  iOS Safari: tapping the button reveals the instructions
+PASS  iOS Safari: button reports its expanded state
+PASS  iOS Safari: tapping again collapses the instructions
+PASS  iOS Safari: collapsed state is reported too
+PASS  iOS Chrome: told to open in Safari first
+PASS  iOS Chrome: explains other browsers only bookmark
+PASS  iOS Chrome: does not claim Add to Home Screen works here
+PASS  iPadOS masquerading as macOS is still treated as iOS
+PASS  Standalone launch: install button stays hidden
+PASS  iOS standalone launch: install button stays hidden
+PASS  iOS standalone launch: no instructions rendered
+PASS  Install button was showing before the install completed
+PASS  appinstalled hides the install button
+PASS  appinstalled hides the help panel
+PASS  Service-worker cache version was bumped to v18
 
 Summary: 0 failure(s).
