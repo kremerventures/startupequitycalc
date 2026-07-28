@@ -1,6 +1,6 @@
 # Founder Calc — progress & status
 
-_Last updated: 2026-07-28 · Deployed commit: `4584382` on `main`_
+_Last updated: 2026-07-28 · Deployed commit: `d455e95` on `main`_
 
 A single-page equity/dilution calculator (PWA) for investor conversations.
 Static site, no build step, deployed to Netlify from `main` (push = deploy).
@@ -27,8 +27,9 @@ Two rounds of changes shipped today, all browser-verified and deployed.
 **Setup screen**
 - **"Ownership today" block** — starting equity shown as **You** (editable %) and
   **Everyone else** (read-only mirror = `100% − You`). The math already carried this
-  slice; it was just made visible. Chips sit under "You", with a "Tap to type any %"
-  hint directly under the number.
+  slice; it was just made visible. Each value sits **next to its label** ("You 80%",
+  not label-left/value-far-right), chips under "You", "Tap to type any %" hint under
+  the number.
 - **Collapsible setup** starts collapsed with an explicit **"Tap to expand" /
   "Tap to roll up"** hint; the value-summary hides while expanded.
 - Every editable field (setup + deal) shows a typing hint **directly under its
@@ -51,7 +52,7 @@ Two rounds of changes shipped today, all browser-verified and deployed.
 - Header rebranded **Kremer Ventures → KV Consulting** with a
   **"Need help? Get in touch →"** `mailto:kremer@kremerventures.com` CTA.
 
-Service-worker cache is at **v14**.
+Service-worker cache is at **v15**.
 
 ---
 
@@ -114,11 +115,11 @@ reload (#8), reset scoping (#9), and **PWA offline load from cache (#11)**. Pars
 ## Recent history
 
 ```
-4584382  Tighten spacing: pull typing hint up under the number, more room above chips  ← current
+d455e95  Fix ownership rows on mobile: group each value next to its label  ← current
+4584382  Tighten spacing: pull typing hint up under the number, more room above chips
 167c195  Update PROGRESS.md and manual checklist for the v13 batch
 6e5a424  Dilution 0-100, typing hints under numbers, section 3/4 wording, 100% guard
 d4b2b60  Add PROGRESS.md capturing status, tests, and where we left off
-0b7509c  Add ownership-today split, KV Consulting contact CTA, and setup expand hint
 ```
 
 **Deploy = push to `main`.** Always bump `CACHE_VERSION` in `service-worker.js`

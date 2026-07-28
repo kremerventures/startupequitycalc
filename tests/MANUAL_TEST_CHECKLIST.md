@@ -54,7 +54,8 @@ The founder, round investor, and other equity holders should always total 100% a
 8. Refresh the browser and confirm saved values return.
 9. Reset setup and deal separately and confirm each reset affects only its own section.
 10. Test Chrome, Edge, Safari, and a phone-sized screen.
-11. Install the PWA, test it offline, reconnect, and confirm the v14 cache update appears.
+11. Install the PWA, test it offline, reconnect, and confirm the v15 cache update appears.
+17. In "Ownership today", each value sits **next to its label** on the same row ("You 80%", "Everyone else 20%") — not label-far-left with the % pinned to the far-right edge. Check on a real phone width.
 14. Drag future dilution to **100%**. The payout shows **$0**, the "needed" card reads **"Not possible"** with "Full future dilution leaves nothing at exit." — no `Infinity%` or divide-by-zero. Slider covers the full 0–100 with 50% at the midpoint.
 15. Change the targeted exit or the dilution %. The **Section 4 heading** updates live to "Projected outcome at exit: $X exit and X% future dilution". Clear the exit and the assumptions drop from the heading.
 16. Each editable field shows a typing hint **directly under its number** (above the chips): setup/exit/target say "Tap to type…", deal fields say "Type shortcuts like 500k, 2.5M, etc.". Raise has a **$5M** chip.
