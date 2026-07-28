@@ -161,9 +161,10 @@ truthy('Needed ownership is placed in the exit outcome section', html.indexOf('N
 truthy('Percent suffix spacing is tightened', html.includes('.field .valRow.suffix{gap:0}'));
 
 // Ownership-today block: You + Everyone else always total 100%.
-truthy('Setup shows an "Ownership today" block', html.includes('Ownership today'));
-truthy('Ownership block labels the founder share "You"', html.includes('class="ownName">You'));
-truthy('Ownership block shows a read-only "Everyone else" mirror', html.includes('Everyone else') && html.includes('id="othersToday"'));
+truthy('Setup shows a "Your ownership today" field', html.includes('>Your ownership today</label>'));
+truthy('Founder ownership is an editable % field like the others', html.includes('id="founderEq"') && html.indexOf('Your ownership today') < html.indexOf('id="founderEq"'));
+truthy('Ownership field shows a read-only "Everyone else" mirror', html.includes('Everyone else') && html.includes('id="othersToday"'));
+truthy('Dilution chips are 40/50/60/75/90', ['40','50','60','75','90'].every(v => html.includes(`data-dilution="${v}"`)) && !html.includes('data-dilution="25"'));
 
 // Collapsible setup shows an explicit expand/collapse affordance.
 truthy('Setup toggle has an expand/collapse hint element', html.includes('id="tapHint"'));
@@ -336,7 +337,7 @@ for (let i = 0; i < 10000; i += 1) {
 if (randomMismatch) fail('10,000 randomized formula and ownership checks', JSON.stringify(randomMismatch));
 else pass('10,000 randomized formula and ownership checks');
 
-truthy('Service-worker cache version was bumped to v15', serviceWorker.includes("founder-calc-v15"));
+truthy('Service-worker cache version was bumped to v16', serviceWorker.includes("founder-calc-v16"));
 
 console.log(`\nSummary: ${failures} failure(s).`);
 if (failures > 0) process.exit(1);

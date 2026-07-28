@@ -70,11 +70,8 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
     </div>
     <div class="inputGrid setupBody" id="setupBody">
       <div class="field">
-        <div class="ownTitle">Ownership today</div>
-        <div class="ownRow">
-          <label for="founderEq" class="ownName">You</label>
-          <div class="valRow suffix"><input id="founderEq" type="number" inputmode="decimal" min="0" max="100" step="1" placeholder="100" value="100"><span class="unit">%</span></div>
-        </div>
+        <label for="founderEq">Your ownership today</label>
+        <div class="valRow suffix"><input id="founderEq" type="number" inputmode="decimal" min="0" max="100" step="1" placeholder="100" value="100"><span class="unit">%</span></div>
         <div class="mini">Tap to type any %.</div>
         <div class="quick"><button class="chip" data-eq="100">100%</button><button class="chip" data-eq="80">80%</button><button class="chip" data-eq="60">60%</button><button class="chip" data-eq="50">50%</button></div>
         <div class="ownRow ro">
@@ -99,7 +96,7 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       <div class="field">
         <label for="futureDilution">Expected future dilution through exit <span class="labelNote">— later rounds &amp; option pool</span></label>
         <div class="sliderRow"><input id="futureDilution" type="range" min="0" max="100" step="5" value="50"><div class="pctBadge" id="dilutionBadge">50%</div></div>
-        <div class="quick"><button class="chip" data-dilution="25">25%</button><button class="chip" data-dilution="40">40%</button><button class="chip" data-dilution="50">50%</button><button class="chip" data-dilution="60">60%</button><button class="chip" data-dilution="75">75%</button></div>
+        <div class="quick"><button class="chip" data-dilution="40">40%</button><button class="chip" data-dilution="50">50%</button><button class="chip" data-dilution="60">60%</button><button class="chip" data-dilution="75">75%</button><button class="chip" data-dilution="90">90%</button></div>
         <div class="mini">Total additional dilution expected after this round through exit.</div>
       </div>
     </div>
