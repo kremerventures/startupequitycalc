@@ -1,6 +1,6 @@
 # Founder Calc — progress & status
 
-_Last updated: 2026-07-28 · Deployed commit: `6e5a424` on `main`_
+_Last updated: 2026-07-28 · Deployed commit: `4584382` on `main`_
 
 A single-page equity/dilution calculator (PWA) for investor conversations.
 Static site, no build step, deployed to Netlify from `main` (push = deploy).
@@ -32,7 +32,8 @@ Two rounds of changes shipped today, all browser-verified and deployed.
 - **Collapsible setup** starts collapsed with an explicit **"Tap to expand" /
   "Tap to roll up"** hint; the value-summary hides while expanded.
 - Every editable field (setup + deal) shows a typing hint **directly under its
-  number**, above the chips, so people know they can type, not only tap chips.
+  number** (spacing tightened so the hint hugs the number), with clear room above
+  the chips, so people know they can type, not only tap chips.
 
 **Deal**
 - Raise has a **$5M** chip; money hint reads "Type shortcuts like 500k, 2.5M, etc."
@@ -50,7 +51,7 @@ Two rounds of changes shipped today, all browser-verified and deployed.
 - Header rebranded **Kremer Ventures → KV Consulting** with a
   **"Need help? Get in touch →"** `mailto:kremer@kremerventures.com` CTA.
 
-Service-worker cache is at **v13**.
+Service-worker cache is at **v14**.
 
 ---
 
@@ -113,11 +114,11 @@ reload (#8), reset scoping (#9), and **PWA offline load from cache (#11)**. Pars
 ## Recent history
 
 ```
-6e5a424  Dilution 0-100, typing hints under numbers, section 3/4 wording, 100% guard  ← current
+4584382  Tighten spacing: pull typing hint up under the number, more room above chips  ← current
+167c195  Update PROGRESS.md and manual checklist for the v13 batch
+6e5a424  Dilution 0-100, typing hints under numbers, section 3/4 wording, 100% guard
 d4b2b60  Add PROGRESS.md capturing status, tests, and where we left off
 0b7509c  Add ownership-today split, KV Consulting contact CTA, and setup expand hint
-175f942  Fix payout rounding so verdict never contradicts displayed figure
-855e06a  Reorganize ownership and exit results
 ```
 
 **Deploy = push to `main`.** Always bump `CACHE_VERSION` in `service-worker.js`
