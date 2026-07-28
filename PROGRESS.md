@@ -1,9 +1,14 @@
 # Founder Exit Calculator — progress & status
 
-_Last updated: 2026-07-28 · Deployed commit: `a209591` on `main` (rename not yet pushed)_
+_Last updated: 2026-07-28 · Deployed commit: `3e1ab49` on `main`_
 
 A single-page equity/dilution calculator (PWA) for investor conversations.
 Static site, no build step, deployed to Netlify from `main` (push = deploy).
+
+**Live:** https://startupequitycalc.netlify.app · Netlify project
+`startupequitycalc`, auto-deploying from the `main` branch of
+`github.com/kremerventures/startupequitycalc`. The local folder is **not**
+`netlify link`ed — deploys happen through the GitHub integration, not the CLI.
 
 ---
 
@@ -22,10 +27,9 @@ Always work in the `_updated\startupequitycalc\` folder (note the nesting).
 
 ## Where we left off (2026-07-28)
 
-Two rounds of changes shipped today, all browser-verified and deployed. A third
-round (the rename) is **done locally but not yet pushed**.
+Three rounds of changes shipped today, all browser-verified and deployed.
 
-**Rename — not yet deployed**
+**Rename (shipped in `3e1ab49`)**
 
 The naming is deliberately split into two names. Keep them in sync with this table:
 
@@ -124,6 +128,10 @@ reload (#8), reset scoping (#9), and **PWA offline load from cache (#11)**. Pars
 
 ## Open items / next steps
 
+- [ ] **Icon label on a real phone (#0d):** confirm the home-screen icon reads
+      **Exit Calc** without truncation on iOS and Android, and that the install
+      prompt shows the full **Founder Exit Calculator**. Cannot be checked from
+      Windows or by the audit.
 - [ ] **Cross-browser (#10):** verified in Chrome; still confirm **Safari** and a
       real phone-sized screen (needs a non-Windows device).
 - [ ] Optional: spot-check **Edge**.
@@ -135,11 +143,12 @@ reload (#8), reset scoping (#9), and **PWA offline load from cache (#11)**. Pars
 ## Recent history
 
 ```
-a209591  Founder ownership as a standard field; dilution chips 40-90  ← current
+3e1ab49  Rename to Founder Exit Calculator; new subhead  ← current, deployed
+b7b802f  Update notes for the v16 ownership-field + dilution-chip changes
+a209591  Founder ownership as a standard field; dilution chips 40-90
+56f29e1  Update notes for the v15 ownership-row layout fix
 d455e95  Fix ownership rows on mobile: group each value next to its label
 4584382  Tighten spacing: pull typing hint up under the number, more room above chips
-167c195  Update PROGRESS.md and manual checklist for the v13 batch
-6e5a424  Dilution 0-100, typing hints under numbers, section 3/4 wording, 100% guard
 ```
 
 **Deploy = push to `main`.** Always bump `CACHE_VERSION` in `service-worker.js`
