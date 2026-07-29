@@ -41,13 +41,21 @@ The header now has an **Install app** button that branches by platform:
 
 | Platform | Behaviour |
 |---|---|
-| Chrome (Android/desktop) | Listens for `beforeinstallprompt`, suppresses the default mini-infobar, shows the button, and calls `prompt()` on click |
+| Chrome (Android/desktop) | Button is **always visible**. With a real offer it calls `prompt()`; without one it explains the browser-menu route and that an already-installed app hides the option |
 | iOS **Safari** | No event exists, so the button expands step-by-step **Share → Add to Home Screen** instructions |
 | iOS Chrome/Firefox/Edge | Says to open in Safari first — these browsers *cannot* install a PWA, they only bookmark |
 | Already installed | Button never appears (`display-mode: standalone` / `navigator.standalone`), and `appinstalled` retracts it mid-session |
 
 iPadOS 13+ reports itself as `MacIntel`, so iOS detection also checks
 `maxTouchPoints` — covered by a test.
+
+**v19 follow-up — the button must never be gated on `beforeinstallprompt`.**
+v18 only revealed the button when Chrome fired that event. Chrome withholds it
+whenever the app is **already installed**, so the button vanished in precisely
+the case where the user most needed an explanation — reported from the field as
+"I cleared the cache and still don't see the install option". Clearing cache or
+site data does **not** uninstall a PWA. The button is now always visible and
+falls back to instructions; a real offer, if it arrives, replaces them.
 
 **Note on the missing manifest `id`:** app identity defaults to `start_url`,
 which has not changed. So the earlier rename *updated* the existing installed
@@ -99,7 +107,7 @@ The naming is deliberately split into two names. Keep them in sync with this tab
 - Header rebranded **Kremer Ventures → KV Consulting** with a
   **"Need help? Get in touch →"** `mailto:kremer@kremerventures.com` CTA.
 
-Service-worker cache is at **v18**.
+Service-worker cache is at **v19**.
 
 ---
 
@@ -128,7 +136,7 @@ tests enforce: founder + round investor + other holders always = 100% after a ro
 ```bash
 node tests/audit-founder-calc.js
 ```
-Release candidate must end with `Summary: 0 failure(s).` Currently **130 checks, 0
+Release candidate must end with `Summary: 0 failure(s).` Currently **139 checks, 0
 failures**. The DOM mock now seeds each element's classes from the markup and
 supports `classList.add/remove` plus element `click()`, and `buildEnv()` can
 fake a user agent / `matchMedia`, so the install helper is tested as Android

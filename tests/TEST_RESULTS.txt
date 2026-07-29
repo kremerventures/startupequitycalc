@@ -107,12 +107,21 @@ PASS  Pure function: other holders
 PASS  Pure function: ownership conservation
 PASS  10,000 randomized formula and ownership checks
 PASS  Header has an install button
-PASS  Install button starts hidden until we know it is offerable
+PASS  Install button is hidden in the markup and revealed by script
 PASS  Install help panel exists
-PASS  Chrome: install button is hidden before the browser offers install
+PASS  Chrome: install button is visible without waiting for an install offer
+PASS  Chrome: help panel starts collapsed
+PASS  Chrome: fallback gives the browser-menu route
+PASS  Chrome: fallback explains an installed app hides the option
+PASS  Chrome: fallback warns that clearing the cache does not uninstall
+PASS  Chrome: with no install offer, tapping shows the manual instructions
+PASS  Chrome: expanded state is reported
+PASS  Chrome: tapping again collapses the instructions
+PASS  Chrome: instructions are open before the install offer arrives
 PASS  Chrome: the default mini-infobar is suppressed so our button owns the flow
-PASS  Chrome: install button becomes visible once installable
-PASS  Chrome: clicking the button triggers the native install prompt
+PASS  Chrome: a real install offer replaces the manual instructions
+PASS  Chrome: aria-expanded is reset when instructions are replaced
+PASS  Chrome: clicking now triggers the native install prompt
 PASS  iOS Safari: install button is shown without waiting for an event
 PASS  iOS Safari: help panel starts collapsed
 PASS  iOS Safari: instructions name the Add to Home Screen flow
@@ -130,6 +139,6 @@ PASS  iOS standalone launch: no instructions rendered
 PASS  Install button was showing before the install completed
 PASS  appinstalled hides the install button
 PASS  appinstalled hides the help panel
-PASS  Service-worker cache version was bumped to v18
+PASS  Service-worker cache version was bumped to v19
 
 Summary: 0 failure(s).

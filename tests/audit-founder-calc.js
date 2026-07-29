@@ -403,14 +403,30 @@ else pass('10,000 randomized formula and ownership checks');
 // button; iOS fires nothing and needs instructions instead.
 // ---------------------------------------------------------------------------
 truthy('Header has an install button', html.includes('id="installBtn"'));
-truthy('Install button starts hidden until we know it is offerable', /id="installBtn"[^>]*class=|class="installBtn hidden"/.test(html));
+truthy('Install button is hidden in the markup and revealed by script', html.includes('class="installBtn hidden"'));
 truthy('Install help panel exists', html.includes('id="installHelp"'));
 
-// Android / desktop Chrome: button appears only once beforeinstallprompt fires.
+// Android / desktop Chrome. The button must be visible unconditionally: Chrome
+// withholds beforeinstallprompt whenever the app is already installed, so a
+// button gated on that event disappears exactly when the user most needs to be
+// told why they cannot install.
 {
   const env = buildEnv({ userAgent: UA.androidChrome });
-  const btn = env.elements.installBtn;
-  truthy('Chrome: install button is hidden before the browser offers install', btn.classList.contains('hidden'));
+  const btn = env.elements.installBtn, help = env.elements.installHelp;
+  truthy('Chrome: install button is visible without waiting for an install offer', !btn.classList.contains('hidden'));
+  truthy('Chrome: help panel starts collapsed', help.classList.contains('hidden'));
+  truthy('Chrome: fallback gives the browser-menu route', help.innerHTML.includes('Install app') && help.innerHTML.includes('Add to Home screen'));
+  truthy('Chrome: fallback explains an installed app hides the option', help.innerHTML.includes('already') && help.innerHTML.includes('Exit Calc'));
+  truthy('Chrome: fallback warns that clearing the cache does not uninstall', help.innerHTML.includes('does not uninstall'));
+  btn.click();
+  truthy('Chrome: with no install offer, tapping shows the manual instructions', !help.classList.contains('hidden'));
+  equal('Chrome: expanded state is reported', btn.attributes['aria-expanded'], 'true');
+  btn.click();
+  truthy('Chrome: tapping again collapses the instructions', help.classList.contains('hidden'));
+
+  // A real install offer must take over from the manual instructions.
+  btn.click();
+  truthy('Chrome: instructions are open before the install offer arrives', !help.classList.contains('hidden'));
   let prevented = false, prompted = false;
   env.fire('beforeinstallprompt', {
     preventDefault() { prevented = true; },
@@ -418,9 +434,10 @@ truthy('Install help panel exists', html.includes('id="installHelp"'));
     userChoice: Promise.resolve({ outcome: 'accepted' }),
   });
   truthy('Chrome: the default mini-infobar is suppressed so our button owns the flow', prevented);
-  truthy('Chrome: install button becomes visible once installable', !btn.classList.contains('hidden'));
+  truthy('Chrome: a real install offer replaces the manual instructions', help.classList.contains('hidden'));
+  equal('Chrome: aria-expanded is reset when instructions are replaced', btn.attributes['aria-expanded'], 'false');
   btn.click();
-  truthy('Chrome: clicking the button triggers the native install prompt', prompted);
+  truthy('Chrome: clicking now triggers the native install prompt', prompted);
 }
 
 // iOS Safari: no event ever fires, so show Add to Home Screen instructions.
@@ -475,7 +492,7 @@ truthy('Install help panel exists', html.includes('id="installHelp"'));
   truthy('appinstalled hides the help panel', env.elements.installHelp.classList.contains('hidden'));
 }
 
-truthy('Service-worker cache version was bumped to v18', serviceWorker.includes("founder-calc-v18"));
+truthy('Service-worker cache version was bumped to v19', serviceWorker.includes("founder-calc-v19"));
 
 console.log(`\nSummary: ${failures} failure(s).`);
 if (failures > 0) process.exit(1);

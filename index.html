@@ -301,16 +301,30 @@ calc();
     btn.addEventListener('click',()=>{const willOpen=help.classList.contains('hidden');help.classList.toggle('hidden',!willOpen);btn.setAttribute('aria-expanded',willOpen?'true':'false')});
     btn.classList.remove('hidden');
   }else{
+    // The button is always visible, never gated on beforeinstallprompt. Chrome
+    // withholds that event whenever the app is already installed, which used to
+    // leave the button hidden with no explanation — the one case where a user
+    // most needs telling what is going on.
     let deferred=null;
-    window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;btn.classList.remove('hidden')});
+    help.innerHTML='<b>Install from your browser menu</b><ol><li>Open the browser menu (<b>⋮</b>, top right).</li><li>Choose <b>Install app</b>, or <b>Add to Home screen</b>.</li></ol><p>No install option there? It is almost certainly installed already — look for <b>Exit Calc</b> on your home screen or in your app drawer. Chrome hides the install option once an app is installed, and clearing the cache does not uninstall it.</p>';
+    btn.setAttribute('aria-controls','installHelp');
+    btn.setAttribute('aria-expanded','false');
+    const toggleHelp=()=>{const willOpen=help.classList.contains('hidden');help.classList.toggle('hidden',!willOpen);btn.setAttribute('aria-expanded',willOpen?'true':'false')};
+    window.addEventListener('beforeinstallprompt',e=>{
+      e.preventDefault();
+      deferred=e; // a real prompt beats the manual instructions
+      help.classList.add('hidden');
+      btn.setAttribute('aria-expanded','false');
+    });
     btn.addEventListener('click',async()=>{
-      if(!deferred)return;
+      if(!deferred){toggleHelp();return}
       deferred.prompt();
       let outcome='dismissed';
       try{outcome=(await deferred.userChoice).outcome}catch(e){}
       deferred=null; // a prompt can only be used once
-      if(outcome==='accepted')hideAll();else btn.classList.add('hidden');
+      if(outcome==='accepted')hideAll();
     });
+    btn.classList.remove('hidden');
   }
   window.addEventListener('appinstalled',hideAll);
 })();
