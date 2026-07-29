@@ -44,7 +44,8 @@ The header now has an **Install app** button that branches by platform:
 | Chrome (Android/desktop) | Button is **always visible**. With a real offer it calls `prompt()`; without one it explains the browser-menu route and that an already-installed app hides the option |
 | iOS **Safari** | No event exists, so the button expands step-by-step **Share → Add to Home Screen** instructions |
 | iOS Chrome/Firefox/Edge | Says to open in Safari first — these browsers *cannot* install a PWA, they only bookmark |
-| Already installed | Button never appears (`display-mode: standalone` / `navigator.standalone`), and `appinstalled` retracts it mid-session |
+| Already installed | Button never appears (`display-mode: standalone` / `navigator.standalone`) |
+| Just installed | `appinstalled` swaps the button for a green **✓ Installed** confirmation naming the icon to look for |
 
 iPadOS 13+ reports itself as `MacIntel`, so iOS detection also checks
 `maxTouchPoints` — covered by a test.
@@ -56,6 +57,15 @@ the case where the user most needed an explanation — reported from the field a
 "I cleared the cache and still don't see the install option". Clearing cache or
 site data does **not** uninstall a PWA. The button is now always visible and
 falls back to instructions; a real offer, if it arrives, replaces them.
+
+**v20 follow-up — confirm the install instead of vanishing.** Installing a PWA
+never moves you into the app, and **no browser API can do that** — Chrome does
+not allow a page to launch its installed app. Reported from the field: after
+installing, the button just disappeared and it was unclear whether anything had
+happened. `appinstalled` now swaps the button for a persistent green
+confirmation. **Deliberately not on a timer** — a confirmation that vanishes is
+the original problem again, and it is gone on the next page load regardless. A
+test asserts no `setTimeout` is ever wired to it.
 
 **Note on the missing manifest `id`:** app identity defaults to `start_url`,
 which has not changed. So the earlier rename *updated* the existing installed
@@ -107,7 +117,7 @@ The naming is deliberately split into two names. Keep them in sync with this tab
 - Header rebranded **Kremer Ventures → KV Consulting** with a
   **"Need help? Get in touch →"** `mailto:kremer@kremerventures.com` CTA.
 
-Service-worker cache is at **v19**.
+Service-worker cache is at **v20**.
 
 ---
 
@@ -136,7 +146,7 @@ tests enforce: founder + round investor + other holders always = 100% after a ro
 ```bash
 node tests/audit-founder-calc.js
 ```
-Release candidate must end with `Summary: 0 failure(s).` Currently **139 checks, 0
+Release candidate must end with `Summary: 0 failure(s).` Currently **147 checks, 0
 failures**. The DOM mock now seeds each element's classes from the markup and
 supports `classList.add/remove` plus element `click()`, and `buildEnv()` can
 fake a user agent / `matchMedia`, so the install helper is tested as Android

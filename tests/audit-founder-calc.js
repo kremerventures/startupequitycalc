@@ -482,17 +482,37 @@ truthy('Install help panel exists', html.includes('id="installHelp"'));
   equal('iOS standalone launch: no instructions rendered', env.elements.installHelp.innerHTML, '');
 }
 
-// Installing mid-session should retract the button.
+// Installing mid-session must confirm, not just silently retract the button.
+// Installing never moves the user into the app, so a button that simply
+// vanishes leaves them unsure whether anything happened.
 {
   const env = buildEnv({ userAgent: UA.androidChrome });
+  const btn = env.elements.installBtn, help = env.elements.installHelp;
   env.fire('beforeinstallprompt', { preventDefault() {}, prompt() {}, userChoice: Promise.resolve({ outcome: 'accepted' }) });
-  truthy('Install button was showing before the install completed', !env.elements.installBtn.classList.contains('hidden'));
+  truthy('Install button was showing before the install completed', !btn.classList.contains('hidden'));
   env.fire('appinstalled', {});
-  truthy('appinstalled hides the install button', env.elements.installBtn.classList.contains('hidden'));
-  truthy('appinstalled hides the help panel', env.elements.installHelp.classList.contains('hidden'));
+  truthy('appinstalled hides the install button', btn.classList.contains('hidden'));
+  truthy('appinstalled shows a confirmation rather than hiding everything', !help.classList.contains('hidden'));
+  truthy('Confirmation is styled as success', help.classList.contains('installed'));
+  truthy('Confirmation says it installed', help.innerHTML.includes('Installed'));
+  truthy('Confirmation names the icon to look for', help.innerHTML.includes('Exit Calc'));
+  truthy('Confirmation says where to find it', help.innerHTML.includes('home screen'));
+  truthy('Confirmation does not leave stale install instructions', !help.innerHTML.includes('browser menu'));
 }
 
-truthy('Service-worker cache version was bumped to v19', serviceWorker.includes("founder-calc-v19"));
+// The confirmation is deliberately not on a timer — nothing may schedule it away.
+truthy('Install confirmation is never auto-dismissed', !/confirmInstalled[\s\S]{0,400}setTimeout/.test(html));
+truthy('Confirmation panel is announced to screen readers', html.includes('id="installHelp" role="status"'));
+
+// Accepting the native prompt confirms even if appinstalled never arrives.
+{
+  const env = buildEnv({ userAgent: UA.androidChrome });
+  const help = env.elements.installHelp;
+  env.fire('beforeinstallprompt', { preventDefault() {}, prompt() {}, userChoice: Promise.resolve({ outcome: 'accepted' }) });
+  truthy('No premature confirmation before the user accepts', !help.classList.contains('installed'));
+}
+
+truthy('Service-worker cache version was bumped to v20', serviceWorker.includes("founder-calc-v20"));
 
 console.log(`\nSummary: ${failures} failure(s).`);
 if (failures > 0) process.exit(1);

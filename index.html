@@ -52,6 +52,7 @@
 .installHelp ol{margin:8px 0 0;padding-left:20px}
 .installHelp li{margin:5px 0}
 .installHelp p{margin:8px 0 0;font-size:.76rem}
+.installHelp.installed{background:rgba(94,207,157,.1);border-color:rgba(94,207,157,.45);color:var(--ink)}
 input[type=number]{-moz-appearance:textfield;appearance:textfield}
 input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 </style>
@@ -68,7 +69,7 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
     </div>
     <h1>Founder Exit Calculator</h1>
     <p>Quick equity, dilution and exit check. Your numbers save automatically on this device.</p>
-    <div class="installHelp hidden" id="installHelp"></div>
+    <div class="installHelp hidden" id="installHelp" role="status"></div>
   </header>
 
   <section class="section" id="setupSection">
@@ -290,7 +291,16 @@ calc();
   if(standalone)return; // already installed — nothing to offer
   const ua=navigator.userAgent;
   const isIOS=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
-  function hideAll(){btn.classList.add('hidden');help.classList.add('hidden')}
+  // Installing does not move you into the app — no browser API can do that — so
+  // say plainly that it worked and where the icon is. Deliberately not on a
+  // timer: a confirmation that vanishes is what left people unsure in the first
+  // place, and it is gone on the next page load anyway.
+  function confirmInstalled(){
+    btn.classList.add('hidden');
+    help.classList.remove('hidden');
+    help.classList.add('installed');
+    help.innerHTML='<b>&#10003; Installed.</b> Find <b>Exit Calc</b> on your home screen. Opening it there runs it fullscreen, without the browser bar.';
+  }
   if(isIOS){
     const isSafari=!/CriOS|FxiOS|EdgiOS/.test(ua);
     help.innerHTML=isSafari
@@ -322,11 +332,11 @@ calc();
       let outcome='dismissed';
       try{outcome=(await deferred.userChoice).outcome}catch(e){}
       deferred=null; // a prompt can only be used once
-      if(outcome==='accepted')hideAll();
+      if(outcome==='accepted')confirmInstalled(); // belt and braces; appinstalled normally fires too
     });
     btn.classList.remove('hidden');
   }
-  window.addEventListener('appinstalled',hideAll);
+  window.addEventListener('appinstalled',confirmInstalled);
 })();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}))}
 </script>

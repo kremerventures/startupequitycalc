@@ -138,7 +138,15 @@ PASS  iOS standalone launch: install button stays hidden
 PASS  iOS standalone launch: no instructions rendered
 PASS  Install button was showing before the install completed
 PASS  appinstalled hides the install button
-PASS  appinstalled hides the help panel
-PASS  Service-worker cache version was bumped to v19
+PASS  appinstalled shows a confirmation rather than hiding everything
+PASS  Confirmation is styled as success
+PASS  Confirmation says it installed
+PASS  Confirmation names the icon to look for
+PASS  Confirmation says where to find it
+PASS  Confirmation does not leave stale install instructions
+PASS  Install confirmation is never auto-dismissed
+PASS  Confirmation panel is announced to screen readers
+PASS  No premature confirmation before the user accepts
+PASS  Service-worker cache version was bumped to v20
 
 Summary: 0 failure(s).

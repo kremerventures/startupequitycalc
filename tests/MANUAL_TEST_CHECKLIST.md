@@ -56,7 +56,8 @@ The founder, round investor, and other equity holders should always total 100% a
 8. Refresh the browser and confirm saved values return.
 9. Reset setup and deal separately and confirm each reset affects only its own section.
 10. Test Chrome, Edge, Safari, and a phone-sized screen.
-11. Install the PWA, test it offline, reconnect, and confirm the v19 cache update appears.
+11. Install the PWA, test it offline, reconnect, and confirm the v20 cache update appears.
+20. **Install confirmation.** Complete an install from the header button. The button is replaced by a green **✓ Installed — find Exit Calc on your home screen** panel. It must **stay put**, not fade after a few seconds. You remain in the browser tab, not the app — that is correct and unavoidable; no browser lets a page launch its installed app.
 19. **Install button.** On **Android Chrome** the **Install app** pill is *always* in the header. If Chrome has offered an install, tapping it opens the native dialog and the button disappears once installed. If Chrome has not offered one — most often because the app is already installed — tapping instead expands instructions naming the ⋮ menu route and saying to check the home screen for **Exit Calc**. Verify both states: once with the app installed, once after uninstalling it. On **iOS Safari** the pill is always shown and expands Share → Add to Home Screen steps; tapping again collapses them. On **iOS Chrome/Edge/Firefox** the panel instead says to open in Safari first. Launch the installed app: the pill must **not** appear at all.
 17. "Your ownership today" is laid out like the other fields: label on one line, big **%** below, "Tap to type any %" under it, then chips, then an "Everyone else" complement line. Not an inline "You 80%" row.
 18. Dilution quick chips read **40 / 50 / 60 / 75 / 90** (no 25%). Dragging to 90 works; the slider still spans 0–100.
