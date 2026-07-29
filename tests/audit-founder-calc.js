@@ -162,6 +162,8 @@ function runCase(values) {
     headlineBad: elements.headlineCard.classList.contains('bad'),
     needGood: elements.needCard.classList.contains('good'),
     needBad: elements.needCard.classList.contains('bad'),
+    founderEqInvalid: elements.founderEqField.classList.contains('invalid'),
+    setupSummary: elements.setupSummaryVals.textContent,
     preInvalid: elements.preField.classList.contains('invalid'),
     raiseInvalid: elements.raiseField.classList.contains('invalid'),
     exitInvalid: elements.exitField.classList.contains('invalid'),
@@ -399,6 +401,86 @@ if (randomMismatch) fail('10,000 randomized formula and ownership checks', JSON.
 else pass('10,000 randomized formula and ownership checks');
 
 // ---------------------------------------------------------------------------
+// Payout is pro-rata and says so. Liquidation preferences can make the real
+// figure far lower than this estimate, worst when the exit is small relative to
+// the money raised, so the caveat sits on the payout card itself rather than
+// only in the footer.
+// ---------------------------------------------------------------------------
+truthy('Payout card carries a caveat element', html.includes('id="payoutCaveat"'));
+truthy('Caveat sits inside the payout card', html.indexOf('id="headlineCard"') < html.indexOf('id="payoutCaveat"') && html.indexOf('id="payoutCaveat"') < html.indexOf('id="needCard"'));
+truthy('Caveat names liquidation preferences', /id="payoutCaveat"[^>]*>[^<]*liquidation preferences/.test(html));
+truthy('Caveat names participation rights, debt, taxes and fees', /id="payoutCaveat"[^>]*>[^<]*participation rights[\s\S]{0,80}debt, taxes and fees/.test(html));
+truthy('Caveat says the estimate is pro-rata only', /id="payoutCaveat"[^>]*>\s*Pro-rata/.test(html));
+truthy('Caveat warns the gap is worst at low exits', /id="payoutCaveat"[^>]*>[^<]*lower exit values/.test(html));
+truthy('Caveat is a separate element from the live verdict text', html.includes('id="headlineSub"') && !html.includes('id="headlineSub">Pro-rata'));
+truthy('Footer also spells out what is not modelled', html.includes('liquidation preferences, participation rights, debt, taxes, fees or transaction costs'));
+truthy('Footer keeps the pro-rata framing', html.includes('pro-rata share of the exit value'));
+
+// The caveat is static markup, so an invalid-input render must not wipe it.
+// Uses a sentinel because the mock does not parse text out of the HTML, so
+// asserting on an empty textContent would pass for the wrong reason.
+{
+  const env = buildEnv();
+  env.elements.payoutCaveat.textContent = 'SENTINEL';
+  env.elements.pre.value = 'nonsense';
+  vm.runInContext('calc()', env.context);
+  equal('Invalid inputs do not blank the payout caveat', env.elements.payoutCaveat.textContent, 'SENTINEL');
+}
+
+// ---------------------------------------------------------------------------
+// Ownership input validity. Previously an out-of-range value was silently
+// clamped while the typed number stayed on screen, so the app computed with a
+// number the user could not see.
+// ---------------------------------------------------------------------------
+truthy('Ownership field has an error container', html.includes('id="founderEqError"'));
+truthy('Ownership field is wrapped so it can be marked invalid', html.includes('id="founderEqField"'));
+
+result = runCase({ raise: '2M', pre: '8M', exit: '100M', goal: '20M', eq: '150', fd: 50 });
+truthy('Ownership over 100% marks the field invalid', result.founderEqInvalid);
+equal('Ownership over 100% suppresses the founder result', result.founderNow, '—');
+equal('Ownership over 100% suppresses the payout', result.payout, '—');
+equal('Ownership over 100% dashes the Everyone else mirror', result.othersToday, '—');
+truthy('Ownership over 100% is not silently clamped to 100', result.founderNow !== '80%');
+truthy('Setup summary flags the bad ownership instead of showing a made-up split', result.setupSummary.includes('Check your ownership %'));
+
+result = runCase({ raise: '2M', pre: '8M', exit: '100M', goal: '20M', eq: '-5', fd: 50 });
+truthy('Negative ownership marks the field invalid', result.founderEqInvalid);
+equal('Negative ownership suppresses results', result.founderNow, '—');
+truthy('Negative ownership is not silently clamped to 0', result.othersToday !== '100');
+
+result = runCase({ raise: '2M', pre: '8M', exit: '100M', goal: '20M', eq: 'abc', fd: 50 });
+truthy('Non-numeric ownership marks the field invalid', result.founderEqInvalid);
+equal('Non-numeric ownership suppresses results', result.founderNow, '—');
+truthy('Non-numeric ownership does not silently become 0%', result.othersToday !== '100');
+
+result = runCase({ raise: '2M', pre: '8M', exit: '100M', goal: '20M', eq: '100.1', fd: 50 });
+truthy('Just over 100% is rejected', result.founderEqInvalid);
+
+// Valid values, including the boundaries, must still work.
+result = runCase({ raise: '2M', pre: '8M', exit: '100M', goal: '20M', eq: '', fd: 50 });
+truthy('Blank ownership is still intentionally treated as 100%', !result.founderEqInvalid);
+equal('Blank ownership computes as 100%', result.founderNow, '80%');
+
+result = runCase({ raise: '2M', pre: '8M', exit: '100M', goal: '20M', eq: '0', fd: 50 });
+truthy('0% ownership is valid, not an error', !result.founderEqInvalid);
+equal('0% ownership computes', result.founderNow, '0%');
+equal('0% ownership puts everything with the other holders', result.othersToday, '100');
+
+result = runCase({ raise: '2M', pre: '8M', exit: '100M', goal: '20M', eq: '100', fd: 50 });
+truthy('100% ownership is valid', !result.founderEqInvalid);
+equal('100% ownership computes', result.founderNow, '80%');
+
+result = runCase({ raise: '2M', pre: '8M', exit: '100M', goal: '20M', eq: '33.33', fd: 50 });
+truthy('Fractional ownership is valid', !result.founderEqInvalid);
+
+// Recovering from a bad value must clear the error.
+result = runCase({ raise: '2M', pre: '8M', exit: '100M', goal: '20M', eq: '150', fd: 50 });
+truthy('Field is invalid before correcting it', result.founderEqInvalid);
+result = runCase({ raise: '2M', pre: '8M', exit: '100M', goal: '20M', eq: '60', fd: 50 });
+truthy('Correcting the ownership clears the error', !result.founderEqInvalid);
+equal('Corrected ownership computes again', result.founderNow, '48%');
+
+// ---------------------------------------------------------------------------
 // Install helper. Chrome fires beforeinstallprompt and we can offer a real
 // button; iOS fires nothing and needs instructions instead.
 // ---------------------------------------------------------------------------
@@ -512,7 +594,7 @@ truthy('Confirmation panel is announced to screen readers', html.includes('id="i
   truthy('No premature confirmation before the user accepts', !help.classList.contains('installed'));
 }
 
-truthy('Service-worker cache version was bumped to v20', serviceWorker.includes("founder-calc-v20"));
+truthy('Service-worker cache version was bumped to v21', serviceWorker.includes("founder-calc-v21"));
 
 console.log(`\nSummary: ${failures} failure(s).`);
 if (failures > 0) process.exit(1);

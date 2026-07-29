@@ -46,7 +46,7 @@ The founder, round investor, and other equity holders should always total 100% a
 
 ## Edge cases
 
-1. Clear “Your equity today.” It should intentionally continue to use 100%.
+1. Clear “Your equity today.” It should intentionally continue to use 100% — blank is not an error, but out-of-range values now are (see #22).
 2. Use a $49.9M targeted exit with the default deal and a $20M payout target. The payout should display **$19.96M** and say it is below target.
 3. Use a $50.1M targeted exit with the default deal and a $20M payout target. The payout should display **$20.04M** and say it clears the target.
 4. Use a $100M targeted exit, $120M payout target, and 50% future dilution. The needed card should say **Not possible** and explain that 240% ownership would be required.
@@ -56,7 +56,9 @@ The founder, round investor, and other equity holders should always total 100% a
 8. Refresh the browser and confirm saved values return.
 9. Reset setup and deal separately and confirm each reset affects only its own section.
 10. Test Chrome, Edge, Safari, and a phone-sized screen.
-11. Install the PWA, test it offline, reconnect, and confirm the v20 cache update appears.
+11. Install the PWA, test it offline, reconnect, and confirm the v21 cache update appears.
+21. **Payout caveat.** The payout card shows, under the verdict line, "Pro-rata share of the exit value only — before liquidation preferences, participation rights, debt, taxes and fees…". It stays visible in every state, including when inputs are invalid and the payout shows a dash.
+22. **Ownership validity.** Type `150`, `-5`, `100.1` and `1e5` into "Your ownership today". Each must highlight the field, show "Enter an ownership between 0% and 100%.", dash out the results and the "Everyone else" mirror, and put "Check your ownership %" in the collapsed setup summary — never silently compute with a clamped number. Then type `60`: the error clears and results return. `0`, `100` and blank (= 100%) are all valid.
 20. **Install confirmation.** Complete an install from the header button. The button is replaced by a green **✓ Installed — find Exit Calc on your home screen** panel. It must **stay put**, not fade after a few seconds. You remain in the browser tab, not the app — that is correct and unavoidable; no browser lets a page launch its installed app.
 19. **Install button.** On **Android Chrome** the **Install app** pill is *always* in the header. If Chrome has offered an install, tapping it opens the native dialog and the button disappears once installed. If Chrome has not offered one — most often because the app is already installed — tapping instead expands instructions naming the ⋮ menu route and saying to check the home screen for **Exit Calc**. Verify both states: once with the app installed, once after uninstalling it. On **iOS Safari** the pill is always shown and expands Share → Add to Home Screen steps; tapping again collapses them. On **iOS Chrome/Edge/Firefox** the panel instead says to open in Safari first. Launch the installed app: the pill must **not** appear at all.
 17. "Your ownership today" is laid out like the other fields: label on one line, big **%** below, "Tap to type any %" under it, then chips, then an "Everyone else" complement line. Not an inline "You 80%" row.

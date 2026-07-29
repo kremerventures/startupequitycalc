@@ -27,7 +27,37 @@ Always work in the `_updated\startupequitycalc\` folder (note the nesting).
 
 ## Where we left off (2026-07-28)
 
-Four rounds of changes shipped today, all browser-verified and deployed.
+Five rounds of changes shipped, all browser-verified and deployed.
+
+**v21 — external review follow-up (2026-07-29)**
+
+An outside review raised four issues. Two were adopted, two were rejected on the
+merits. Recording the reasoning so they are not "re-fixed" later:
+
+| Claim | Verdict |
+|---|---|
+| Payout is pro-rata and ignores liquidation preferences | **Adopted — the important one.** See below |
+| Out-of-range ownership silently clamped | **Adopted.** Real inconsistency with the money fields |
+| Rounding could mark a near-miss as clearing | **Rejected.** Deliberate, documented, tested. Worst case measured: $4k on a $20M target = 0.02%. The alternative shows "$20M" directly above "below your $20M target", which reads as a broken app |
+| Targets needing more than the round leaves should say "Not possible" | **Rejected — would make it worse.** Needing 90% when the round caps you at 80% is not impossible, it is impossible *at these terms*; better terms fix it. "Short by 10%" is accurate and points at the negotiation lever. `impossible` is correctly reserved for needed > 100%, which no deal can fix |
+
+**Liquidation preferences.** The headline is "Estimated founder payout at exit"
+and it is a pure pro-rata figure. With a standard 1x non-participating
+preference, $2M raised on $8M pre and a $5M exit, the investor takes their $2M
+off the top and the founder gets $3M — the app says $4M, a 33% overstatement.
+The gap is worst when the exit is small relative to money raised and vanishes at
+high exits where the investor converts instead. A caveat now sits **on the payout
+card itself**, not only in the footer, and the footer names participation rights,
+debt, taxes, fees and transaction costs too.
+
+**Ownership validity.** `Math.min(100,Math.max(0,…))` silently clamped, so typing
+`150` computed with 100 while `150` stayed on screen. Now `parseOwnership()`
+mirrors the money fields: out-of-range or unparseable marks the field invalid,
+shows an error, dashes the results and the "Everyone else" mirror, and the setup
+summary reads "Check your ownership %". Blank still deliberately means 100%; 0
+and 100 are valid boundaries. Note browsers sanitise letters out of
+`input[type=number]` before script sees them, so the guard mainly catches
+out-of-range numbers and exponent forms like `1e5`.
 
 **Install button (v18)**
 
@@ -117,7 +147,7 @@ The naming is deliberately split into two names. Keep them in sync with this tab
 - Header rebranded **Kremer Ventures → KV Consulting** with a
   **"Need help? Get in touch →"** `mailto:kremer@kremerventures.com` CTA.
 
-Service-worker cache is at **v20**.
+Service-worker cache is at **v21**.
 
 ---
 
@@ -146,7 +176,7 @@ tests enforce: founder + round investor + other holders always = 100% after a ro
 ```bash
 node tests/audit-founder-calc.js
 ```
-Release candidate must end with `Summary: 0 failure(s).` Currently **147 checks, 0
+Release candidate must end with `Summary: 0 failure(s).` Currently **183 checks, 0
 failures**. The DOM mock now seeds each element's classes from the markup and
 supports `classList.add/remove` plus element `click()`, and `buildEnv()` can
 fake a user agent / `matchMedia`, so the install helper is tested as Android

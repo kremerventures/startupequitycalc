@@ -53,6 +53,7 @@
 .installHelp li{margin:5px 0}
 .installHelp p{margin:8px 0 0;font-size:.76rem}
 .installHelp.installed{background:rgba(94,207,157,.1);border-color:rgba(94,207,157,.45);color:var(--ink)}
+.result .caveat{margin-top:9px;padding-top:9px;border-top:1px solid var(--line);color:var(--muted);font-size:.7rem;line-height:1.4}
 input[type=number]{-moz-appearance:textfield;appearance:textfield}
 input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 </style>
@@ -83,11 +84,12 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       <button class="reset" id="resetStatus">Reset setup</button>
     </div>
     <div class="inputGrid setupBody" id="setupBody">
-      <div class="field">
+      <div class="field" id="founderEqField">
         <label for="founderEq">Your ownership today</label>
         <div class="valRow suffix"><input id="founderEq" type="number" inputmode="decimal" min="0" max="100" step="1" placeholder="100" value="100"><span class="unit">%</span></div>
         <div class="mini">Tap to type any %.</div>
         <div class="quick"><button class="chip" data-eq="100">100%</button><button class="chip" data-eq="80">80%</button><button class="chip" data-eq="60">60%</button><button class="chip" data-eq="50">50%</button></div>
+        <div class="validation" id="founderEqError">Enter an ownership between 0% and 100%.</div>
         <div class="ownRow ro">
           <span class="ownName">Everyone else</span>
           <div class="ownVal"><span id="othersToday">0</span><span class="unit">%</span></div>
@@ -153,12 +155,13 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
         <div class="label">Estimated founder payout at exit</div>
         <div class="value" id="founderPayout">$0</div>
         <div class="sub" id="headlineSub">Based on founder equity after future dilution.</div>
+        <div class="caveat" id="payoutCaveat">Pro-rata share of the exit value only &mdash; before liquidation preferences, participation rights, debt, taxes and fees. Those reduce what a founder actually receives, most sharply at lower exit values.</div>
       </div>
       <div class="result wide" id="needCard"><div class="label">Needed after this round to hit payout target</div><div class="value" id="neededNow">0%</div><div class="sub" id="gapText">Your current terms clear or miss this hurdle.</div></div>
     </div>
   </section>
 
-  <div class="footer">This is a simplified negotiation aid, not a legal, tax, or complete cap table model. It assumes your equity dilutes proportionally in this round and that future dilution applies proportionally after it. Inputs are saved on this device only.</div>
+  <div class="footer">This is a simplified negotiation aid, not a legal, tax, or complete cap table model. It assumes your equity dilutes proportionally in this round and that future dilution applies proportionally after it. The estimated payout is a pro-rata share of the exit value: it does not model liquidation preferences, participation rights, debt, taxes, fees or transaction costs, all of which typically reduce what a founder actually receives &mdash; most sharply when the exit is small relative to the money raised. Inputs are saved on this device only.</div>
 </main>
 <button class="stickyBar" id="stickyBar" type="button" aria-label="Jump to results">
   <span class="cell"><span class="sbl">Founder after round</span><b id="sbKeep">0%</b></span>
@@ -184,6 +187,18 @@ function parseMoney(v){
   return {value:n,valid:true,blank:false};
 }
 function num(v){return parseMoney(v).value}
+// Ownership gets the same treatment as the money fields: say so when the value
+// is unusable rather than silently clamping it while the typed number stays on
+// screen. Blank still deliberately means 100%.
+function parseOwnership(v){
+  const raw=String(v??'').trim();
+  if(raw==='')return {value:100,valid:true,blank:true};
+  const s=raw.replace(/[%\s,]/g,'');
+  if(!/^\+?(?:\d+\.?\d*|\.\d+)$/.test(s))return {value:0,valid:false,blank:false};
+  const n=Number(s);
+  if(!Number.isFinite(n)||n<0||n>100)return {value:0,valid:false,blank:false};
+  return {value:n,valid:true,blank:false};
+}
 function money(n){
   if(!Number.isFinite(n)||n<=0)return '$0';
   if(n>=1e9)return '$'+(n/1e9).toFixed(2).replace(/\.0+$/,'').replace(/(\.\d*[1-9])0+$/,'$1')+'B';
@@ -231,15 +246,17 @@ function renderInvalid(){
 function calc(){
   const parsed={raise:parseMoney($('raise').value),pre:parseMoney($('pre').value),exit:parseMoney($('exit').value),goal:parseMoney($('goal').value)};
   for(const id of moneyFields)setFieldValidity(id,parsed[id]);
-  const eqStr=$('founderEq').value,eq=(eqStr===''?100:Math.min(100,Math.max(0,Number(eqStr)||0)))/100;
+  const own=parseOwnership($('founderEq').value);
+  setFieldValidity('founderEq',own);
+  const eq=own.value/100;
   const fd=Number($('futureDilution').value)/100;
   sizeSuffix($('founderEq'));
-  $('othersToday').textContent=pct((1-eq)*100).replace('%','');
-  $('setupSummaryVals').textContent='You '+pct(eq*100)+' · Others '+pct((1-eq)*100)+' · Target exit '+money(parsed.exit.value)+' · Payout target '+money(parsed.goal.value)+' · Future dilution '+Math.round(fd*100)+'%';
+  $('othersToday').textContent=own.valid?pct((1-eq)*100).replace('%',''):'—';
+  $('setupSummaryVals').textContent=(own.valid?'You '+pct(eq*100)+' · Others '+pct((1-eq)*100):'Check your ownership %')+' · Target exit '+money(parsed.exit.value)+' · Payout target '+money(parsed.goal.value)+' · Future dilution '+Math.round(fd*100)+'%';
   $('dilutionBadge').textContent=Math.round(fd*100)+'%';
   const exitVal=parsed.exit.valid?parsed.exit.value:0;
   $('exitAssumptions').textContent=exitVal>0?': '+money(exitVal)+' exit and '+Math.round(fd*100)+'% future dilution':'';
-  if(Object.values(parsed).some(v=>!v.valid)){renderInvalid();return}
+  if(!own.valid||Object.values(parsed).some(v=>!v.valid)){renderInvalid();return}
   const r=calculateFounderCalc({raise:parsed.raise.value,pre:parsed.pre.value,exitV:parsed.exit.value,goal:parsed.goal.value,eq,fd});
   $('investorOwns').textContent=pct(r.investorOwnership*100);
   $('postMoney').textContent='Post-money valuation: '+money(r.post);

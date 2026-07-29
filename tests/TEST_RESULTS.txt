@@ -106,6 +106,42 @@ PASS  Pure function: investor ownership
 PASS  Pure function: other holders
 PASS  Pure function: ownership conservation
 PASS  10,000 randomized formula and ownership checks
+PASS  Payout card carries a caveat element
+PASS  Caveat sits inside the payout card
+PASS  Caveat names liquidation preferences
+PASS  Caveat names participation rights, debt, taxes and fees
+PASS  Caveat says the estimate is pro-rata only
+PASS  Caveat warns the gap is worst at low exits
+PASS  Caveat is a separate element from the live verdict text
+PASS  Footer also spells out what is not modelled
+PASS  Footer keeps the pro-rata framing
+PASS  Invalid inputs do not blank the payout caveat
+PASS  Ownership field has an error container
+PASS  Ownership field is wrapped so it can be marked invalid
+PASS  Ownership over 100% marks the field invalid
+PASS  Ownership over 100% suppresses the founder result
+PASS  Ownership over 100% suppresses the payout
+PASS  Ownership over 100% dashes the Everyone else mirror
+PASS  Ownership over 100% is not silently clamped to 100
+PASS  Setup summary flags the bad ownership instead of showing a made-up split
+PASS  Negative ownership marks the field invalid
+PASS  Negative ownership suppresses results
+PASS  Negative ownership is not silently clamped to 0
+PASS  Non-numeric ownership marks the field invalid
+PASS  Non-numeric ownership suppresses results
+PASS  Non-numeric ownership does not silently become 0%
+PASS  Just over 100% is rejected
+PASS  Blank ownership is still intentionally treated as 100%
+PASS  Blank ownership computes as 100%
+PASS  0% ownership is valid, not an error
+PASS  0% ownership computes
+PASS  0% ownership puts everything with the other holders
+PASS  100% ownership is valid
+PASS  100% ownership computes
+PASS  Fractional ownership is valid
+PASS  Field is invalid before correcting it
+PASS  Correcting the ownership clears the error
+PASS  Corrected ownership computes again
 PASS  Header has an install button
 PASS  Install button is hidden in the markup and revealed by script
 PASS  Install help panel exists
@@ -147,6 +183,6 @@ PASS  Confirmation does not leave stale install instructions
 PASS  Install confirmation is never auto-dismissed
 PASS  Confirmation panel is announced to screen readers
 PASS  No premature confirmation before the user accepts
-PASS  Service-worker cache version was bumped to v20
+PASS  Service-worker cache version was bumped to v21
 
 Summary: 0 failure(s).
